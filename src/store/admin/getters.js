@@ -3,5 +3,8 @@
  */
 export default {
   adminEducationClassify: state => state.adminEducationClassify,
+  adminEducationAuditList: state => state.adminEducationAuditList,
+  selectTypeInfo:state=>state.selectTypeInfo,
+  adminEducationCourseList:state=>state.adminEducationCourseList
 
 }

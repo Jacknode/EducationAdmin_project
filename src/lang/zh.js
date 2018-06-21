@@ -3,8 +3,24 @@ export default {
     dashboard: '首页',
     introduction: '简述',
 
+    admin:'教育管理',
+    adminEducationClassify:'教育分类',
+    adminEducationComment:'教育评论',
+    adminEducationVideoScore:'教育视频评分',
+    adminEducationCourseList:'教育课程目录',
+    adminEducationAuditVideo:'教育视频审核',
+    adminEducationSeries:'教育系列',
+    adminEducationAuditRecommend:'教育审核推荐',
+    adminEducationVideoSeries:'教育视频系列',
+    adminEducationCourse:'教育课程',
+    adminEducationRecommend:'教育推荐',
 
-    adminEducation:'教育管理',
+
+
+
+
+
+
 
     adverts:'广告后台管理',
     documentation: '文档',

@@ -3,4 +3,8 @@
  */
 export default {
   adminEducationClassify:[],//教育分类
+  adminEducationAuditList:[],//教育审核分类
+  selectTypeInfo:[],//视频类型
+  adminEducationCourseList:[]//课程目录
+
 }

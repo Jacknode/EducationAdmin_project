@@ -29,7 +29,7 @@ export default {
       this.$router.push({ name:'Login' });
       return
     }
-    this.initData()
+   // this.initData()
   },
   computed: {
     sidebar() {
@@ -47,59 +47,59 @@ export default {
     }
   },
   methods: {
-    async initData(){
-      //推荐类型所有
-      let options = {
-        "loginUserID": "huileyou",
-        "loginUserPass": "123",
-        "operateUserID": "操作员编码",
-        "operateUserName": "操作员名称",
-        "pcName": "",
-        "ht_it_ID": "",//推荐类型ID
-        "ht_it_Name": "",//推荐类型名称
-        "ht_it_ParentID": "",//推荐类型父ID
-      };
-      await this.$store.dispatch('initHotelRecommendTypeAll',options)
-
-      //设施类型
-      let optionsType = {
-        "loginUserID": "huileyou",
-        "loginUserPass": "123",
-        "operateUserID": "",
-        "operateUserName": "",
-        "pcName": "",
-        "ht_ht_ID": "",//设施类型Id
-        "ht_ht_Name":'',//设施类型名称
-        page:1,
-        rows:50
-      };
-      await this.$store.dispatch('initHotelFacilitiesTypeAll',optionsType)
-
-      //房间设施类型所有
-      let roomOptionsType = {
-        "loginUserID": "huileyou",
-        "loginUserPass": "123",
-        "operateUserID": "操作员编码",
-        "operateUserName": "操作员名称",
-        "pcName": "",
-        "ht_rht_ID": "",//房间设施类型ID
-        "ht_rht_Name": "",//类型名称
-      }
-      await this.$store.dispatch('initHotelRoomFacilitiesTypeAll',roomOptionsType)
-
-//        let newOptions = {
-//          "loginUserID": "huileyou",
-//          "loginUserPass": "123",
-//          "operateUserID": "",
-//          "operateUserName": "",
-//          "pcName": "",
-//          //"sm_hm_ID": 1,
-//          //"sm_hm_HeightName": "",
-//          "sm_hm_IsDelete": 0
-//        }
-//        await this.$store.dispatch('initAdminIntegralWeight',newOptions)
-
-    },
+//     async initData(){
+//       //推荐类型所有
+//       let options = {
+//         "loginUserID": "huileyou",
+//         "loginUserPass": "123",
+//         "operateUserID": "操作员编码",
+//         "operateUserName": "操作员名称",
+//         "pcName": "",
+//         "ht_it_ID": "",//推荐类型ID
+//         "ht_it_Name": "",//推荐类型名称
+//         "ht_it_ParentID": "",//推荐类型父ID
+//       };
+//       await this.$store.dispatch('initHotelRecommendTypeAll',options)
+//
+//       //设施类型
+//       let optionsType = {
+//         "loginUserID": "huileyou",
+//         "loginUserPass": "123",
+//         "operateUserID": "",
+//         "operateUserName": "",
+//         "pcName": "",
+//         "ht_ht_ID": "",//设施类型Id
+//         "ht_ht_Name":'',//设施类型名称
+//         page:1,
+//         rows:50
+//       };
+//       await this.$store.dispatch('initHotelFacilitiesTypeAll',optionsType)
+//
+//       //房间设施类型所有
+//       let roomOptionsType = {
+//         "loginUserID": "huileyou",
+//         "loginUserPass": "123",
+//         "operateUserID": "操作员编码",
+//         "operateUserName": "操作员名称",
+//         "pcName": "",
+//         "ht_rht_ID": "",//房间设施类型ID
+//         "ht_rht_Name": "",//类型名称
+//       }
+//       await this.$store.dispatch('initHotelRoomFacilitiesTypeAll',roomOptionsType)
+//
+// //        let newOptions = {
+// //          "loginUserID": "huileyou",
+// //          "loginUserPass": "123",
+// //          "operateUserID": "",
+// //          "operateUserName": "",
+// //          "pcName": "",
+// //          //"sm_hm_ID": 1,
+// //          //"sm_hm_HeightName": "",
+// //          "sm_hm_IsDelete": 0
+// //        }
+// //        await this.$store.dispatch('initAdminIntegralWeight',newOptions)
+//
+//     },
     handleClickOutside() {
       this.$store.dispatch('CloseSideBar', { withoutAnimation: false })
     }

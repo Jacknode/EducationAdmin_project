@@ -47,27 +47,71 @@ export const constantRouterMap = [
     path: '/admin',
     component: Layout,
     name: 'Admin',
-    // hidden:true,
-    // alwaysShow: true,
+    //hidden:true,
+    alwaysShow: true,
     meta: {title: 'admin', icon: 'profit'},
     children: [
       {
-        path: 'adminEducation',
-        name: 'AdminEducation',
-        component: () => import('@/views/admin/adminEducation'),
-        meta: {title: 'adminEducation'}
+        path: 'adminEducationClassify',
+        name: 'AdminEducationClassify',
+        component: () => import('@/views/admin/adminEducationClassify'),
+        meta: {title: 'adminEducationClassify'}
+      },{
+        path: 'adminEducationAuditVideo',
+        name: 'AdminEducationAuditVideo',
+        component: () => import('@/views/admin/adminEducationAuditVideo'),
+        meta: {title: 'adminEducationAuditVideo'}
+      },{
+        path: 'adminEducationAuditRecommend',
+        name: 'AdminEducationAuditRecommend',
+        component: () => import('@/views/admin/adminEducationAuditRecommend'),
+        meta: {title: 'adminEducationAuditRecommend'}
+      },{
+        path: 'adminEducationCourseList',
+        name: 'AdminEducationCourseList',
+        component: () => import('@/views/admin/adminEducationCourseList'),
+        meta: {title: 'adminEducationCourseList'}
+      },
+      {
+        path: 'adminEducationCourse',
+        name: 'AdminEducationCourse',
+        component: () => import('@/views/admin/adminEducationCourse'),
+        meta: {title: 'adminEducationCourse'}
+      }, {
+        path: 'adminEducationRecommend',
+        name: 'AdminEducationRecommend',
+        component: () => import('@/views/admin/adminEducationRecommend'),
+        meta: {title: 'adminEducationRecommend'}
+      },{
+        path: 'adminEducationSeries',
+        name: 'AdminEducationSeries',
+        component: () => import('@/views/admin/adminEducationSeries'),
+        meta: {title: 'adminEducationSeries'}
+      },{
+        path: 'adminEducationVideoSeries',
+        name: 'AdminEducationVideoSeries',
+        component: () => import('@/views/admin/adminEducationVideoSeries'),
+        meta: {title: 'adminEducationVideoSeries'}
+      },{
+        path: 'adminEducationComment',
+        name: 'AdminEducationComment',
+        component: () => import('@/views/admin/adminEducationComment'),
+        meta: {title: 'adminEducationComment'}
+      },{
+        path: 'adminEducationVideoScore',
+        name: 'AdminEducationVideoScore',
+        component: () => import('@/views/admin/adminEducationVideoScore'),
+        meta: {title: 'adminEducationVideoScore'}
       },
     ]
   },
   {path: '*', redirect: '/404', hidden: true}
 ];
-
 export default new Router({
   // mode: 'history', //后端支持可开
   scrollBehavior: () => ({y: 0}),
   routes: constantRouterMap
 })
-
 export const asyncRouterMap =[
 
 ]

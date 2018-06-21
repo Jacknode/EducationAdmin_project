@@ -42,69 +42,69 @@ const permission = {
       state.routers = constantRouterMap.concat(routers)
     },
     GenerateRoutes(state,id){
-      switch (id){
-        case 1:
-          //美食
-          for(var i=0;i<constantRouterMap.length;i++){
-            if(constantRouterMap[i].name=='Food'){
-
-              constantRouterMap[i].hidden = false;
-            }
-          }
-          break;
-        case 2:
-          //酒店
-          for(var i=0;i<constantRouterMap.length;i++){
-            if(constantRouterMap[i].name=='Hotel'){
-              constantRouterMap[i].hidden = false;
-            }
-          }
-          break;
-        case 3:
-          //旅行社
-          for(var i=0;i<constantRouterMap.length;i++){
-            if(constantRouterMap[i].name=='Travel'){
-              constantRouterMap[i].hidden = false;
-            }
-          }
-          break;
-        case 4:
-          //门票
-          for(var i=0;i<constantRouterMap.length;i++){
-            if(constantRouterMap[i].name=='Ticket'){
-              constantRouterMap[i].hidden = false;
-            }
-          }
-          break;
-        case 5:
-          //汽车租赁
-          for(var i=0;i<constantRouterMap.length;i++){
-            if(constantRouterMap[i].name=='Car'){
-              constantRouterMap[i].hidden = false;
-            }
-          }
-          break;
-        // case 6:
-        //   //广告
-        //   for(var i=0;i<constantRouterMap.length;i++){
-        //     if(constantRouterMap[i].name=='Car'){
-        //       constantRouterMap[i].hidden = false;
-        //     }
-        //   }
-        //   break;
-        case 7:
-          //微电影
-          for(var i=0;i<constantRouterMap.length;i++){
-            if(constantRouterMap[i].name=='Movie'){
-              constantRouterMap[i].hidden = false;
-            }
-          }
-          break;
-        default:
-          for(var i=0;i<constantRouterMap.length;i++){
-            constantRouterMap[i].hidden = false;
-          }
-      }
+      // switch (id){
+      //   case 1:
+      //     //美食
+      //     for(var i=0;i<constantRouterMap.length;i++){
+      //       if(constantRouterMap[i].name=='Food'){
+      //
+      //         constantRouterMap[i].hidden = false;
+      //       }
+      //     }
+      //     break;
+      //   case 2:
+      //     //酒店
+      //     for(var i=0;i<constantRouterMap.length;i++){
+      //       if(constantRouterMap[i].name=='Hotel'){
+      //         constantRouterMap[i].hidden = false;
+      //       }
+      //     }
+      //     break;
+      //   case 3:
+      //     //旅行社
+      //     for(var i=0;i<constantRouterMap.length;i++){
+      //       if(constantRouterMap[i].name=='Travel'){
+      //         constantRouterMap[i].hidden = false;
+      //       }
+      //     }
+      //     break;
+      //   case 4:
+      //     //门票
+      //     for(var i=0;i<constantRouterMap.length;i++){
+      //       if(constantRouterMap[i].name=='Ticket'){
+      //         constantRouterMap[i].hidden = false;
+      //       }
+      //     }
+      //     break;
+      //   case 5:
+      //     //汽车租赁
+      //     for(var i=0;i<constantRouterMap.length;i++){
+      //       if(constantRouterMap[i].name=='Car'){
+      //         constantRouterMap[i].hidden = false;
+      //       }
+      //     }
+      //     break;
+      //   // case 6:
+      //   //   //广告
+      //   //   for(var i=0;i<constantRouterMap.length;i++){
+      //   //     if(constantRouterMap[i].name=='Car'){
+      //   //       constantRouterMap[i].hidden = false;
+      //   //     }
+      //   //   }
+      //   //   break;
+      //   case 7:
+      //     //微电影
+      //     for(var i=0;i<constantRouterMap.length;i++){
+      //       if(constantRouterMap[i].name=='Movie'){
+      //         constantRouterMap[i].hidden = false;
+      //       }
+      //     }
+      //     break;
+      //   default:
+      //     for(var i=0;i<constantRouterMap.length;i++){
+      //       constantRouterMap[i].hidden = false;
+      //     }
+      // }
       // state.routers = constantRouterMap.concat(routers)
     }
   },
