@@ -240,4 +240,88 @@ export default {
   },
 
 
+  /**
+   * 教育课程初始化
+   */
+
+  initAdminEducationCourse({commit}, data) {
+    return new Promise(function (relove, reject) {
+      axios.post(getNewStr + '/EdFilmSeries/Select', JSON.stringify(data), {
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }
+      })
+        .then(data => {
+          var data = data.data;
+          console.log()
+          if (Number(data.resultcode) == 200) {
+            commit('initAdminEducationCourse',data.data.reverse());
+            relove(Number(data.totalrows))
+          } else {
+            reject(data.resultcontent)
+          }
+        })
+    })
+  },
+
+  /**
+   * 添加教育课程
+   */
+  addAdminEducationCourse(store, data) {
+    return new Promise((relove, reject) => {
+      axios.post(getNewStr + '/EdFilmSeries/Insert', JSON.stringify(data), {
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }
+      }).then(data => {
+        var data = data.data;
+        if (Number(data.resultcode) == 200) {
+          relove(data.resultcontent)
+        } else {
+          reject(data.resultcontent)
+        }
+      })
+    })
+  },
+  /**
+   * 修改教育课程
+   */
+
+  updateEducationCourse(store, data) {
+    return new Promise((relove, reject) => {
+      axios.post(getNewStr + '/EdFilmSeries/Update', JSON.stringify(data), {
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }
+      }).then(data => {
+        var data = data.data;
+        if (Number(data.resultcode) == 200) {
+          relove(data.resultcontent)
+        } else {
+          reject(data.resultcontent)
+        }
+      })
+    })
+  },
+  /**
+   * 删除教育课程
+   */
+  deleteAdminEducationCourse(store,data){
+    return new Promise((relove, reject) => {
+      axios.post(getNewStr + '/EdFilmSeries/Delete',JSON.stringify(data),{
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }
+      }).then(data=>{
+        var data = data.data;
+        if(Number(data.resultcode)==200){
+          relove(data.resultcontent)
+        }else{
+          reject(data.resultcontent)
+        }
+      })
+    })
+  },
+
+
 }

@@ -319,7 +319,7 @@
       Add(){
         this.addDialog= true,
         this.uploaNode()
-        console.log('000')
+
 
       },
       //添加提交

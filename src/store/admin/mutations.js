@@ -14,7 +14,11 @@ export default  {
 
   initEducationCourseList(state,data){
     state.adminEducationCourseList = data;
+  },
+  initAdminEducationCourse(state,data){
+    state.adminEducationCourse = data;
   }
+
 
 }
 
