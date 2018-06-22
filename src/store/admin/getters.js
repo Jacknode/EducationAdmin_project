@@ -6,6 +6,6 @@ export default {
   adminEducationAuditList: state => state.adminEducationAuditList,
   selectTypeInfo:state=>state.selectTypeInfo,
   adminEducationCourseList:state=>state.adminEducationCourseList,
-  adminEducationCourse:state=>state.adminEducationCourse
-
+  adminEducationCourse:state=>state.adminEducationCourse,
+  adminEducationOrder:state=>state.adminEducationOrder
 }

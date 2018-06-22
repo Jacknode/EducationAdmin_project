@@ -9,16 +9,11 @@ export default {
     adminEducationVideoScore:'教育视频评分',
     adminEducationCourseList:'教育课程目录',
     adminEducationAuditVideo:'教育视频审核',
-    adminEducationSeries:'教育系列',
+    adminEducationOrder:'教育订单',
     adminEducationAuditRecommend:'教育审核推荐',
     adminEducationVideoSeries:'教育视频系列',
     adminEducationCourse:'教育课程',
     adminEducationRecommend:'教育推荐',
-
-
-
-
-
 
 
 

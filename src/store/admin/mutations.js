@@ -17,7 +17,11 @@ export default  {
   },
   initAdminEducationCourse(state,data){
     state.adminEducationCourse = data;
+  },
+  initAdminEducationOrder(state,data){
+    state.adminEducationOrder = data;
   }
+
 
 
 }

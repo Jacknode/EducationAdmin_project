@@ -322,6 +322,46 @@ export default {
       })
     })
   },
+  /**
+   * 教育订单初始化
+   */
+  initAdminEducationOrder({commit}, data) {
+    return new Promise(function (relove, reject) {
+      axios.post(getNewStr + '/EdOrderInfo/Select', JSON.stringify(data), {
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }
+      })
+        .then(data => {
+          var data = data.data;
+          if (Number(data.resultcode) == 200) {
+            commit('initAdminEducationOrder',data.data.reverse());
+            relove(Number(data.totalrows))
+          } else {
+            reject(data.resultcontent)
+          }
+        })
+    })
+  },
+  /**
+   * 删除订单
+   */
 
+  deleteAdminEducationOrder(store,data){
+    return new Promise((relove, reject) => {
+      axios.post(getNewStr + '/EdOrderInfo/Delete',JSON.stringify(data),{
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }
+      }).then(data=>{
+        var data = data.data;
+        if(Number(data.resultcode)==200){
+          relove(data.resultcontent)
+        }else{
+          reject(data.resultcontent)
+        }
+      })
+    })
+  },
 
 }

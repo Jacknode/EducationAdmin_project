@@ -28,7 +28,7 @@ export default {
     adminEducationCourseList:'AdminEducationCourseList',
 
     adminEducationAuditVideo:'AdminEducationAuditVideo',
-    adminEducationSeries:'AdminEducationSeries',
+    adminEducationOrder:'AdminEducationOrder',
     adminEducationAuditRecommend:'AdminEducationAuditRecommend',
     adminEducationVideoSeries:'AdminEducationVideoSeries',
     adminEducationCourse:'AdminEducationCourse',

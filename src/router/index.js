@@ -78,15 +78,16 @@ export const constantRouterMap = [
         component: () => import('@/views/admin/adminEducationCourse'),
         meta: {title: 'adminEducationCourse'}
       }, {
+        path: 'adminEducationOrder',
+        name: 'AdminEducationOrder',
+        component: () => import('@/views/admin/adminEducationOrder'),
+        meta: {title: 'adminEducationOrder'}
+      },
+      {
         path: 'adminEducationRecommend',
         name: 'AdminEducationRecommend',
         component: () => import('@/views/admin/adminEducationRecommend'),
         meta: {title: 'adminEducationRecommend'}
-      },{
-        path: 'adminEducationSeries',
-        name: 'AdminEducationSeries',
-        component: () => import('@/views/admin/adminEducationSeries'),
-        meta: {title: 'adminEducationSeries'}
       },{
         path: 'adminEducationVideoSeries',
         name: 'AdminEducationVideoSeries',

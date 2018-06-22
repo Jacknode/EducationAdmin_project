@@ -293,7 +293,6 @@
       if(admin){
         this.admin = admin;
         this.initSelectTypeInfo().then(()=>{
-          console.log(123)
           this.initData(this.input)
         })
       }else{
