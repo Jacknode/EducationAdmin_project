@@ -77,7 +77,7 @@
       return {
         total:0,
         siteNum:'',
-     
+
 
 
       }
@@ -147,7 +147,7 @@
               message: suc,
               type: 'success'
             });
-            this.initData()
+            this.initData(this.siteNum)
           }, err => {
             this.$notify({
               message: err,

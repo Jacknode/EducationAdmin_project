@@ -7,6 +7,7 @@ export default {
   selectTypeInfo:[],//视频类型
   adminEducationCourseList:[],//课程目录
   adminEducationCourse:[],//教育课程
-  adminEducationOrder:[]//教育订单
+  adminEducationOrder:[],//教育订单
+  adminEducationRecommend:[]//教育推荐
 
 }

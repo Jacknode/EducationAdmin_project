@@ -37,10 +37,19 @@
           label="连载状态"
           prop="ed_ss_WriteState">
         </el-table-column>
+
         <el-table-column
-        label="系列图片"
-        prop="ed_ss_SeriesImageURL">
-      </el-table-column>
+          align="center"
+          label="系列图片"
+        >
+          <template slot-scope="scope">
+            <img v-lazy="scope.row.ed_ss_SeriesImageURL" alt="" style="width: 100px;height: 100px;">
+          </template>
+        </el-table-column>
+        <!--<el-table-column-->
+        <!--label="系列图片"-->
+        <!--prop="ed_ss_SeriesImageURL">-->
+      <!--</el-table-column>-->
         <el-table-column
           label="作者"
           prop="ed_ss_AuthorID">

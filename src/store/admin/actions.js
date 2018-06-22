@@ -363,5 +363,45 @@ export default {
       })
     })
   },
+  /**
+   * 教育推荐初始化
+   */
+  initAdminEducationRecommend({commit}, data) {
+    return new Promise(function (relove, reject) {
+      axios.post(getNewStr + '/Recommend/Select', JSON.stringify(data), {
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }
+      })
+        .then(data => {
+          var data = data.data;
+          if (Number(data.resultcode) == 200) {
+            commit('initAdminEducationRecommend',data.data.reverse());
+            relove(Number(data.totalrows))
+          } else {
+            reject(data.resultcontent)
+          }
+        })
+    })
+  },
+  /**
+   * 删除推荐
+   */
+  deleteAdminEducationRecommend(store,data){
+    return new Promise((relove, reject) => {
+      axios.post(getNewStr + '/Recommend/Delete',JSON.stringify(data),{
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }
+      }).then(data=>{
+        var data = data.data;
+        if(Number(data.resultcode)==200){
+          relove(data.resultcontent)
+        }else{
+          reject(data.resultcontent)
+        }
+      })
+    })
+  },
 
 }

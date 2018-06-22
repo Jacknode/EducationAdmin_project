@@ -20,6 +20,9 @@ export default  {
   },
   initAdminEducationOrder(state,data){
     state.adminEducationOrder = data;
+  },
+  initAdminEducationRecommend(state,data){
+    state.adminEducationRecommend = data;
   }
 
 

@@ -7,5 +7,6 @@ export default {
   selectTypeInfo:state=>state.selectTypeInfo,
   adminEducationCourseList:state=>state.adminEducationCourseList,
   adminEducationCourse:state=>state.adminEducationCourse,
-  adminEducationOrder:state=>state.adminEducationOrder
+  adminEducationOrder:state=>state.adminEducationOrder,
+  adminEducationRecommend:state=>state.adminEducationRecommend
 }
