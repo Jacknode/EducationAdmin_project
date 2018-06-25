@@ -8,5 +8,6 @@ export default {
   adminEducationCourseList:state=>state.adminEducationCourseList,
   adminEducationCourse:state=>state.adminEducationCourse,
   adminEducationOrder:state=>state.adminEducationOrder,
-  adminEducationRecommend:state=>state.adminEducationRecommend
+  adminEducationRecommend:state=>state.adminEducationRecommend,
+  adminEducationAuditRecommend:state=>state.adminEducationAuditRecommend
 }

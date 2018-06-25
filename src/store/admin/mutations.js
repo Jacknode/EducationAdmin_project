@@ -23,8 +23,10 @@ export default  {
   },
   initAdminEducationRecommend(state,data){
     state.adminEducationRecommend = data;
+  },
+  adminEducationAuditRecommend(state,data){
+    state.adminEducationAuditRecommend = data;
   }
-
 
 
 }

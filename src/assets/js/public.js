@@ -258,5 +258,5 @@ export const wxPath = val=>{
 
 };
 //http://192.168.3.4
-export const getNewStr =  'http://192.168.3.50' //'http://hly.1000da.com.cn' //'http://192.168.3.50'http://hly.1000da.com.cn
+export const getNewStr =  'http://192.168.3.4' //'http://hly.1000da.com.cn' //'http://192.168.3.50'http://hly.1000da.com.cn
 

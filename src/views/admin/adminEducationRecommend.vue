@@ -147,8 +147,6 @@
           "data": {
             "ed_re_ID":id,//推荐编码
           }
-
-
         };
         this.$store.dispatch('deleteAdminEducationRecommend',deleteOptions)
           .then(suc => {

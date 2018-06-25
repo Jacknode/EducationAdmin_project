@@ -15,7 +15,7 @@
             </el-input>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="search" size="small">查询</el-button>
+            <el-button type="primary" @click="search" size="mini">查询</el-button>
             <el-button type="primary" @click="Add" size="mini">新增</el-button>
           </el-form-item>
         </el-form>
@@ -118,12 +118,7 @@
               type="danger"
               @click="Delete(scope.row.ed_te_ID)">删除
             </el-button>
-            <el-button
-              size="mini"
-              type="primary"
-              v-show="scope.row.ts_tg_IsPass!=1"
-              @click="approval(scope.row.ta_tg_ID)">审核
-            </el-button>
+
           </template>
         </el-table-column>
       </el-table>
@@ -153,20 +148,31 @@
           </el-form-item>
 
 
-
-
-          <el-form-item label="文件地址:" :label-width="formLabelWidth">
-            <a href="javascript:;" class="file">文件地址
-              <input type="file" name="" ref="upload" accept="image/*" multiple>
+          <el-form-item label="请选择视频:" :label-width="formLabelWidth">
+            <a href="javascript:;" class="file">选择视频
+              <input type="file" name="" ref="upload" multiple>
             </a>
-             <img v-lazy="addOptions.data.ed_ve_Content.ed_vo_FileURL" v-show="addOptions.data.ed_ve_Content.ed_vo_FileURL" width="128" height="80">
+
+            <el-form-item size="large">
+              <el-button type="primary" size="mini" @click="uploadFile">立即上传</el-button>
+            </el-form-item>
+
+
+            <el-form-item size="large">
+              <video id="addVideo" :src="addVideoSrc"  width="320" height="240" controls="controls"></video>
+            </el-form-item>
           </el-form-item>
 
 
 
 
 
-
+          <!--<el-form-item label="文件地址:" :label-width="formLabelWidth">-->
+            <!--<a href="javascript:;" class="file">视频文件地址-->
+              <!--<input type="file" name="" ref="upload" accept="image/*" multiple>-->
+            <!--</a>-->
+             <!--<img v-lazy="addOptions.data.ed_ve_Content.ed_vo_FileURL" v-show="addOptions.data.ed_ve_Content.ed_vo_FileURL" width="128" height="80">-->
+          <!--</el-form-item>-->
           <!--<el-form-item label="作者:" :label-width="formLabelWidth">-->
             <!--<el-input v-model="addOptions.data.ed_ve_Content.ed_vo_AuthorID" placeholder="作者" ></el-input>-->
           <!--</el-form-item>-->
@@ -252,6 +258,7 @@
         total:0,
         isLoading:'',
         addDialog:false,
+        addVideoSrc:'',
         formLabelWidth:'120px',
         ImageURL:[],
         ImageURL1:[],
@@ -264,13 +271,13 @@
           "pcName": "",  //机器码
           "data": {
             "ed_ve_Type": '1',//视频类型
+            "ed_vo_AuthorID": "",  //作者
             "ed_ve_Content": {  //审核表内容
               "ed_vo_ID": "",//视频编号（添加视频时传空，修改视频时传入视频编号）
               "ed_vo_Time": "",  //时长（秒）
               "ed_vo_Size": "",  //大小（MB）
               "ed_vo_Extend": "",  //文件扩展名
               "ed_vo_FileURL": "",  //文件地址
-              "ed_vo_AuthorID": "",  //作者
               "ed_vo_Title": "",  //标题
               "ed_vo_ImageURL": "",  //视频图片
               "ed_vo_TomImageURL": "",  //首页大图
@@ -289,7 +296,7 @@
     ]),
     created(){
       let admin = JSON.parse(sessionStorage.getItem('admin'));
-      this.addOptions.data.ed_ve_Content.ed_vo_AuthorID = admin.sm_ui_ID;
+      this.addOptions.data.ed_vo_AuthorID = admin.sm_ui_ID;
       if(admin){
         this.admin = admin;
         this.initSelectTypeInfo().then(()=>{
@@ -329,29 +336,28 @@
         })
       },
 
-
+      //图片上传
       uploaNode() {
-        console.log(12)
         this.addOptions.data.ed_ve_Content.ed_vo_FileURL= '';
         setTimeout(() => {
-          if (this.$refs.upload) {
-            this.$refs.upload.addEventListener('change', data => {
-              for (var i = 0; i < this.$refs.upload.files.length; i++) {
-                this.uploadToOSS(this.$refs.upload.files[i])
-                  .then(data => {
-                    if (data) {
-                      this.addOptions.data.ed_ve_Content.ed_vo_FileURL = data.data;
-                    } else {
-                      this.$notify({
-                        message: '图片地址不存在!',
-                        type: 'error'
-                      });
-                    }
-                  })
-
-              }
-            })
-          }
+          // if (this.$refs.upload) {
+          //   this.$refs.upload.addEventListener('change', data => {
+          //     for (var i = 0; i < this.$refs.upload.files.length; i++) {
+          //       this.uploadToOSS(this.$refs.upload.files[i])
+          //         .then(data => {
+          //           if (data) {
+          //             this.addOptions.data.ed_ve_Content.ed_vo_FileURL = data.data;
+          //           } else {
+          //             this.$notify({
+          //               message: '图片地址不存在!',
+          //               type: 'error'
+          //             });
+          //           }
+          //         })
+          //
+          //     }
+          //   })
+          // }
 
 
           if (this.$refs.upload1) {
@@ -398,6 +404,49 @@
         }, 30)
       },
 
+      //添加上传视频
+      uploadFile() {
+        //his.addVideoSrc='';
+        var fd = new FormData();
+        if(this.$refs.upload.files[0]){
+          //获取文件
+          var file =this.$refs.upload.files[0];
+          //获取文件大小
+          var fileSize = this.$refs.upload.files[0].size;
+          fileSize=parseInt(fileSize/1024*100/100); //单位为KB
+
+          this.addOptions.data.ed_ve_Content.ed_vo_Size=fileSize;
+          var str =this.$refs.upload.files[0].name;
+          console.log(str)
+
+          //获取文件名
+          this.addOptions.data.ed_ve_Content.vf_vo_Extend=str.split(".")[1];
+          fd.append("fileToUpload",this.$refs.upload.files[0]);
+          var xhr = new XMLHttpRequest();
+          xhr.onreadystatechange = ()=>{
+            if (xhr.readyState == 4 && xhr.status == 200)
+            //给视频赋值
+              if(xhr.responseText){
+                this.addVideoSrc=JSON.parse(xhr.responseText).data;
+                this.addOptions.data.ed_ve_Content.vf_vo_FileURL=this.addVideoSrc;
+              };
+            //获取时长
+            var e =document.getElementById("addVideo");
+            setTimeout(()=>{
+              if(isNaN(e.duration)){
+                this.addOptions.data.ed_ve_Content.vf_vo_Time = '';
+              }else{
+                this.addOptions.data.ed_ve_Content.vf_vo_Time=parseInt(e.duration).toString();
+              }
+            },1000);
+          };
+          xhr.open("POST", getNewStr+"/OSSFile/PostToOSS",true);
+          xhr.send(fd);
+        }else {
+          alert("请选择上传视频")
+        };
+      },
+
       initSelectTypeInfo(){
         let options = {
           "loginUserID": "huileyou",
@@ -430,7 +479,7 @@
           "ed_ve_ID": id,//审核表编号
           "ed_ve_Type": "",//视频类型
           "ed_vo_AuthorID": this.admin.sm_ui_ID,//作者ID
-         "page":page?page: 1,//页码
+          "page":page?page: 1,//页码
           "rows": 5//条数
         };
         this.isLoading = true;
@@ -451,8 +500,9 @@
       },
       //添加审核视频
       Add(){
-        this.addDialog=true
+        this.addDialog=true,
         this.uploaNode()
+       // this.intTypeData()
       },
       // 添加提交
       addSubmit() {
