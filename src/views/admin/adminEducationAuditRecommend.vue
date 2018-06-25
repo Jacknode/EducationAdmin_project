@@ -327,7 +327,7 @@
               message: suc,
               type: 'success'
             })
-            this.initData(this.input)
+            this.initData(this.siteNum)
           }, err => {
             this.$notify({
               message: err,

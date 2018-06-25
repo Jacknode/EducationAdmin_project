@@ -434,6 +434,7 @@ export default {
           'Content-Type': 'application/x-www-form-urlencoded'
         }
       }).then(data => {
+        console.log(data)
         var data = data.data;
         if (Number(data.resultcode) == 200) {
           relove(data.resultcontent)
