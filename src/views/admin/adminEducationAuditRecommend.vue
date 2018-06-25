@@ -94,59 +94,59 @@
 
       <!--添加教育分类-->
 
-      <!--<el-dialog title="添加教育分类" :visible.sync="addDialog">-->
-        <!--<el-form :model="addOptions">-->
-          <!--<el-form-item label="视频类型:" :label-width="formLabelWidth">-->
-            <!--<el-select v-model="value" placeholder="请选择">-->
+      <el-dialog title="添加教育分类" :visible.sync="addDialog">
+        <el-form :model="addOptions">
+          <el-form-item label="视频类型:" :label-width="formLabelWidth">
+            <el-select v-model="value" placeholder="请选择">
 
-              <!--<el-option-->
-                <!--v-for="item in selectTypeInfo"-->
-                <!--:key="item.ed_te_ID"-->
-                <!--:label="item.ed_te_Name"-->
-                <!--:value="item.ed_te_ID">-->
-              <!--</el-option>-->
-            <!--</el-select>-->
-          <!--</el-form-item>-->
+              <el-option
+                v-for="item in selectTypeInfo"
+                :key="item.ed_te_ID"
+                :label="item.ed_te_Name"
+                :value="item.ed_te_ID">
+              </el-option>
+            </el-select>
+          </el-form-item>
 
-          <!--<el-form-item label="推荐图片:" :label-width="formLabelWidth">-->
-            <!--<a href="javascript:;" class="file">推荐图片-->
-              <!--<input type="file" name="" ref="upload" accept="image/*" multiple>-->
-            <!--</a>-->
-            <!--<img v-lazy="addOptions.data.ed_ve_Content.ed_re_SeriesImageURL" v-show="addOptions.data.ed_ve_Content.ed_re_SeriesImageURL" width="128" height="80">-->
-          <!--</el-form-item>-->
+          <el-form-item label="推荐图片:" :label-width="formLabelWidth">
+            <a href="javascript:;" class="file">推荐图片
+              <input type="file" name="" ref="upload" accept="image/*" multiple>
+            </a>
+            <img v-lazy="addOptions.data.ed_ve_Content.ed_re_SeriesImageURL" v-show="addOptions.data.ed_ve_Content.ed_re_SeriesImageURL" width="128" height="80">
+          </el-form-item>
 
-          <!--<el-form-item label="被推荐者编码:" :label-width="formLabelWidth">-->
-            <!--<el-input v-model='addOptions.data.ed_re_PropertiesID' placeholder="请输入内容" style="width:800px" ></el-input>-->
-          <!--</el-form-item>-->
-          <!--<el-form-item label="教育分类: " :label-width="formLabelWidth">-->
-            <!--<el-input v-model='addOptions.data.ed_te_Name' placeholder="请输入内容" style="width:800px" ></el-input>-->
-          <!--</el-form-item>-->
+          <el-form-item label="被推荐者编码:" :label-width="formLabelWidth">
+            <el-input v-model='addOptions.data.ed_re_PropertiesID' placeholder="请输入内容" style="width:800px" ></el-input>
+          </el-form-item>
+          <el-form-item label="教育分类: " :label-width="formLabelWidth">
+            <el-input v-model='addOptions.data.ed_te_Name' placeholder="请输入内容" style="width:800px" ></el-input>
+          </el-form-item>
 
-          <!--<el-form-item label="推荐名称: " :label-width="formLabelWidth">-->
-            <!--<el-input v-model='addOptions.data.ed_re_Name' placeholder="请输入内容" style="width:800px" ></el-input>-->
-          <!--</el-form-item>-->
+          <el-form-item label="推荐名称: " :label-width="formLabelWidth">
+            <el-input v-model='addOptions.data.ed_re_Name' placeholder="请输入内容" style="width:800px" ></el-input>
+          </el-form-item>
+          <el-form-item label="推荐类型: " :label-width="formLabelWidth">
+          <el-select v-model="value1" placeholder="推荐类型">
+            <el-option
+              v-for="item in options"
+              :key="item.value1"
+              :label="item.label"
+              :value="item.value1">
+            </el-option>
+          </el-select>
+          </el-form-item>
+
           <!--<el-form-item label="推荐类型: " :label-width="formLabelWidth">-->
-          <!--<el-select v-model="value1" placeholder="推荐类型">-->
-            <!--<el-option-->
-              <!--v-for="item in options"-->
-              <!--:key="item.value1"-->
-              <!--:label="item.label"-->
-              <!--:value="item.value1">-->
-            <!--</el-option>-->
-          <!--</el-select>-->
+            <!--<el-input v-model='addOptions.data.ed_re_Difference' placeholder="请输入内容" style="width:800px" ></el-input>-->
           <!--</el-form-item>-->
 
-          <!--&lt;!&ndash;<el-form-item label="推荐类型: " :label-width="formLabelWidth">&ndash;&gt;-->
-            <!--&lt;!&ndash;<el-input v-model='addOptions.data.ed_re_Difference' placeholder="请输入内容" style="width:800px" ></el-input>&ndash;&gt;-->
-          <!--&lt;!&ndash;</el-form-item>&ndash;&gt;-->
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="addDialog = false">取 消</el-button>
+          <el-button type="primary" @click="addSubmit">确 定</el-button>
+        </div>
 
-        <!--</el-form>-->
-        <!--<div slot="footer" class="dialog-footer">-->
-          <!--<el-button @click="addDialog = false">取 消</el-button>-->
-          <!--<el-button type="primary" @click="addSubmit">确 定</el-button>-->
-        <!--</div>-->
-
-      <!--</el-dialog>-->
+      </el-dialog>
 
       <!--分页-->
       <div class="block" style="float: right;">
@@ -215,56 +215,56 @@
     },
     methods: {
 
-//       uploadToOSS(file) {
-//         return new Promise((relove,reject)=>{
-//           var fd = new FormData();
-//           fd.append("fileToUpload", file);
-//           var xhr = new XMLHttpRequest();
-//           xhr.open("POST", getNewStr+"/OSSFile/PostToOSS");
-//           xhr.send(fd);
-//           xhr.onreadystatechange = function () {
-//             if (xhr.readyState == 4 && xhr.status == 200) {
+      uploadToOSS(file) {
+        return new Promise((relove,reject)=>{
+          var fd = new FormData();
+          fd.append("fileToUpload", file);
+          var xhr = new XMLHttpRequest();
+          xhr.open("POST", getNewStr+"/OSSFile/PostToOSS");
+          xhr.send(fd);
+          xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+              if (xhr.responseText) {
+                var data = xhr.responseText
+                relove(JSON.parse(data))
+              }
+            }else{
+              console.log(xhr.responseText)
 //               if (xhr.responseText) {
-//                 var data = xhr.responseText
-//                 relove(JSON.parse(data))
+//                 var data = xhr.responseText;
+//                 reject(JSON.parse(data).resultcontent)
 //               }
-//             }else{
-//               console.log(xhr.responseText)
-// //               if (xhr.responseText) {
-// //                 var data = xhr.responseText;
-// //                 reject(JSON.parse(data).resultcontent)
-// //               }
-//             }
-//           }
-//         })
-//       },
-//       uploaNode() {
-//         this.addOptions.data.ed_ve_Content.ed_re_SeriesImageURL= '';
-//         setTimeout(() => {
-//           if (this.$refs.upload) {
-//             this.$refs.upload.addEventListener('change', data => {
-//               for (var i = 0; i < this.$refs.upload.files.length; i++) {
-//                 this.uploadToOSS(this.$refs.upload.files[i])
-//                   .then(data => {
-//                     if (data) {
-//                       this.addOptions.data.ed_ve_Content.ed_re_SeriesImageURL = data.data;
-//                     } else {
-//                       this.$notify({
-//                         message: '图片地址不存在!',
-//                         type: 'error'
-//                       });
-//                     }
-//                   })
-//
-//               }
-//             })
-//           }
-//         }, 30)
-//       },
-      //分页
-      // handleCurrentChange(num){
-      //   this.initData(this.siteNum,num)
-      // },
+            }
+          }
+        })
+      },
+      uploaNode() {
+        this.addOptions.data.ed_ve_Content.ed_re_SeriesImageURL= '';
+        setTimeout(() => {
+          if (this.$refs.upload) {
+            this.$refs.upload.addEventListener('change', data => {
+              for (var i = 0; i < this.$refs.upload.files.length; i++) {
+                this.uploadToOSS(this.$refs.upload.files[i])
+                  .then(data => {
+                    if (data) {
+                      this.addOptions.data.ed_ve_Content.ed_re_SeriesImageURL = data.data;
+                    } else {
+                      this.$notify({
+                        message: '图片地址不存在!',
+                        type: 'error'
+                      });
+                    }
+                  })
+
+              }
+            })
+          }
+        }, 30)
+      },
+     // 分页
+      handleCurrentChange(num){
+        this.initData(this.siteNum,num)
+      },
 
       initSelectTypeInfo(){
         let options = {

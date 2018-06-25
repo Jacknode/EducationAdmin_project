@@ -99,7 +99,7 @@ export default {
       })
         .then(data => {
           var data = data.data;
-          console.log(data)
+
           if (Number(data.resultcode) == 200) {
             relove(Number(data.totalRows));
             commit('initAdminEducationAuditVideo', data.data.reverse())
@@ -443,6 +443,26 @@ export default {
       })
     })
   },
+  /**
+   * 修改审核视频
+   */
+  updateAdminEducationAuditVideo(store, data) {
+    return new Promise((relove, reject) => {
+      axios.post(getNewStr + '/EdValidate/Update', JSON.stringify(data), {
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }
+      }).then(data => {
+        var data = data.data;
+        if (Number(data.resultcode) == 200) {
+          relove(data.resultcontent)
+        } else {
+          reject(data.resultcontent)
+        }
+      })
+    })
+  },
+
   /**
    * 删除审核视频
    */
