@@ -39,12 +39,12 @@
                 <span>{{ props.row.ed_ve_Content.ed_vo_Time }}秒</span>
               </el-form-item>
               <el-form-item label="视频大小:">
-                <span>{{ props.row.ed_ve_Content.ed_vo_Size}}MB</span>
+                <span>{{ props.row.ed_ve_Content.ed_vo_Size}}KB</span>
               </el-form-item>
               <el-form-item label="文件扩展名:">
                 <span>{{ props.row.ed_ve_Content.ed_vo_Extend}}</span>
               </el-form-item>
-              <el-form-item label="文件地址:">
+              <el-form-item label="视频文件地址:">
                 <span>{{ props.row.ed_ve_Content.ed_vo_FileURL}}</span>
               </el-form-item>
               <el-form-item label="作者ID:">
@@ -116,7 +116,7 @@
             <el-button
               size="mini"
               type="danger"
-              @click="Delete(scope.row.ed_te_ID)">删除
+              @click="Delete(scope.row.ed_ve_ID)">删除
             </el-button>
 
           </template>
@@ -137,15 +137,15 @@
                 </el-option>
               </el-select>
             </el-form-item>
-           <el-form-item label="时长:" :label-width="formLabelWidth">
-             <el-input v-model="addOptions.data.ed_ve_Content.ed_vo_Time" placeholder="时长" ></el-input>
-           </el-form-item>
-          <el-form-item label="大小:" :label-width="formLabelWidth">
-            <el-input v-model="addOptions.data.ed_ve_Content.ed_vo_Size" placeholder="大小" ></el-input>
-          </el-form-item>
-          <el-form-item label="文件扩展名:" :label-width="formLabelWidth">
-            <el-input v-model="addOptions.data.ed_ve_Content.ed_vo_Extend" placeholder="文件扩展名" ></el-input>
-          </el-form-item>
+           <!--<el-form-item label="时长:" :label-width="formLabelWidth">-->
+             <!--<el-input v-model="addOptions.data.ed_ve_Content.ed_vo_Time" placeholder="时长" ></el-input>-->
+           <!--</el-form-item>-->
+          <!--<el-form-item label="大小:" :label-width="formLabelWidth">-->
+            <!--<el-input v-model="addOptions.data.ed_ve_Content.ed_vo_Size" placeholder="大小" ></el-input>-->
+          <!--</el-form-item>-->
+          <!--<el-form-item label="文件扩展名:" :label-width="formLabelWidth">-->
+            <!--<el-input v-model="addOptions.data.ed_ve_Content.ed_vo_Extend" placeholder="文件扩展名" ></el-input>-->
+          <!--</el-form-item>-->
 
 
           <el-form-item label="请选择视频:" :label-width="formLabelWidth">
@@ -406,21 +406,23 @@
 
       //添加上传视频
       uploadFile() {
-        //his.addVideoSrc='';
+      this.addVideoSrc='';
         var fd = new FormData();
         if(this.$refs.upload.files[0]){
           //获取文件
           var file =this.$refs.upload.files[0];
+          console.log(file)
           //获取文件大小
           var fileSize = this.$refs.upload.files[0].size;
           fileSize=parseInt(fileSize/1024*100/100); //单位为KB
 
           this.addOptions.data.ed_ve_Content.ed_vo_Size=fileSize;
           var str =this.$refs.upload.files[0].name;
-          console.log(str)
+
 
           //获取文件名
-          this.addOptions.data.ed_ve_Content.vf_vo_Extend=str.split(".")[1];
+          this.addOptions.data.ed_ve_Content.ed_vo_Extend=str.split(".")[1];
+
           fd.append("fileToUpload",this.$refs.upload.files[0]);
           var xhr = new XMLHttpRequest();
           xhr.onreadystatechange = ()=>{
@@ -428,15 +430,17 @@
             //给视频赋值
               if(xhr.responseText){
                 this.addVideoSrc=JSON.parse(xhr.responseText).data;
-                this.addOptions.data.ed_ve_Content.vf_vo_FileURL=this.addVideoSrc;
+
+                this.addOptions.data.ed_ve_Content.ed_vo_FileURL=this.addVideoSrc;
+
               };
             //获取时长
             var e =document.getElementById("addVideo");
             setTimeout(()=>{
               if(isNaN(e.duration)){
-                this.addOptions.data.ed_ve_Content.vf_vo_Time = '';
+                this.addOptions.data.ed_ve_Content.ed_vo_Time = '';
               }else{
-                this.addOptions.data.ed_ve_Content.vf_vo_Time=parseInt(e.duration).toString();
+                this.addOptions.data.ed_ve_Content.ed_vo_Time=parseInt(e.duration).toString();
               }
             },1000);
           };
@@ -521,6 +525,35 @@
           })
         this.addDialog = false;
       },
+      //删除
+      Delete(id){
+        let deleteOptions = {
+          "loginUserID": "huileyou",
+          "loginUserPass": "123",
+          "operateUserID": "",
+          "operateUserName": "",
+          "pcName": "",
+          "data": {
+            "ed_ve_ID": id,//审核表编号
+
+          }
+        }
+        this.$store.dispatch('DeleteAdminEducationAuditVideo',deleteOptions)
+          .then(suc => {
+            this.$notify({
+              message: suc,
+              type: 'success'
+            });
+            this.initData( this. siteNum)
+          }, err => {
+            this.$notify({
+              message: err,
+              type: 'error'
+            });
+          });
+      },
+
+
     },
   }
 </script>
