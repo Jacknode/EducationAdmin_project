@@ -317,11 +317,14 @@
     ]),
     created(){
       let admin = JSON.parse(sessionStorage.getItem('admin'));
+      console.log(admin)
       this.addOptions.data.ed_vo_AuthorID = admin.sm_ui_ID;
       if(admin){
         this.admin = admin;
         this.initSelectTypeInfo().then(()=>{
+
           this.initData(this.input)
+
         })
       }else{
         this.$notify({

@@ -131,6 +131,27 @@ export default {
         })
     })
   },
+  /**
+   *
+   */
+  initSelectVideoInfo({commit},data){
+    return new Promise(function (relove, reject) {
+      axios.post(getNewStr + '/EdVedio/Select', JSON.stringify(data), {
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }
+      })
+        .then(data => {
+          var data = data.data;
+          if (Number(data.resultcode) == 200) {
+            commit('initSelectVideoInfo', data.data)
+            relove(data.resultcontent);
+          } else {
+            reject(data.resultcontent)
+          }
+        })
+    })
+  },
 
   /**
    * 添加视频审核
@@ -252,7 +273,7 @@ export default {
       })
         .then(data => {
           var data = data.data;
-          console.log()
+
           if (Number(data.resultcode) == 200) {
             commit('initAdminEducationCourse',data.data.reverse());
             relove(Number(data.totalrows))
@@ -434,7 +455,7 @@ export default {
           'Content-Type': 'application/x-www-form-urlencoded'
         }
       }).then(data => {
-        console.log(data)
+
         var data = data.data;
         if (Number(data.resultcode) == 200) {
           relove(data.resultcontent)

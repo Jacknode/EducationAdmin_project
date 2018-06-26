@@ -11,6 +11,9 @@ export default  {
   initSelectTypeInfo(state,data){
     state.selectTypeInfo = data;
   },
+  initSelectVideoInfo(state,data){
+    state.selectVideoInfo = data;
+  },
 
   initEducationCourseList(state,data){
     state.adminEducationCourseList = data;

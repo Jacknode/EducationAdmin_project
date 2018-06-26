@@ -96,37 +96,38 @@
 
       <el-dialog title="添加教育分类" :visible.sync="addDialog">
         <el-form :model="addOptions">
-          <el-form-item label="视频类型:" :label-width="formLabelWidth">
-            <el-select v-model="value" placeholder="请选择">
-
+          <!--<el-form-item label="视频类型:" :label-width="formLabelWidth">-->
+            <!--<el-select v-model="value" placeholder="请选择">-->
+              <!--<el-option-->
+                <!--v-for="item in selectTypeInfo"-->
+                <!--:key="item.ed_te_ID"-->
+                <!--:label="item.ed_te_Name"-->
+                <!--:value="item.ed_te_ID">-->
+              <!--</el-option>-->
+            <!--</el-select>-->
+          <!--</el-form-item>-->
+          <el-form-item label="推荐作品编码:" :label-width="formLabelWidth">
+            <!--<el-input v-model='addOptions.data.ed_re_PropertiesID' placeholder="请输入内容" style="width:800px" ></el-input>-->
+            <el-select v-model="value" placeholder="推荐类型" @change="changeType">
               <el-option
-                v-for="item in selectTypeInfo"
-                :key="item.ed_te_ID"
-                :label="item.ed_te_Name"
-                :value="item.ed_te_ID">
+                v-for="item in selectVideoInfo"
+                :key="item.ed_vo_ID"
+                :label="item.ed_vo_Title"
+                :value="item.ed_vo_ID">
               </el-option>
             </el-select>
           </el-form-item>
+          <!--<el-form-item label="教育分类: " :label-width="formLabelWidth">-->
+            <!--<el-input v-model='addOptions.data.ed_te_Name' placeholder="请输入内容" style="width:800px" ></el-input>-->
+          <!--</el-form-item>-->
 
-          <el-form-item label="推荐图片:" :label-width="formLabelWidth">
-            <a href="javascript:;" class="file">推荐图片
-              <input type="file" name="" ref="upload" accept="image/*" multiple>
-            </a>
-            <img v-lazy="addOptions.data.ed_ve_Content.ed_re_SeriesImageURL" v-show="addOptions.data.ed_ve_Content.ed_re_SeriesImageURL" width="128" height="80">
-          </el-form-item>
-
-          <el-form-item label="被推荐者编码:" :label-width="formLabelWidth">
-            <el-input v-model='addOptions.data.ed_re_PropertiesID' placeholder="请输入内容" style="width:800px" ></el-input>
-          </el-form-item>
-          <el-form-item label="教育分类: " :label-width="formLabelWidth">
-            <el-input v-model='addOptions.data.ed_te_Name' placeholder="请输入内容" style="width:800px" ></el-input>
+          <el-form-item label="推荐名称:" :label-width="formLabelWidth"  v-show="false">
+            <el-input v-model='addOptions.data.ed_ve_Content.ed_re_Name' placeholder="请输入内容" style="width:800px" ></el-input>
           </el-form-item>
 
-          <el-form-item label="推荐名称: " :label-width="formLabelWidth">
-            <el-input v-model='addOptions.data.ed_re_Name' placeholder="请输入内容" style="width:800px" ></el-input>
-          </el-form-item>
+
           <el-form-item label="推荐类型: " :label-width="formLabelWidth">
-          <el-select v-model="value1" placeholder="推荐类型">
+          <el-select v-model="addOptions.data.ed_ve_Content.ed_re_Difference" placeholder="推荐类型">
             <el-option
               v-for="item in options"
               :key="item.value1"
@@ -135,7 +136,12 @@
             </el-option>
           </el-select>
           </el-form-item>
-
+          <el-form-item label="推荐图片:" :label-width="formLabelWidth">
+            <a href="javascript:;" class="file">推荐图片
+              <input type="file" name="" ref="upload" accept="image/*" multiple>
+            </a>
+            <img v-lazy="addOptions.data.ed_ve_Content.ed_re_SeriesImageURL" v-show="addOptions.data.ed_ve_Content.ed_re_SeriesImageURL" width="128" height="80">
+          </el-form-item>
           <!--<el-form-item label="推荐类型: " :label-width="formLabelWidth">-->
             <!--<el-input v-model='addOptions.data.ed_re_Difference' placeholder="请输入内容" style="width:800px" ></el-input>-->
           <!--</el-form-item>-->
@@ -159,7 +165,6 @@
         >
         </el-pagination>
       </div>
-
     </div>
   </div>
 </template>
@@ -190,12 +195,15 @@
           "operateUserName": "",//操作员名称
           "pcName": "",  //机器码
           "data": {
-            "ed_ve_Type": "",//视频类型
+            "ed_ve_Type": "1",//视频类型
+            "ed_vo_AuthorID": "",  //作者   申请推荐人编码
             "ed_ve_Content": {  //审核表内容
               "ed_re_PropertiesID": "",//被推荐者编码
               "ed_re_SeriesImageURL": "",  //推荐图片
               "ed_re_Name": "",  //推荐名称
               "ed_re_Difference":'',    //添加推荐的是视频还是系列（0视频，1系列）
+              'ed_vo_Price':''
+
             }
           }
         }
@@ -204,16 +212,43 @@
     },
     computed: mapGetters([
       'adminEducationAuditRecommend',
-      'selectTypeInfo'
+      'selectVideoInfo'
     ]),
     created(){
+      let admin = JSON.parse(sessionStorage.getItem('admin'));
+      this.addOptions.data.ed_vo_AuthorID =admin.sm_ui_ID,
 
-      this.initSelectTypeInfo().then(()=>{
+      this.initSelectVideoInfo(admin.sm_ui_ID).then(()=>{
+      })
       this.initData(this.input)
-    })
+
 
     },
     methods: {
+
+      changeType(val){
+        this.addOptions.data.ed_ve_Content.ed_re_Name = this.selectVideoInfo.filter(item=>{
+          if( item.ed_vo_ID == val ){
+            return true
+          }
+          return false
+        })[0].ed_vo_Title;
+        this.addOptions.data.ed_ve_Type = this.selectVideoInfo.filter(item=>{
+          if( item.ed_vo_ID == val ){
+            return true
+          }
+          return false
+        })[0].ed_te_Type;
+        this.addOptions.data.ed_ve_Content.ed_vo_Price = this.selectVideoInfo.filter(item=>{
+          if( item.ed_vo_ID == val ){
+            return true
+          }
+          return false
+        })[0].ed_vo_Price;
+
+
+      },
+
 
       uploadToOSS(file) {
         return new Promise((relove,reject)=>{
@@ -229,7 +264,7 @@
                 relove(JSON.parse(data))
               }
             }else{
-              console.log(xhr.responseText)
+             // console.log(xhr.responseText)
 //               if (xhr.responseText) {
 //                 var data = xhr.responseText;
 //                 reject(JSON.parse(data).resultcontent)
@@ -266,21 +301,19 @@
         this.initData(this.siteNum,num)
       },
 
-      initSelectTypeInfo(){
+      initSelectVideoInfo(id){
         let options = {
           "loginUserID": "huileyou",
           "loginUserPass": "123",
           "operateUserID": "",
           "operateUserName": "",
           "pcName": "",
-          "page": "1",
-          "rows": "10",
-          "ed_te_ID": "",//分类编号
-          "ed_te_Name": "",//分类名称
-          "ed_te_TypeImage": "",//分类图片
-          "ed_te_ParentID": "0",//分类编号父编号
+          "ed_vo_ID":'',//视频编号
+          "ed_vo_AuthorID":id,//作者ID
+          "ed_vo_Type": "",//视频类型(1广告 2微电影 3教育)
+          "ed_vo_PasserID": "",//审核人编码
         };
-        return this.$store.dispatch('initSelectTypeInfo',options)
+        return this.$store.dispatch('initSelectVideoInfo',options)
       },
 
 
@@ -316,6 +349,10 @@
       },
       //新增
       Add(){
+       // console.log('000',this.selectVideoInfo)
+      //  this.addOptions.data.ed_ve_Content.ed_ve_Type =this.selectVideoInfo.ed_te_Type,
+
+
         this.addDialog=true
         this.uploaNode()
       },
