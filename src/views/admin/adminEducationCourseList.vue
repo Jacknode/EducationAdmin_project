@@ -27,19 +27,23 @@
         style="width: 100%">
         <el-table-column
           label="系列编号"
+          align="center"
           prop="ed_ss_ID">
         </el-table-column>
         <el-table-column
           label="系列名称"
+          align="center"
           prop="ed_ss_Name">
         </el-table-column>
         <el-table-column
           label="连载状态"
+          align="center"
           prop="ed_ss_WriteState">
         </el-table-column>
 
         <el-table-column
           align="center"
+
           label="系列图片"
         >
           <template slot-scope="scope">
@@ -54,7 +58,7 @@
           label="作者"
           prop="ed_ss_AuthorID">
         </el-table-column>
-        <el-table-column label="操作">
+        <el-table-column label="操作"  align="center">
           <template slot-scope="scope">
             <el-button
               size="mini"

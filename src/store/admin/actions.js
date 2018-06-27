@@ -5,87 +5,6 @@
 import {getNewStr} from '@/assets/js/public'
 
 export default {
-  /**
-   * 教育分类初始化
-   */
-  initAdminEducationClassify({commit}, data) {
-    return new Promise(function (relove, reject) {
-      axios.post(getNewStr + '/EducationType/Select', JSON.stringify(data), {
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded'
-        }
-      })
-        .then(data => {
-          var data = data.data;
-          if (Number(data.resultcode) == 200) {
-            relove(Number(data.totalRows));
-            commit('initAdminEducationClassify', data.data.reverse())
-          } else {
-            reject(data.resultcontent)
-          }
-        })
-    })
-  },
-  /**
-   * 添加教育
-   */
-
-  addAdminEducationClassify(store, data) {
-    return new Promise((relove, reject) => {
-      axios.post(getNewStr + '/EducationType/Insert', JSON.stringify(data), {
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded'
-        }
-      }).then(data => {
-        var data = data.data;
-        if (Number(data.resultcode) == 200) {
-          relove(data.resultcontent)
-        } else {
-          reject(data.resultcontent)
-        }
-      })
-    })
-  },
-  /**
-   * 修改分类
-   */
-  updateAdminEducationClassify(store, data) {
-    return new Promise((relove, reject) => {
-      axios.post(getNewStr + '/EducationType/Update', JSON.stringify(data), {
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded'
-        }
-      }).then(data => {
-        var data = data.data;
-
-        if (Number(data.resultcode) == 200) {
-          relove(data.resultcontent)
-        } else {
-          reject(data.resultcontent)
-        }
-      })
-    })
-  },
-  /**
-   * 删除分类
-   */
-
-  DeleteAdminEducationClassify(store, data) {
-    return new Promise((relove, reject) => {
-      axios.post(getNewStr + '/EducationType/Delete', JSON.stringify(data), {
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded'
-        }
-      }).then(data => {
-        var data = data.data;
-        if (Number(data.resultcode) == 200) {
-          relove(data.resultcontent)
-        } else {
-          reject(data.resultcontent)
-        }
-      })
-    })
-  },
 
   /**
    * 审核视频初始化
@@ -99,7 +18,6 @@ export default {
       })
         .then(data => {
           var data = data.data;
-
           if (Number(data.resultcode) == 200) {
             relove(Number(data.totalRows));
             commit('initAdminEducationAuditVideo', data.data.reverse())
@@ -115,13 +33,14 @@ export default {
    */
   initSelectTypeInfo({commit},data){
     return new Promise(function (relove, reject) {
-      axios.post(getNewStr + '/EducationType/Select', JSON.stringify(data), {
+      axios.post(getNewStr + '/EducationType/IndexClassification', JSON.stringify(data), {
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded'
         }
       })
         .then(data => {
           var data = data.data;
+
           if (Number(data.resultcode) == 200) {
             commit('initSelectTypeInfo', data.data)
             relove(data.resultcontent);
@@ -189,6 +108,7 @@ export default {
     })
       .then(data => {
         var data = data.data;
+
         if (Number(data.resultcode) == 200) {
           commit('initEducationCourseList',data.data.reverse());
           relove(Number(data.totalrows))
@@ -273,7 +193,6 @@ export default {
       })
         .then(data => {
           var data = data.data;
-
           if (Number(data.resultcode) == 200) {
             commit('initAdminEducationCourse',data.data.reverse());
             relove(Number(data.totalrows))
@@ -354,8 +273,18 @@ export default {
       })
         .then(data => {
           var data = data.data;
+          console.log(data)
           if (Number(data.resultcode) == 200) {
+            for (let i = 0; i < data.data.length; i++) {
+              if (data.data[i].ed_oi_PayState == 0) {
+                data.data[i].ed_oi_PayState = '未支付'
+              }
+              if (data.data[i].ed_oi_PayState == 1) {
+                data.data[i].ed_oi_PayState = '已支付'
+              }
+            };
             commit('initAdminEducationOrder',data.data.reverse());
+
             relove(Number(data.totalrows))
           } else {
             reject(data.resultcontent)

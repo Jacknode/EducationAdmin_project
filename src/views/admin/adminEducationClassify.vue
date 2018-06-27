@@ -28,24 +28,27 @@
         style="width: 100%">
         <el-table-column
           label="分类编号"
+          align="center"
           prop="ed_te_ID">
         </el-table-column>
         <el-table-column
           label="分类名称"
+          align="center"
           prop="ed_te_Name">
         </el-table-column>
         <el-table-column
           label="分类父编码名称"
+          align="center"
           prop="ed_te_ParentName">
         </el-table-column>
         <!--<el-table-column-->
           <!--label="分类图片"-->
           <!--prop="ed_te_TypeImage">-->
         <!--</el-table-column>-->
-        <el-table-column
-          label="分类编号父编号"
-          prop="ed_te_ParentID">
-        </el-table-column>
+        <!--<el-table-column-->
+          <!--label="分类编号父编号"-->
+          <!--prop="ed_te_ParentID">-->
+        <!--</el-table-column>-->
 
         <el-table-column label="操作" align="center" style="width: 1000px">
           <template slot-scope="scope">
@@ -65,13 +68,31 @@
       <!--添加教育分类-->
 
       <el-dialog title="添加教育分类" :visible.sync="addDialog">
-        <el-form :model="addOptions">
-         <el-form-item label="教育父编码:" :label-width="formLabelWidth">
-          <el-input v-model=' addOptions.data.ed_te_ParentID' placeholder="请输入内容" style="width:800px" :disabled="true"></el-input>
-        </el-form-item>
+        <el-form :model="addOptions" >
+          <el-form-item label="教育父编码: " :label-width="formLabelWidth">
+          <el-cascader
+            :options="selectTypeInfo"
+            v-model="selectedOptions"
+            :show-all-levels="false"
+            @change="handleChange1"
+          >
+          </el-cascader>
+          </el-form-item>
+
+         <!--<el-form-item label="教育父编码:" :label-width="formLabelWidth">-->
+           <!--<el-select v-model="addOptions.data.ed_te_ParentName" placeholder="请选择" @change="changeType">-->
+             <!--<el-option-->
+               <!--v-for="item in selectTypeInfo"-->
+               <!--:key="item.ed_te_ID"-->
+               <!--:label="item.ed_te_Name"-->
+               <!--:value="item.ed_te_Name">-->
+             <!--</el-option>-->
+           <!--</el-select>-->
+         <!--</el-form-item>-->
+
           <el-form-item label="教育分类: " :label-width="formLabelWidth">
            <el-input v-model='addOptions.data.ed_te_Name' placeholder="请输入内容" style="width:800px" ></el-input>
-          </el-form-item>
+            </el-form-item>
 
         </el-form>
         <div slot="footer" class="dialog-footer">
@@ -123,6 +144,7 @@
         isLoading: false,
         addDialog:false,
         updateDialog:false,
+        selectedOptions:[],
         updateObj:{},
         formLabelWidth:'120px',
         addOptions:{
@@ -133,22 +155,47 @@
           "pcName": "",
           "data": {
             "ed_te_Name": "",//分类名称
-            "ed_te_ParentID": "0",//分类编号父编号
+            "ed_te_ParentID": 0,//分类编号父编号
+            'ed_te_ParentName':''
           }
 
         },
-
      }
     },
     computed: mapGetters([
       'adminEducationClassify',
-      'adminEducationClassifyList'
+      'adminEducationClassifyList',
+      'selectTypeInfo'
 
     ]),
     created(){
-      this.initData(this. siteNum)
+      this.initSelectTypeInfo().then(()=>{
+        this.initData(this.input)
+      })
     },
     methods: {
+      handleChange1(value){
+        this.selectedOptions =value;
+        console.log(this.selectedOptions[value.length-1])
+
+      },
+      initSelectTypeInfo(){
+        let options = {
+          "loginUserID": "huileyou",
+          "loginUserPass": "123",
+          "operateUserID": "",
+          "operateUserName": "",
+          "pcName": "",
+          "page": "1",
+          "rows": "10",
+          "ed_te_ID": "",//分类编号
+          "ed_te_Name": "",//分类名称
+          "ed_te_TypeImage": "",//分类图片
+          "ed_te_ParentID": "0",//分类编号父编号
+        };
+        return this.$store.dispatch('initSelectTypeInfo',options)
+      },
+
       //分页
       handleCurrentChange(num) {
         this.initData(this. siteNum,num)
@@ -186,7 +233,7 @@
       //添加
       Add(){
         this.addDialog=true
-       // this.$store.commit('setTranstionFalse');
+
       },
 
       //添加提交

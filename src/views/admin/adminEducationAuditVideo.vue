@@ -89,25 +89,29 @@
 
         <el-table-column
           label="审核表编号"
+          align="center"
           prop="ed_ve_ID">
         </el-table-column>
         <el-table-column
           label="视频类型"
+          align="center"
           prop="ed_ve_Type">
         </el-table-column>
         <el-table-column
           label="审核创建时间"
+          align="center"
           prop="ta_tg_CreateDateTime">
           <template slot-scope="props">
             <span>{{props.row.ta_tg_CreateDateTime | getUseTime}}</span>
           </template>
         </el-table-column>
         <el-table-column
+          align="center"
           label="视频类型名称"
           prop="ed_ve_TypeName">
         </el-table-column>
 
-        <el-table-column label="操作">
+        <el-table-column label="操作"   align="center">
           <template slot-scope="scope">
             <el-button
               size="mini"
@@ -127,16 +131,28 @@
 
       <el-dialog title="添加审核视频" :visible.sync="addDialog">
         <el-form :model="addOptions">
-          <el-form-item label="视频类型:" :label-width="formLabelWidth">
-              <el-select v-model="value" placeholder="请选择">
-                <el-option
-                  v-for="item in selectTypeInfo"
-                  :key="item.ed_te_ID"
-                  :label="item.ed_te_Name"
-                  :value="item.ed_te_ID">
-                </el-option>
-              </el-select>
-            </el-form-item>
+          <el-form-item label="视频类型: " :label-width="formLabelWidth">
+            <el-cascader
+              :options="selectTypeInfo"
+              v-model="selectedOptions"
+              :show-all-levels="false"
+              @change="handleChange1"
+            >
+            </el-cascader>
+          </el-form-item>
+
+
+          <!--<el-form-item label="视频类型:" :label-width="formLabelWidth">-->
+              <!--<el-select v-model="value" placeholder="请选择">-->
+                <!--<el-option-->
+                  <!--v-for="item in selectTypeInfo"-->
+                  <!--:key="item.ed_te_ID"-->
+                  <!--:label="item.ed_te_Name"-->
+                  <!--:value="item.ed_te_ID">-->
+                <!--</el-option>-->
+              <!--</el-select>-->
+            <!--</el-form-item>-->
+
           <el-form-item label="请选择视频:" :label-width="formLabelWidth">
             <a href="javascript:;" class="file">选择视频
               <input type="file" name="" ref="upload" multiple>
@@ -258,6 +274,7 @@
         total:0,
         isLoading:'',
         updateDialog:false,
+        selectedOptions:[],
         updateVideo:'',//修改视频播放
         updateFilm: '',
         addDialog:false,
@@ -317,15 +334,11 @@
     ]),
     created(){
       let admin = JSON.parse(sessionStorage.getItem('admin'));
-      console.log(admin)
       this.addOptions.data.ed_vo_AuthorID = admin.sm_ui_ID;
       if(admin){
         this.admin = admin;
-        this.initSelectTypeInfo().then(()=>{
+        this.initData(this.input)
 
-          this.initData(this.input)
-
-        })
       }else{
         this.$notify({
           message: '请先登录@！',
@@ -336,6 +349,10 @@
       }
     },
     methods: {
+      handleChange1(value){
+        this.selectedOptions =value;
+        this.addOptions.data.ed_ve_Type =this.selectedOptions[value.length-1]
+      },
       uploadToOSS(file) {
         return new Promise((relove,reject)=>{
           var fd = new FormData();
@@ -350,11 +367,6 @@
                 relove(JSON.parse(data))
               }
             }else{
-            //  console.log(xhr.responseText)
-//               if (xhr.responseText) {
-//                 var data = xhr.responseText;
-//                 reject(JSON.parse(data).resultcontent)
-//               }
             }
           }
         })
@@ -363,24 +375,6 @@
       uploaNode() {
         this.addOptions.data.ed_ve_Content.ed_vo_FileURL= '';
         setTimeout(() => {
-          // if (this.$refs.upload) {
-          //   this.$refs.upload.addEventListener('change', data => {
-          //     for (var i = 0; i < this.$refs.upload.files.length; i++) {
-          //       this.uploadToOSS(this.$refs.upload.files[i])
-          //         .then(data => {
-          //           if (data) {
-          //             this.addOptions.data.ed_ve_Content.ed_vo_FileURL = data.data;
-          //           } else {
-          //             this.$notify({
-          //               message: '图片地址不存在!',
-          //               type: 'error'
-          //             });
-          //           }
-          //         })
-          //
-          //     }
-          //   })
-          // }
 
           //添加图片
           if (this.$refs.upload1) {
@@ -579,22 +573,6 @@
 
 
 
-      initSelectTypeInfo(){
-        let options = {
-          "loginUserID": "huileyou",
-          "loginUserPass": "123",
-          "operateUserID": "",
-          "operateUserName": "",
-          "pcName": "",
-          "page": "1",
-          "rows": "10",
-          "ed_te_ID": "",//分类编号
-          "ed_te_Name": "",//分类名称
-          "ed_te_TypeImage": "",//分类图片
-          "ed_te_ParentID": "0",//分类编号父编号
-        };
-        return this.$store.dispatch('initSelectTypeInfo',options)
-      },
 
       //分页
       handleCurrentChange(num) {

@@ -27,21 +27,25 @@
         style="width: 100%">
         <el-table-column
           label="视频系列编号"
+          align="center"
           prop="ed_fs_ID">
         </el-table-column>
         <el-table-column
           label="系列编号"
+          align="center"
           prop="ed_fs_SeriesID">
         </el-table-column>
         <el-table-column
           label="视频编号"
+          align="center"
           prop="ed_fs_VedioID">
         </el-table-column>
         <el-table-column
           label="第几集"
+          align="center"
           prop="ed_fs_Level">
         </el-table-column>
-        <el-table-column label="操作">
+        <el-table-column label="操作"    align="center">
           <template slot-scope="scope">
             <el-button
               size="mini"
@@ -60,11 +64,30 @@
 
       <el-dialog title="添加课程目录" :visible.sync="addDialog">
         <el-form :model="addOptions">
+          <!--<el-form-item label="系列编号:" :label-width="formLabelWidth">-->
+
+          <!--</el-form-item>-->
           <el-form-item label="系列编号:" :label-width="formLabelWidth">
-            <el-input v-model="addOptions.data.ed_fs_SeriesID"></el-input>
+            <!--<el-input v-model="addOptions.data.ed_fs_SeriesID"></el-input>-->
+            <el-select v-model="addOptions.data.ed_fs_SeriesID" placeholder="系列编号" @change="changeType">
+              <el-option
+                v-for="item in adminEducationCourseList"
+                :key="item.ed_ss_ID"
+                :label="item.ed_ss_Name"
+                :value="item.ed_ss_ID">
+              </el-option>
+            </el-select>
           </el-form-item>
           <el-form-item label="视频编号:" :label-width="formLabelWidth">
-            <el-input v-model="addOptions.data.ed_fs_VedioID"></el-input>
+            <!--<el-input v-model="addOptions.data.ed_fs_VedioID"></el-input>-->
+            <el-select v-model="addOptions.data.ed_fs_VedioID" placeholder="视频编号" @change="changeType">
+              <el-option
+                v-for="item in selectVideoInfo"
+                :key="item.ed_vo_ID"
+                :label="item.ed_vo_Title"
+                :value="item.ed_vo_ID">
+              </el-option>
+            </el-select>
           </el-form-item>
           <el-form-item label="第几集:" :label-width="formLabelWidth">
             <el-input v-model="addOptions.data.ed_fs_Level"></el-input>
@@ -81,10 +104,26 @@
       <el-dialog title="修改票种信息" :visible.sync="updateDialog">
         <el-form :model="updateObj">
           <el-form-item label="系列编号:" :label-width="formLabelWidth">
-            <el-input v-model="updateObj.ed_fs_SeriesID"></el-input>
+            <!--<el-input v-model="updateObj.ed_fs_SeriesID"></el-input>-->
+            <el-select v-model="addOptions.data.ed_fs_SeriesID" placeholder="系列编号" @change="changeType">
+            <el-option
+              v-for="item in adminEducationCourseList"
+              :key="item.ed_ss_ID"
+              :label="item.ed_ss_Name"
+              :value="item.ed_ss_ID">
+            </el-option>
+            </el-select>
           </el-form-item>
           <el-form-item label="视频编号:" :label-width="formLabelWidth">
-            <el-input v-model="updateObj.ed_fs_VedioID"></el-input>
+            <!--<el-input v-model="updateObj.ed_fs_VedioID"></el-input>-->
+            <el-select v-model="addOptions.data.ed_fs_VedioID" placeholder="视频编号" @change="changeType">
+              <el-option
+                v-for="item in selectVideoInfo"
+                :key="item.ed_vo_ID"
+                :label="item.ed_vo_Title"
+                :value="item.ed_vo_ID">
+              </el-option>
+            </el-select>
           </el-form-item>
           <el-form-item label="第几集:" :label-width="formLabelWidth">
             <el-input v-model="updateObj.ed_fs_Level"></el-input>
@@ -138,11 +177,20 @@
     },
     computed: mapGetters([
       'adminEducationCourse',
+      'adminEducationCourseList',
+       'selectVideoInfo'
     ]),
     created(){
-      this.initData(this.siteNum)
+      this.initData(this.siteNum);
+      this.selectEducationCourseListNum();
+      let admin = JSON.parse(sessionStorage.getItem('admin'));
+      this.addOptions.data.ed_vo_AuthorID =admin.sm_ui_ID;
+      this.initSelectVideoInfo(admin.sm_ui_ID)
     },
     methods: {
+      changeType(){
+
+      },
       //分页
       handleCurrentChange(num){
         this.initData(this.siteNum,num)
@@ -179,8 +227,43 @@
       search(){
         this.initData(this.siteNum)
       },
+      //查询系列编号
+      selectEducationCourseListNum(){
+        let options = {
+          "loginUserID": "huileyou",
+          "loginUserPass": "123",
+          "operateUserID": "",
+          "operateUserName": "",
+          "pcName": "",
+          "ed_ss_ID": '',//系列编号
+          "ed_ss_Name": "",//系列名称
+          "ed_ss_WriteState": "",//连载状态（0连载中1完结)
+          "ed_ss_SeriesImageURL": "",//系列图片
+          "ed_ss_AuthorID": "1",//作者
+
+        }
+        this.isLoading = true;
+        this.$store.dispatch('initEducationCourseList',options)
+
+      },
+      //查询视频
+      initSelectVideoInfo(id){
+        let options = {
+          "loginUserID": "huileyou",
+          "loginUserPass": "123",
+          "operateUserID": "",
+          "operateUserName": "",
+          "pcName": "",
+          "ed_vo_ID":'',//视频编号
+          "ed_vo_AuthorID":id,//作者ID
+          "ed_vo_Type": "",//视频类型(1广告 2微电影 3教育)
+          "ed_vo_PasserID": "",//审核人编码
+        };
+        return this.$store.dispatch('initSelectVideoInfo',options)
+      },
       //添加
       Add(){
+
         this.addDialog= true
       },
       //添加提交
@@ -198,7 +281,7 @@
               type: 'error'
             })
           })
-        this.updateDialog = false;
+        this.addDialog = false;
       },
       //修改
       update(obj){

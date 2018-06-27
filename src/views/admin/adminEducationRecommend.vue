@@ -26,10 +26,12 @@
         style="width: 100%">
         <el-table-column
           label="推荐表编码"
+          align="center"
           prop="ed_re_ID">
         </el-table-column>
         <el-table-column
           label="被推荐的编码"
+          align="center"
           prop="ed_re_PropertiesID">
         </el-table-column>
         <el-table-column
@@ -44,18 +46,20 @@
 
         <el-table-column
           label="推荐名称"
+          align="center"
           prop="ed_re_Name">
         </el-table-column>
         <el-table-column
           label="推荐类别(0视频，1系列)"
+          align="center"
           prop="ed_re_Name">
         </el-table-column>
-        <el-table-column label="操作">
+        <el-table-column label="操作"    align="center">
           <template slot-scope="scope">
             <el-button
               size="mini"
               type="danger"
-              @click="Delete(scope.row.ed_oi_ID)">删除
+              @click="Delete(scope.row.ed_re_ID)">删除
             </el-button>
           </template>
         </el-table-column>
@@ -138,6 +142,7 @@
 
       //删除
       Delete(id){
+        console.log(id)
         let deleteOptions = {
           "loginUserID": "huileyou",
           "loginUserPass": "123",

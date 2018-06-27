@@ -29,7 +29,7 @@ export default {
       this.$router.push({ name:'Login' });
       return
     }
-   // this.initData()
+   this.initData()
   },
   computed: {
     sidebar() {
@@ -47,7 +47,21 @@ export default {
     }
   },
   methods: {
-//     async initData(){
+    async initData(){
+      let options = {
+        "loginUserID": "huileyou",
+        "loginUserPass": "123",
+        "operateUserID": "",
+        "operateUserName": "",
+        "pcName": "",
+        "page": "1",
+        "rows": "10",
+        "ed_te_ID": "",//分类编号
+        "ed_te_Name": "",//分类名称
+        "ed_te_TypeImage": "",//分类图片
+        "ed_te_ParentID": "0",//分类编号父编号
+      };
+      await this.$store.dispatch('initSelectTypeInfo',options)
 //       //推荐类型所有
 //       let options = {
 //         "loginUserID": "huileyou",
@@ -99,7 +113,7 @@ export default {
 // //        }
 // //        await this.$store.dispatch('initAdminIntegralWeight',newOptions)
 //
-//     },
+    },
     handleClickOutside() {
       this.$store.dispatch('CloseSideBar', { withoutAnimation: false })
     }

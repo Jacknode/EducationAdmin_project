@@ -67,18 +67,22 @@
 
         <el-table-column
           label="审核表编号"
+          align="center"
           prop="ed_ve_ID">
         </el-table-column>
         <el-table-column
           label="视频类型"
+          align="center"
           prop="ed_ve_Type">
         </el-table-column>
         <el-table-column
           label="创建时间"
+          align="center"
           prop="ed_ve_CreateTime">
         </el-table-column>
         <el-table-column
           label="类型名称"
+          align="center"
           prop="ed_ve_TypeName">
         </el-table-column>
         <!--<el-table-column label="操作">-->
@@ -94,20 +98,9 @@
 
       <!--添加教育分类-->
 
-      <el-dialog title="添加教育分类" :visible.sync="addDialog">
+      <el-dialog title="添加教育推荐分类" :visible.sync="addDialog">
         <el-form :model="addOptions">
-          <!--<el-form-item label="视频类型:" :label-width="formLabelWidth">-->
-            <!--<el-select v-model="value" placeholder="请选择">-->
-              <!--<el-option-->
-                <!--v-for="item in selectTypeInfo"-->
-                <!--:key="item.ed_te_ID"-->
-                <!--:label="item.ed_te_Name"-->
-                <!--:value="item.ed_te_ID">-->
-              <!--</el-option>-->
-            <!--</el-select>-->
-          <!--</el-form-item>-->
           <el-form-item label="推荐作品编码:" :label-width="formLabelWidth">
-            <!--<el-input v-model='addOptions.data.ed_re_PropertiesID' placeholder="请输入内容" style="width:800px" ></el-input>-->
             <el-select v-model="value" placeholder="推荐类型" @change="changeType">
               <el-option
                 v-for="item in selectVideoInfo"
@@ -117,15 +110,9 @@
               </el-option>
             </el-select>
           </el-form-item>
-          <!--<el-form-item label="教育分类: " :label-width="formLabelWidth">-->
-            <!--<el-input v-model='addOptions.data.ed_te_Name' placeholder="请输入内容" style="width:800px" ></el-input>-->
-          <!--</el-form-item>-->
-
           <el-form-item label="推荐名称:" :label-width="formLabelWidth"  v-show="false">
             <el-input v-model='addOptions.data.ed_ve_Content.ed_re_Name' placeholder="请输入内容" style="width:800px" ></el-input>
           </el-form-item>
-
-
           <el-form-item label="推荐类型: " :label-width="formLabelWidth">
           <el-select v-model="addOptions.data.ed_ve_Content.ed_re_Difference" placeholder="推荐类型">
             <el-option
@@ -142,18 +129,12 @@
             </a>
             <img v-lazy="addOptions.data.ed_ve_Content.ed_re_SeriesImageURL" v-show="addOptions.data.ed_ve_Content.ed_re_SeriesImageURL" width="128" height="80">
           </el-form-item>
-          <!--<el-form-item label="推荐类型: " :label-width="formLabelWidth">-->
-            <!--<el-input v-model='addOptions.data.ed_re_Difference' placeholder="请输入内容" style="width:800px" ></el-input>-->
-          <!--</el-form-item>-->
-
         </el-form>
         <div slot="footer" class="dialog-footer">
           <el-button @click="addDialog = false">取 消</el-button>
           <el-button type="primary" @click="addSubmit">确 定</el-button>
         </div>
-
       </el-dialog>
-
       <!--分页-->
       <div class="block" style="float: right;">
         <el-pagination
@@ -195,7 +176,8 @@
           "operateUserName": "",//操作员名称
           "pcName": "",  //机器码
           "data": {
-            "ed_ve_Type": "1",//视频类型
+
+            "ed_ve_Type": "",//视频类型
             "ed_vo_AuthorID": "",  //作者   申请推荐人编码
             "ed_ve_Content": {  //审核表内容
               "ed_re_PropertiesID": "",//被推荐者编码
@@ -203,11 +185,9 @@
               "ed_re_Name": "",  //推荐名称
               "ed_re_Difference":'',    //添加推荐的是视频还是系列（0视频，1系列）
               'ed_vo_Price':''
-
             }
           }
         }
-
       }
     },
     computed: mapGetters([
@@ -217,7 +197,6 @@
     created(){
       let admin = JSON.parse(sessionStorage.getItem('admin'));
       this.addOptions.data.ed_vo_AuthorID =admin.sm_ui_ID,
-
       this.initSelectVideoInfo(admin.sm_ui_ID).then(()=>{
       })
       this.initData(this.input)
@@ -245,8 +224,6 @@
           }
           return false
         })[0].ed_vo_Price;
-
-
       },
 
 
@@ -264,11 +241,6 @@
                 relove(JSON.parse(data))
               }
             }else{
-             // console.log(xhr.responseText)
-//               if (xhr.responseText) {
-//                 var data = xhr.responseText;
-//                 reject(JSON.parse(data).resultcontent)
-//               }
             }
           }
         })
@@ -315,8 +287,6 @@
         };
         return this.$store.dispatch('initSelectVideoInfo',options)
       },
-
-
       //初始化
       initData(id,page){
         let options = {
@@ -349,7 +319,7 @@
       },
       //新增
       Add(){
-       // console.log('000',this.selectVideoInfo)
+        //console.log('000',this.selectVideoInfo)
       //  this.addOptions.data.ed_ve_Content.ed_ve_Type =this.selectVideoInfo.ed_te_Type,
 
 

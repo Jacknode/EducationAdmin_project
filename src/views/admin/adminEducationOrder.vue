@@ -15,6 +15,7 @@
           </el-form-item>
           <el-form-item>
             <el-button type="primary" @click="search" size="mini">查询</el-button>
+
           </el-form-item>
         </el-form>
       </el-col>
@@ -26,34 +27,31 @@
         style="width: 100%">
         <el-table-column
           label="系列编号"
+          align="center"
           prop="ed_ss_ID">
         </el-table-column>
         <el-table-column
           label="用户编码"
+          align="center"
           prop="ed_oi_UserIF">
         </el-table-column>
         <el-table-column
           label="支付状态"
+          align="center"
           prop="ed_oi_PayState">
+
         </el-table-column>
         <el-table-column
           label="视频和系列的区分"
+          align="center"
           prop="ed_oi_Difference">
         </el-table-column>
-        <el-table-column label="操作">
+        <el-table-column label="操作"  align="center">
           <template slot-scope="scope">
-
-            <el-button
-              size="mini"
-              type="danger"
-              @click="Delete(scope.row.ed_oi_ID)">删除
-            </el-button>
+            <el-button type="success" size="mini" @click="confirmOrder(scope.row.tm_or_OrderID)">确认订单并出单</el-button>
           </template>
         </el-table-column>
       </el-table>
-
-
-
 
       <!--分页-->
       <div class="block" style="float: right;">
@@ -77,15 +75,26 @@
       return {
         total:0,
         siteNum:'',
-
-
-
-      }
+        addDialog:false,
+        addOptions:{
+          "loginUserID": "huileyou",
+          "loginUserPass": "123",
+          "operateUserID": "",
+          "operateUserName": "",
+          "pcName": "",
+          "data": {
+            "ed_ss_ID": "",//系列编号
+            "ed_oi_UserIF": "",//用户编码
+            "ed_oi_AgentID": "",//供应商编码
+            "ed_oi_Price": "",//订单价格
+            "ed_oi_PayState": "",//支付状态（1未支付，2已支付)
+            "ed_oi_Difference": "",//视频和系列的区分（1视频，2系列）
+          }
+        },
+   }
     },
     computed: mapGetters([
       'adminEducationOrder'
-
-
     ]),
     created(){
       this.initData(this.siteNum)
@@ -126,6 +135,9 @@
       search(){
         this.initData(this.siteNum)
       },
+
+      confirmOrder(){},
+
 
 
       //删除

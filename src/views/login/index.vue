@@ -7,14 +7,11 @@
           <svg-icon icon-class="user" />
         </span>
         <el-input type="text" v-model="loginForm.username" auto-complete="off" placeholder="请输入手机号"></el-input>
-        <!--<el-input name="username" type="text" v-model="loginForm.username" autoComplete="on" placeholder="username" />-->
       </el-form-item>
       <el-form-item prop="password">
         <span class="svg-container">
           <svg-icon icon-class="password"></svg-icon>
         </span>
-        <!--<el-input name="password" :type="pwdType" @keyup.enter.native="handleLogin" v-model="loginForm.password" autoComplete="on"-->
-          <!--placeholder="password"></el-input>-->
         <el-input :type="pwdType" v-model="loginForm.password" auto-complete="off" placeholder="请输入密码"></el-input>
           <span class="show-pwd" @click="showPwd"><svg-icon icon-class="eye" /></span>
       </el-form-item>
@@ -23,17 +20,11 @@
           登录
         </el-button>
       </el-form-item>
-      <!--<div class="tips">-->
-        <!--<span style="margin-right:20px;">username: admin</span>-->
-        <!--<span> password: admin</span>-->
-      <!--</div>-->
     </el-form>
   </div>
 </template>
-
 <script>
 import { isvalidUsername } from '@/utils/validate'
-
 export default {
   name: 'login',
   data() {
@@ -84,7 +75,6 @@ export default {
                 });
                 break;
             }
-
           }).catch((err) => {
 
             this.loading = false;
@@ -98,12 +88,9 @@ export default {
   }
 }
 </script>
-
 <style rel="stylesheet/scss" lang="scss" type="text/scss">
 $bg:#2d3a4b;
 $light_gray:#eee;
-
-/* reset element-ui css */
 .login-container {
   .el-input {
     display: inline-block;
@@ -130,9 +117,7 @@ $light_gray:#eee;
     color: #454545;
   }
 }
-
 </style>
-
 <style rel="stylesheet/scss" lang="scss" scoped type="text/scss">
 $bg:#2d3a4b;
 $dark_gray:#889aa4;

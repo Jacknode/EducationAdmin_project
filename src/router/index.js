@@ -51,12 +51,13 @@ export const constantRouterMap = [
     alwaysShow: true,
     meta: {title: 'admin', icon: 'profit'},
     children: [
+      // {
+      //   path: 'adminEducationClassify',
+      //   name: 'AdminEducationClassify',
+      //   component: () => import('@/views/admin/adminEducationClassify'),
+      //   meta: {title: 'adminEducationClassify'}
+      // },
       {
-        path: 'adminEducationClassify',
-        name: 'AdminEducationClassify',
-        component: () => import('@/views/admin/adminEducationClassify'),
-        meta: {title: 'adminEducationClassify'}
-      },{
         path: 'adminEducationAuditVideo',
         name: 'AdminEducationAuditVideo',
         component: () => import('@/views/admin/adminEducationAuditVideo'),
