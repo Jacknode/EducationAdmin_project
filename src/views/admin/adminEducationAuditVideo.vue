@@ -333,6 +333,7 @@
       'selectTypeInfo'
     ]),
     created(){
+      this.initSelectTypeInfo()
       let admin = JSON.parse(sessionStorage.getItem('admin'));
       this.addOptions.data.ed_vo_AuthorID = admin.sm_ui_ID;
       if(admin){
@@ -349,6 +350,21 @@
       }
     },
     methods: {
+
+      initSelectTypeInfo(){
+        let options1 = {
+          "loginUserID": "huileyou",  //惠乐游用户ID
+          "loginUserPass": "123",  //惠乐游用户密码
+          "operateUserID": "",//操作员编码
+          "operateUserName": "",//操作员名称
+          "pcName": "",        //机器码
+          "ed_vt_ID":0
+          , //视频类型
+        };
+        return this.$store.dispatch('initSelectTypeInfo',options1)
+        this.initData(this. siteNum)
+      },
+
       handleChange1(value){
         this.selectedOptions =value;
         this.addOptions.data.ed_ve_Type =this.selectedOptions[value.length-1]
@@ -610,6 +626,7 @@
       },
       //添加审核视频
       Add(){
+        console.log('000',this.selectTypeInfo)
         this.addDialog=true,
         this.uploaNode()
        // this.intTypeData()

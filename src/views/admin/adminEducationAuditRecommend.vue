@@ -197,13 +197,15 @@
     created(){
       let admin = JSON.parse(sessionStorage.getItem('admin'));
       this.addOptions.data.ed_vo_AuthorID =admin.sm_ui_ID,
-      this.initSelectVideoInfo(admin.sm_ui_ID).then(()=>{
-      })
+      this.initSelectVideoInfo(admin.sm_ui_ID),
+
       this.initData(this.input)
 
 
     },
     methods: {
+
+
 
       changeType(val){
         this.addOptions.data.ed_ve_Content.ed_re_Name = this.selectVideoInfo.filter(item=>{
@@ -319,7 +321,7 @@
       },
       //新增
       Add(){
-        //console.log('000',this.selectVideoInfo)
+       console.log('000',this.selectVideoInfo)
       //  this.addOptions.data.ed_ve_Content.ed_ve_Type =this.selectVideoInfo.ed_te_Type,
 
 
