@@ -62,12 +62,21 @@
               <el-form-item label="创建时间:">
                 <span>{{ props.row.ed_ve_Content.ed_vo_CreateTime}}</span>
               </el-form-item>
+
+              <el-form-item label="适合人群:">
+                <span>{{ props.row.ed_ve_Content.ed_vo_Crowd}}</span>
+              </el-form-item>
+              <el-form-item label="学习目标:">
+                <span>{{ props.row.ed_ve_Content.ed_vo_Target}}</span>
+              </el-form-item>
               <el-form-item label="视频简介:">
                 <span>{{ props.row.ed_ve_Content.ed_vo_Introduce}}</span>
               </el-form-item>
               <el-form-item label="视频详情:">
                 <span>{{ props.row.ed_ve_Content.ed_vo_Remark}}</span>
               </el-form-item>
+
+
               <el-form-item label="视频作者:">
                 <span>{{ props.row.ed_ve_Content.ed_vo_AuthorName}}</span>
               </el-form-item>
@@ -179,6 +188,15 @@
             </a>
             <img v-lazy="addOptions.data.ed_ve_Content.ed_vo_TomImageURL" v-show="addOptions.data.ed_ve_Content.ed_vo_TomImageURL" width="128" height="80">
           </el-form-item>
+
+          <el-form-item label="适合人群:" :label-width="formLabelWidth">
+            <el-input v-model="addOptions.data.ed_ve_Content.ed_vo_Crowd" placeholder="适合人群" ></el-input>
+          </el-form-item>
+
+          <el-form-item label="学习目标:" :label-width="formLabelWidth">
+            <el-input v-model="addOptions.data.ed_ve_Content.ed_vo_Target" placeholder="学习目标" ></el-input>
+          </el-form-item>
+
           <el-form-item label="视频简介:" :label-width="formLabelWidth">
             <el-input v-model="addOptions.data.ed_ve_Content.ed_vo_Introduce" placeholder="视频简介" ></el-input>
           </el-form-item>
@@ -232,6 +250,15 @@
             </a>
             <img v-lazy="updateObj.ed_ve_Content.ed_vo_TomImageURL" v-show="updateObj.ed_ve_Content.ed_vo_TomImageURL" width="128" height="80">
           </el-form-item>
+
+          <el-form-item label="适合人群:" :label-width="formLabelWidth">
+            <el-input v-model="updateObj.ed_ve_Content.ed_vo_Crowd" placeholder="适合人群" ></el-input>
+          </el-form-item>
+
+          <el-form-item label="学习目标:" :label-width="formLabelWidth">
+            <el-input v-model="updateObj.ed_ve_Content.ed_vo_Target" placeholder="学习目标" ></el-input>
+          </el-form-item>
+
 
           <el-form-item label="视频简介:" :label-width="formLabelWidth">
             <el-input v-model="updateObj.ed_ve_Content.ed_vo_Introduce" placeholder="视频简介" ></el-input>
@@ -290,6 +317,8 @@
               "ed_vo_Title": "",  //标题
               "ed_vo_ImageURL": "",  //视频图片
               "ed_vo_TomImageURL": "",  //首页大图
+              "ed_vo_Crowd": "",                 //适合人群
+              "ed_vo_Target": "",                //学习目标
               "ed_vo_Introduce": "",  //简介
               "ed_vo_Remark": "",  //详情
               "ed_vo_Price":"",   //视频价格
@@ -321,6 +350,8 @@
               "ed_vo_ImageURL": "",  //视频图片
               "ed_vo_TomImageURL": "",  //首页大图
               "ed_vo_CreateTime": "",  //创建时间
+              "ed_vo_Crowd": "",                 //适合人群
+              "ed_vo_Target": "",                //学习目标
               "ed_vo_Introduce": "",  //简介
               "ed_vo_Remark": "",  //详情
             }

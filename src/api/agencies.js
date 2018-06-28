@@ -6,7 +6,7 @@ import axios from 'axios'
 //初始化供应商信息
 export function adminSupplier(data) {
   return axios({
-    url: 'http://192.168.3.4/AgentInfo/Select',
+    url: 'http://192.168.3.50/AgentInfo/Select',
     method: 'post',
     data: JSON.stringify(data),
     headers: {
