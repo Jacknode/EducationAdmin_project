@@ -42,12 +42,12 @@
           prop="ed_te_ParentName">
         </el-table-column>
         <!--<el-table-column-->
-          <!--label="分类图片"-->
-          <!--prop="ed_te_TypeImage">-->
+        <!--label="分类图片"-->
+        <!--prop="ed_te_TypeImage">-->
         <!--</el-table-column>-->
         <!--<el-table-column-->
-          <!--label="分类编号父编号"-->
-          <!--prop="ed_te_ParentID">-->
+        <!--label="分类编号父编号"-->
+        <!--prop="ed_te_ParentID">-->
         <!--</el-table-column>-->
 
         <el-table-column label="操作" align="center" style="width: 1000px">
@@ -70,29 +70,29 @@
       <el-dialog title="添加教育分类" :visible.sync="addDialog">
         <el-form :model="addOptions" >
           <el-form-item label="教育父编码: " :label-width="formLabelWidth">
-          <el-cascader
-            :options="selectTypeInfo"
-            v-model="selectedOptions"
-            :show-all-levels="false"
-            @change="handleChange1"
-          >
-          </el-cascader>
+            <el-cascader
+              :options="selectTypeInfo"
+              v-model="selectedOptions"
+              :show-all-levels="false"
+              @change="handleChange1"
+            >
+            </el-cascader>
           </el-form-item>
 
-         <!--<el-form-item label="教育父编码:" :label-width="formLabelWidth">-->
-           <!--<el-select v-model="addOptions.data.ed_te_ParentName" placeholder="请选择" @change="changeType">-->
-             <!--<el-option-->
-               <!--v-for="item in selectTypeInfo"-->
-               <!--:key="item.ed_te_ID"-->
-               <!--:label="item.ed_te_Name"-->
-               <!--:value="item.ed_te_Name">-->
-             <!--</el-option>-->
-           <!--</el-select>-->
-         <!--</el-form-item>-->
+          <!--<el-form-item label="教育父编码:" :label-width="formLabelWidth">-->
+          <!--<el-select v-model="addOptions.data.ed_te_ParentName" placeholder="请选择" @change="changeType">-->
+          <!--<el-option-->
+          <!--v-for="item in selectTypeInfo"-->
+          <!--:key="item.ed_te_ID"-->
+          <!--:label="item.ed_te_Name"-->
+          <!--:value="item.ed_te_Name">-->
+          <!--</el-option>-->
+          <!--</el-select>-->
+          <!--</el-form-item>-->
 
           <el-form-item label="教育分类: " :label-width="formLabelWidth">
-           <el-input v-model='addOptions.data.ed_te_Name' placeholder="请输入内容" style="width:800px" ></el-input>
-            </el-form-item>
+            <el-input v-model='addOptions.data.ed_te_Name' placeholder="请输入内容" style="width:800px" ></el-input>
+          </el-form-item>
 
         </el-form>
         <div slot="footer" class="dialog-footer">
@@ -158,15 +158,13 @@
             "ed_te_ParentID": 0,//分类编号父编号
             'ed_te_ParentName':''
           }
-
         },
-     }
+      }
     },
     computed: mapGetters([
       'adminEducationClassify',
       'adminEducationClassifyList',
       'selectTypeInfo'
-
     ]),
     created(){
       this.initSelectTypeInfo().then(()=>{
@@ -177,7 +175,6 @@
       handleChange1(value){
         this.selectedOptions =value;
         //console.log(this.selectedOptions[value.length-1])
-
       },
       initSelectTypeInfo(){
         let options = {
@@ -195,7 +192,6 @@
         };
         return this.$store.dispatch('initSelectTypeInfo',options)
       },
-
       //分页
       handleCurrentChange(num) {
         this.initData(this. siteNum,num)
@@ -216,16 +212,15 @@
           "rows": 5//条数
         };
         this.$store.dispatch("initAdminEducationClassify", options)
-          .then((total) => {
-            this.total = total;
-          }, (err) => {
-            this.$notify({
-              message: err,
-              type: "error"
-            });
+        .then((total) => {
+          this.total = total;
+        }, (err) => {
+          this.$notify({
+            message: err,
+            type: "error"
           });
+        });
       },
-
       //教育分类查询
       search(){
         this.initData( this. siteNum)
@@ -233,32 +228,29 @@
       //添加
       Add(){
         this.addDialog=true
-
       },
-
       //添加提交
       addSubmit() {
         this.$store.dispatch('addAdminEducationClassify', this.addOptions)
-          .then((suc) => {
-            this.$notify({
-              message: suc,
-              type: 'success'
-            });
-            this.initData(this. siteNum)//调用初始化
-          }, err => {
-            this.$notify({
-              message: err,
-              type: 'error'
-            });
+        .then((suc) => {
+          this.$notify({
+            message: suc,
+            type: 'success'
           });
+          this.initData(this. siteNum)//调用初始化
+        }, err => {
+          this.$notify({
+            message: err,
+            type: 'error'
+          });
+        });
         this.addDialog = false;
       },
-
       //修改
       update(obj){
-      this.updateObj=obj
+        this.updateObj=obj
         this.updateDialog=true
-      //  this.$store.commit('setTranstionFalse');
+        //  this.$store.commit('setTranstionFalse');
       },
       //修改提交
       updateSubmit() {
@@ -271,18 +263,18 @@
           "data": this.updateObj,
         };
         this.$store.dispatch('updateAdminEducationClassify',updateOptions )
-          .then((suc) => {
-            this.$notify({
-              message: suc,
-              type: 'success'
-            });
-            this.initData( this. siteNum)
-          }, err => {
-            this.$notify({
-              message: err,
-              type: 'error'
-            });
+        .then((suc) => {
+          this.$notify({
+            message: suc,
+            type: 'success'
           });
+          this.initData( this. siteNum)
+        }, err => {
+          this.$notify({
+            message: err,
+            type: 'error'
+          });
+        });
         this.updateDialog = false;
       },
       //删除
@@ -298,18 +290,18 @@
           }
         }
         this.$store.dispatch('DeleteAdminEducationClassify',deleteOptions)
-          .then(suc => {
-            this.$notify({
-              message: suc,
-              type: 'success'
-            });
-            this.initData( this. siteNum)
-          }, err => {
-            this.$notify({
-              message: err,
-              type: 'error'
-            });
+        .then(suc => {
+          this.$notify({
+            message: suc,
+            type: 'success'
           });
+          this.initData( this. siteNum)
+        }, err => {
+          this.$notify({
+            message: err,
+            type: 'error'
+          });
+        });
       },
     },
   }
