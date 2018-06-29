@@ -31,14 +31,14 @@
           prop="ed_fs_ID">
         </el-table-column>
         <el-table-column
-          label="系列编号"
+          label="系列名称"
           align="center"
-          prop="ed_fs_SeriesID">
+          prop="ed_fs_SeriesIDName">
         </el-table-column>
         <el-table-column
-          label="视频编号"
+          label="视频名称"
           align="center"
-          prop="ed_fs_VedioID">
+          prop="ed_fs_VedioIDName">
         </el-table-column>
         <el-table-column
           label="第几集"
@@ -204,7 +204,9 @@
           "operateUserName": "",
           "pcName": "",
           "ed_fs_ID": id,//视频系列编号
+          "ed_fs_SeriesIDName": "",
           "ed_fs_SeriesID": "",//系列编号
+          "ed_fs_VedioIDName": "",
           "ed_fs_VedioID": "",//视频编号
           "ed_fs_Level": "",//第几集（整数）
           "page":page?page:1,//页码编号

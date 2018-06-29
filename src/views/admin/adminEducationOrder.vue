@@ -48,10 +48,11 @@
         </el-table-column>
         <el-table-column label="操作"  align="center">
           <template slot-scope="scope">
-            <el-button type="success" size="mini" @click="confirmOrder(scope.row.tm_or_OrderID)">确认订单并出单</el-button>
+            <el-button type="success" size="mini" @click="confirmOrder(scope.row.ed_oi_ID)">确认订单并出单</el-button>
           </template>
         </el-table-column>
       </el-table>
+
 
       <!--分页-->
       <div class="block" style="float: right;">
@@ -136,7 +137,32 @@
         this.initData(this.siteNum)
       },
 
-      confirmOrder(){},
+      confirmOrder(id){
+        let confirmOrderOptions = {
+          "loginUserID": "huileyou",
+          "loginUserPass": "123",
+          "operateUserID": "",
+          "operateUserName": "",
+          "pcName": "",
+          "data": {
+            "ed_oi_ID": id,//标识
+            "ed_oi_PayState": "1",//支付状态（1未支付，2已支付)
+          }
+        }
+        this.$store.dispatch('adminEducationConfirmOrder',confirmOrderOptions)
+          .then(suc => {
+            this.$notify({
+              message: suc,
+              type: 'success'
+            });
+            this.initData(this.siteNum)
+          }, err => {
+            this.$notify({
+              message: err,
+              type: 'error'
+            });
+          });
+      },
 
 
 

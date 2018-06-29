@@ -176,7 +176,7 @@
     methods: {
       handleChange1(value){
         this.selectedOptions =value;
-        console.log(this.selectedOptions[value.length-1])
+        //console.log(this.selectedOptions[value.length-1])
 
       },
       initSelectTypeInfo(){

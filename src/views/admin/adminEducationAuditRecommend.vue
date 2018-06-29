@@ -321,7 +321,7 @@
       },
       //新增
       Add(){
-       console.log('000',this.selectVideoInfo)
+      // console.log('000',this.selectVideoInfo)
       //  this.addOptions.data.ed_ve_Content.ed_ve_Type =this.selectVideoInfo.ed_te_Type,
 
 

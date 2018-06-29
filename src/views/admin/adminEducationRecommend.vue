@@ -142,7 +142,7 @@
 
       //删除
       Delete(id){
-        console.log(id)
+
         let deleteOptions = {
           "loginUserID": "huileyou",
           "loginUserPass": "123",

@@ -186,13 +186,14 @@ export default {
 
   initAdminEducationCourse({commit}, data) {
     return new Promise(function (relove, reject) {
-      axios.post(getNewStr + '/EdFilmSeries/Select', JSON.stringify(data), {
+      axios.post(getNewStr + '/EdFilmSeries/GetSelect', JSON.stringify(data), {
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded'
         }
       })
         .then(data => {
           var data = data.data;
+          console.log('000',data)
           if (Number(data.resultcode) == 200) {
             commit('initAdminEducationCourse',data.data.reverse());
             relove(Number(data.totalrows))
@@ -293,12 +294,11 @@ export default {
     })
   },
   /**
-   * 删除订单
+   * 确认订单
    */
-
-  deleteAdminEducationOrder(store,data){
+  adminEducationConfirmOrder(store,data){
     return new Promise((relove, reject) => {
-      axios.post(getNewStr + '/EdOrderInfo/Delete',JSON.stringify(data),{
+      axios.post(getNewStr + '/EdOrderInfo/Update',JSON.stringify(data),{
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded'
         }
@@ -312,6 +312,27 @@ export default {
       })
     })
   },
+
+  /**
+   * 删除订单
+   */
+
+  // deleteAdminEducationOrder(store,data){
+  //   return new Promise((relove, reject) => {
+  //     axios.post(getNewStr + '/EdOrderInfo/Delete',JSON.stringify(data),{
+  //       headers: {
+  //         'Content-Type': 'application/x-www-form-urlencoded'
+  //       }
+  //     }).then(data=>{
+  //       var data = data.data;
+  //       if(Number(data.resultcode)==200){
+  //         relove(data.resultcontent)
+  //       }else{
+  //         reject(data.resultcontent)
+  //       }
+  //     })
+  //   })
+  // },
   /**
    * 教育推荐初始化
    */
@@ -433,5 +454,7 @@ export default {
       })
     })
   },
+
+
 
 }

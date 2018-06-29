@@ -657,7 +657,6 @@
       },
       //添加审核视频
       Add(){
-        console.log('000',this.selectTypeInfo)
         this.addDialog=true,
         this.uploaNode()
        // this.intTypeData()
