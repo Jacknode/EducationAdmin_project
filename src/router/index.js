@@ -44,51 +44,23 @@ export const constantRouterMap = [
    * 教育管理
    */
   {
-    path: '/admin',
+    path: '/educationSupplier',
     component: Layout,
-    name: 'Admin',
+    name: 'EducationSupplier',
     //hidden:true,
     alwaysShow: true,
-    meta: {title: 'admin', icon: 'profit'},
+    meta: {title: 'educationSupplier', icon: 'profit'},
     children: [
-      // {
-      //   path: 'adminEducationClassify',
-      //   name: 'AdminEducationClassify',
-      //   component: () => import('@/views/admin/adminEducationClassify'),
-      //   meta: {title: 'adminEducationClassify'}
-      // },
       {
-        path: 'adminEducationAuditVideo',
-        name: 'AdminEducationAuditVideo',
-        component: () => import('@/views/admin/adminEducationAuditVideo'),
-        meta: {title: 'adminEducationAuditVideo'}
-      },{
-        path: 'adminEducationAuditRecommend',
-        name: 'AdminEducationAuditRecommend',
-        component: () => import('@/views/admin/adminEducationAuditRecommend'),
-        meta: {title: 'adminEducationAuditRecommend'}
-      },{
-        path: 'adminEducationCourseList',
-        name: 'AdminEducationCourseList',
-        component: () => import('@/views/admin/adminEducationCourseList'),
-        meta: {title: 'adminEducationCourseList'}
-      },
-      {
-        path: 'adminEducationCourse',
-        name: 'AdminEducationCourse',
-        component: () => import('@/views/admin/adminEducationCourse'),
-        meta: {title: 'adminEducationCourse'}
-      }, {
-        path: 'adminEducationOrder',
-        name: 'AdminEducationOrder',
-        component: () => import('@/views/admin/adminEducationOrder'),
-        meta: {title: 'adminEducationOrder'}
-      },
-      {
-        path: 'adminEducationRecommend',
-        name: 'AdminEducationRecommend',
-        component: () => import('@/views/admin/adminEducationRecommend'),
-        meta: {title: 'adminEducationRecommend'}
+        path: 'educationVideo',
+        name: 'EducationVideo',
+        component: () => import('@/views/educationSupplier/educationVideo'),
+        meta: {title: 'educationVideo'}
+      },  {
+        path: 'educationPersonalInfo',
+        name: 'EducationPersonalInfo',
+        component: () => import('@/views/educationSupplier/educationPersonalInfo'),
+        meta: {title: 'educationPersonalInfo'}
       },
     ]
   },

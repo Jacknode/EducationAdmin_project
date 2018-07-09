@@ -5,8 +5,8 @@ import user from './modules/user'
 import tagsView from './modules/tagsView'
 import permission from './modules/permission'
 import getters from './getters'
-import admin from './admin'
 
+import educationSupplier from './educationSupplier'
 
 Vue.use(Vuex)
 
@@ -16,7 +16,8 @@ const store = new Vuex.Store({
     permission,
     app,
     user,
-    admin
+
+    educationSupplier
 
 
 

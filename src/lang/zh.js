@@ -3,17 +3,13 @@ export default {
     dashboard: '首页',
     introduction: '简述',
 
-    admin:'教育管理',
-    adminEducationClassify:'教育分类',
-    adminEducationComment:'教育评论',
-    adminEducationVideoScore:'教育视频评分',
-    adminEducationCourseList:'教育课程目录',
-    adminEducationAuditVideo:'教育视频审核',
-    adminEducationOrder:'教育订单',
-    adminEducationAuditRecommend:'教育审核推荐',
-    adminEducationVideoSeries:'教育视频系列',
-    adminEducationCourse:'教育课程',
-    adminEducationRecommend:'教育推荐',
+    educationSupplier:'供应商教育管理',
+    educationVideo:'教育视频管理',
+    educationPersonalInfo:'教育个人信息管理',
+
+
+
+
 
 
 

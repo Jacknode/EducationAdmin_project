@@ -3,9 +3,10 @@
  */
 export default  {
 
-  initAdminEducationAuditVideo(state, data) {
+  initAdminEducationVideo(state, data) {
     state.adminEducationAuditList = data;
   },
+
   initSelectTypeInfo(state,data){
     state.selectTypeInfo = data;
   },
@@ -27,8 +28,10 @@ export default  {
   },
   adminEducationAuditRecommend(state,data){
     state.adminEducationAuditRecommend = data;
+  },
+  initEducationPersonalInfo(state,data){
+    state.educationPersonalInfoList = data;
   }
-
 
 }
 

@@ -21,18 +21,9 @@ export default {
     adPosition:'adPosition',
     adApply:'adApply',
 
-    admin:'Admin',
-    adminEducationClassify:'AdminEducationClassify',
-    adminEducationComment:'AdminEducationComment',
-    adminEducationVideoScore:'AdminEducationVideoScore',
-    adminEducationCourseList:'AdminEducationCourseList',
-
-    adminEducationAuditVideo:'AdminEducationAuditVideo',
-    adminEducationOrder:'AdminEducationOrder',
-    adminEducationAuditRecommend:'AdminEducationAuditRecommend',
-    adminEducationVideoSeries:'AdminEducationVideoSeries',
-    adminEducationCourse:'AdminEducationCourse',
-    adminEducationRecommend:'AdminEducationRecommend',
+    educationSupplier:'educationSupplier',
+    educationVideo:'educationVideo',
+    educationPersonalInfo:'educationPersonalInfo',
 
 
 

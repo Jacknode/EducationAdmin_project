@@ -1,11 +1,11 @@
 <template>
   <div>
     <section id="wrap">
-      <h1 class="userClass">教育视频审核</h1>
+      <h1 class="userClass">教育视频</h1>
       <el-col :span="24" class="formSearch">
         <el-form :inline="true">
           <el-form-item>
-            <span>审核视频筛选:</span>
+            <span>视频筛选:</span>
           </el-form-item>
           <el-form-item>
             <el-input
@@ -29,66 +29,64 @@
         v-loading="isLoading"
         style="width: 100%">
         <el-table-column type="expand">
-
           <template slot-scope="props">
             <el-form label-position="left" inline class="demo-table-expand">
               <el-form-item label="视频编号:">
-                <span>{{ props.row.ed_ve_Content.ed_vo_ID }}</span>
+                <span>{{ props.row.ed_vo_ID }}</span>
               </el-form-item>
               <el-form-item label="视频时长:">
-                <span>{{ props.row.ed_ve_Content.ed_vo_Time }}秒</span>
+                <span>{{ props.row.ed_vo_Time }}秒</span>
               </el-form-item>
               <el-form-item label="视频大小:">
-                <span>{{ props.row.ed_ve_Content.ed_vo_Size}}KB</span>
+                <span>{{ props.row.ed_vo_Size}}KB</span>
               </el-form-item>
               <el-form-item label="文件扩展名:">
-                <span>{{ props.row.ed_ve_Content.ed_vo_Extend}}</span>
+                <span>{{ props.row.ed_vo_Extend}}</span>
               </el-form-item>
               <el-form-item label="视频文件地址:">
-                <span>{{ props.row.ed_ve_Content.ed_vo_FileURL}}</span>
+                <video :src="props.row.ed_vo_FileURL" width="320" height="240" controls="controls"></video>
               </el-form-item>
               <el-form-item label="作者ID:">
-                <span>{{ props.row.ed_ve_Content.ed_vo_AuthorID}}</span>
+                <span>{{ props.row.ed_vo_AuthorID}}</span>
               </el-form-item>
               <el-form-item label="视频标题:">
-                <span>{{ props.row.ed_ve_Content.ed_vo_Title}}</span>
+                <span>{{ props.row.ed_vo_Title}}</span>
               </el-form-item>
               <el-form-item label="视频图片:">
-                <span>{{ props.row.ed_ve_Content.ed_vo_ImageURL}}</span>
+                <img v-lazy="props.row.ed_vo_ImageURL" width="120" height="80" >
+                <!--<span>{{ props.row.ed_ve_Content.ed_vo_ImageURL}}</span>-->
               </el-form-item>
               <el-form-item label="首页大图:">
-                <span>{{ props.row.ed_ve_Content.ed_vo_TomImageURL}}</span>
+                <img v-lazy="props.row.ed_vo_ImageURL" width="120" height="80" >
+                <!--<span>{{ props.row.ed_ve_Content.ed_vo_TomImageURL}}</span>-->
               </el-form-item>
               <el-form-item label="创建时间:">
-                <span>{{ props.row.ed_ve_Content.ed_vo_CreateTime}}</span>
+                <span>{{ props.row.ed_vo_CreateTime}}</span>
               </el-form-item>
-
               <el-form-item label="适合人群:">
-                <span>{{ props.row.ed_ve_Content.ed_vo_Crowd}}</span>
+                <span>{{ props.row.ed_vo_Crowd}}</span>
               </el-form-item>
               <el-form-item label="学习目标:">
-                <span>{{ props.row.ed_ve_Content.ed_vo_Target}}</span>
+                <span>{{ props.row.ed_vo_Target}}</span>
               </el-form-item>
               <el-form-item label="视频简介:">
-                <span>{{ props.row.ed_ve_Content.ed_vo_Introduce}}</span>
+                <span>{{ props.row.ed_vo_Introduce}}</span>
               </el-form-item>
               <el-form-item label="视频详情:">
-                <span>{{ props.row.ed_ve_Content.ed_vo_Remark}}</span>
+                <span>{{ props.row.ed_vo_Remark}}</span>
               </el-form-item>
-
-
               <el-form-item label="视频作者:">
-                <span>{{ props.row.ed_ve_Content.ed_vo_AuthorName}}</span>
+                <span>{{ props.row.ed_vo_AuthorName}}</span>
               </el-form-item>
 
               <!--<el-form-item label="产品标题:">-->
-                <!--<el-popover-->
-                  <!--ref="popover1"-->
-                  <!--placement="top-start"-->
-                  <!--trigger="hover"-->
-                  <!--:content="props.row.ta_tg_Title">-->
-                <!--</el-popover>-->
-                <!--<el-button v-popover:popover1 size="small">移入查看</el-button>-->
+              <!--<el-popover-->
+              <!--ref="popover1"-->
+              <!--placement="top-start"-->
+              <!--trigger="hover"-->
+              <!--:content="props.row.ta_tg_Title">-->
+              <!--</el-popover>-->
+              <!--<el-button v-popover:popover1 size="small">移入查看</el-button>-->
               <!--</el-form-item>-->
 
 
@@ -97,39 +95,35 @@
         </el-table-column>
 
         <el-table-column
-          label="审核表编号"
+          label="视频编码"
           align="center"
-          prop="ed_ve_ID">
+          prop="ed_vo_ID">
         </el-table-column>
         <el-table-column
-          label="视频类型"
+          label="作者"
           align="center"
-          prop="ed_ve_Type">
+          prop="ed_vo_AuthorName">
+        </el-table-column>
+
+        <el-table-column
+          align="center"
+          label="视频名称"
+          prop="ed_vo_Title">
         </el-table-column>
         <el-table-column
           label="审核创建时间"
           align="center"
-          prop="ta_tg_CreateDateTime">
+          prop="ed_vo_CreateTime">
           <template slot-scope="props">
             <span>{{props.row.ta_tg_CreateDateTime | getUseTime}}</span>
           </template>
         </el-table-column>
-        <el-table-column
-          align="center"
-          label="视频类型名称"
-          prop="ed_ve_TypeName">
-        </el-table-column>
-
         <el-table-column label="操作"   align="center">
           <template slot-scope="scope">
             <el-button
               size="mini"
-              @click="update(scope.row)">修改
-            </el-button>
-            <el-button
-              size="mini"
               type="danger"
-              @click="Delete(scope.row.ed_ve_ID)">删除
+              @click="Delete(scope.row.ed_vo_ID)">删除
             </el-button>
 
           </template>
@@ -152,15 +146,15 @@
 
 
           <!--<el-form-item label="视频类型:" :label-width="formLabelWidth">-->
-              <!--<el-select v-model="value" placeholder="请选择">-->
-                <!--<el-option-->
-                  <!--v-for="item in selectTypeInfo"-->
-                  <!--:key="item.ed_te_ID"-->
-                  <!--:label="item.ed_te_Name"-->
-                  <!--:value="item.ed_te_ID">-->
-                <!--</el-option>-->
-              <!--</el-select>-->
-            <!--</el-form-item>-->
+          <!--<el-select v-model="value" placeholder="请选择">-->
+          <!--<el-option-->
+          <!--v-for="item in selectTypeInfo"-->
+          <!--:key="item.ed_te_ID"-->
+          <!--:label="item.ed_te_Name"-->
+          <!--:value="item.ed_te_ID">-->
+          <!--</el-option>-->
+          <!--</el-select>-->
+          <!--</el-form-item>-->
 
           <el-form-item label="请选择视频:" :label-width="formLabelWidth">
             <a href="javascript:;" class="file">选择视频
@@ -210,70 +204,6 @@
         </div>
       </el-dialog>
 
-      <!--修改-->
-
-      <el-dialog title="修改审核视频" :visible.sync="updateDialog">
-        <el-form :model="updateObj">
-          <el-form-item label="视频类型:" :label-width="formLabelWidth">
-            <el-select v-model="updateObj.ed_ve_Type" placeholder="请选择">
-              <el-option
-                v-for="item in selectTypeInfo"
-                :key="item.ed_te_ID"
-                :label="item.ed_te_Name"
-                :value="item.ed_te_ID">
-              </el-option>
-            </el-select>
-          </el-form-item>
-
-          <el-form-item label="上传视频:" :label-width="formLabelWidth">
-            <a href="javascript:;" class="file">选择视频
-              <input type="file" name="" ref="updateFilm" multiple>
-            </a><br/>
-            <video id="addVideo1" :src="updateVideo"  width="320" height="240" controls="controls"></video>
-          </el-form-item>
-          <el-form-item size="large" :label-width="formLabelWidth">
-            <el-button type="primary" size="mini" @click="uploadFileUpdate">立即上传</el-button>
-          </el-form-item>
-
-          <el-form-item label="标题:" :label-width="formLabelWidth">
-            <el-input v-model="updateObj.ed_ve_Content.ed_vo_Title" placeholder="标题" ></el-input>
-          </el-form-item>
-          <el-form-item label="视频图片:" :label-width="formLabelWidth">
-            <a href="javascript:;" class="file">视频图片
-              <input type="file" name="" ref="upload3" accept="image/*" multiple>
-            </a>
-            <img v-lazy="updateObj.ed_ve_Content.ed_vo_ImageURL" v-show="updateObj.ed_ve_Content.ed_vo_ImageURL" width="128" height="80">
-          </el-form-item>
-          <el-form-item label="首页大图:" :label-width="formLabelWidth">
-            <a href="javascript:;" class="file">首页大图
-              <input type="file" name="" ref="upload4" accept="image/*" multiple>
-            </a>
-            <img v-lazy="updateObj.ed_ve_Content.ed_vo_TomImageURL" v-show="updateObj.ed_ve_Content.ed_vo_TomImageURL" width="128" height="80">
-          </el-form-item>
-
-          <el-form-item label="适合人群:" :label-width="formLabelWidth">
-            <el-input v-model="updateObj.ed_ve_Content.ed_vo_Crowd" placeholder="适合人群" ></el-input>
-          </el-form-item>
-
-          <el-form-item label="学习目标:" :label-width="formLabelWidth">
-            <el-input v-model="updateObj.ed_ve_Content.ed_vo_Target" placeholder="学习目标" ></el-input>
-          </el-form-item>
-
-
-          <el-form-item label="视频简介:" :label-width="formLabelWidth">
-            <el-input v-model="updateObj.ed_ve_Content.ed_vo_Introduce" placeholder="视频简介" ></el-input>
-          </el-form-item>
-          <el-form-item label="视频详情:" :label-width="formLabelWidth">
-            <el-input v-model="updateObj.ed_ve_Content.ed_vo_Remark" placeholder="视频详情" ></el-input>
-          </el-form-item>
-
-        </el-form>
-        <div slot="footer" class="dialog-footer">
-          <el-button @click="updateDialog = false">取 消</el-button>
-          <el-button type="primary" @click="updateSubmit">确 定</el-button>
-        </div>
-      </el-dialog>
-
       <!--分页-->
       <div class="block" style="float: right;">
         <el-pagination
@@ -295,7 +225,6 @@
     name: '',
     data(){
       return {
-
         input:'',
         value: '',
         total:0,
@@ -306,24 +235,24 @@
         updateFilm: '',
         addDialog:false,
         updateObj:{
-
-            "ed_ve_ID": "",  //审核表编号
-            "ed_ve_Type": "",//视频类型
-            "ed_ve_Content": {  //审核表内容
-              "ed_vo_Time": "",  //时长（秒）
-              "ed_vo_Size": "",  //大小（MB）
-              "ed_vo_Extend": "",  //文件扩展名
-              "ed_vo_FileURL": "",  //文件地址
-              "ed_vo_Title": "",  //标题
-              "ed_vo_ImageURL": "",  //视频图片
-              "ed_vo_TomImageURL": "",  //首页大图
-              "ed_vo_Crowd": "",                 //适合人群
-              "ed_vo_Target": "",                //学习目标
-              "ed_vo_Introduce": "",  //简介
-              "ed_vo_Remark": "",  //详情
-              "ed_vo_Price":"",   //视频价格
-
-          }
+          "ed_vo_ID":'',
+          "ed_vo_Time": '',
+          "ed_vo_Size": '',
+          "ed_vo_Extend": "",
+          "ed_vo_FileURL": "",
+          "ed_vo_AuthorID": '',
+          "ed_te_Type": '',
+          "ed_vo_Title": "",
+          "ed_vo_ImageURL": "",
+          "ed_vo_TomImageURL": "",
+          "ed_vo_CreateTime": "",
+          "ed_vo_PasserID": '',
+          "ed_vo_ValidateTime": "",
+          "ed_vo_Introduce": "",
+          "ed_vo_Remark": "",
+          "ed_vo_Crowd": "",
+          "ed_vo_Target": "",
+          "ed_vo_Recommend": ''
 
         },
         addVideoSrc:'',
@@ -338,10 +267,10 @@
           "operateUserName": "",//操作员名称
           "pcName": "",  //机器码
           "data": {
-            "ed_ve_Type": '1',//视频类型
+            "ed_ve_Type": "",//视频类型
             "ed_vo_AuthorID": "",  //作者
             "ed_ve_Content": {  //审核表内容
-              "ed_vo_ID": "",//视频编号（添加视频时传空，修改视频时传入视频编号）
+              // "ed_vo_ID": "",//视频编号（添加视频时传空，修改视频时传入视频编号）
               "ed_vo_Time": "",  //时长（秒）
               "ed_vo_Size": "",  //大小（MB）
               "ed_vo_Extend": "",  //文件扩展名
@@ -349,13 +278,13 @@
               "ed_vo_Title": "",  //标题
               "ed_vo_ImageURL": "",  //视频图片
               "ed_vo_TomImageURL": "",  //首页大图
-              "ed_vo_CreateTime": "",  //创建时间
+              "ed_vo_Introduce": "",                           //简介
+              "ed_vo_Remark": "",                        //详情
               "ed_vo_Crowd": "",                 //适合人群
-              "ed_vo_Target": "",                //学习目标
-              "ed_vo_Introduce": "",  //简介
-              "ed_vo_Remark": "",  //详情
+              "ed_vo_Target": "",                      //学习目标
             }
           }
+
         },
       }
     },
@@ -366,11 +295,13 @@
     created(){
       this.initSelectTypeInfo()
       let admin = JSON.parse(sessionStorage.getItem('admin'));
+      console.log(admin)
       this.addOptions.data.ed_vo_AuthorID = admin.sm_ui_ID;
+      this.addOptions.data.ed_vo_AuthorName = admin.sm_ui_Name;
+
       if(admin){
         this.admin = admin;
         this.initData(this.input)
-
       }else{
         this.$notify({
           message: '请先登录@！',
@@ -381,7 +312,6 @@
       }
     },
     methods: {
-
       initSelectTypeInfo(){
         let options1 = {
           "loginUserID": "huileyou",  //惠乐游用户ID
@@ -395,7 +325,6 @@
         return this.$store.dispatch('initSelectTypeInfo',options1)
         this.initData(this. siteNum)
       },
-
       handleChange1(value){
         this.selectedOptions =value;
         this.addOptions.data.ed_ve_Type =this.selectedOptions[value.length-1]
@@ -422,7 +351,6 @@
       uploaNode() {
         this.addOptions.data.ed_ve_Content.ed_vo_FileURL= '';
         setTimeout(() => {
-
           //添加图片
           if (this.$refs.upload1) {
             this.addOptions.data.ed_ve_Content.ed_vo_ImageURL= '';
@@ -447,10 +375,6 @@
             this.addOptions.data.ed_ve_Content.ed_vo_TomImageURL= '';
             this.$refs.upload2.addEventListener('change', data => {
               for (var i = 0; i < this.$refs.upload1.files.length; i++) {
-                // this.uploadImg(this.$refs.upload1.files[i]).then(data => {
-                //   this.$store.dispatch('hotelUploadAdminImgs', {
-                //     imageData: data
-                //   })
                 this.uploadToOSS(this.$refs.upload2.files[i])
                   .then(data => {
                     if (data) {
@@ -462,55 +386,6 @@
                       });
                     }
                   })
-
-              }
-            })
-           }
-           //修改图片
-          if (this.$refs.upload3) {
-            this.updateObj.ed_ve_Content.ed_vo_ImageURL= '';
-            this.$refs.upload3.addEventListener('change', data => {
-              for (var i = 0; i < this.$refs.upload3.files.length; i++) {
-                // this.uploadImg(this.$refs.upload1.files[i]).then(data => {
-                //   this.$store.dispatch('hotelUploadAdminImgs', {
-                //     imageData: data
-                //   })
-                this.uploadToOSS(this.$refs.upload3.files[i])
-                  .then(data => {
-                    if (data) {
-                      this.updateObj.ed_ve_Content.ed_vo_ImageURL = data.data;
-                    } else {
-                      this.$notify({
-                        message: '图片地址不存在!',
-                        type: 'error'
-                      });
-                    }
-                  })
-
-              }
-            })
-          }
-          //修改图片
-          if (this.$refs.upload4) {
-            this.updateObj.ed_ve_Content.ed_vo_TomImageURL= '';
-            this.$refs.upload4.addEventListener('change', data => {
-              for (var i = 0; i < this.$refs.upload4.files.length; i++) {
-                // this.uploadImg(this.$refs.upload1.files[i]).then(data => {
-                //   this.$store.dispatch('hotelUploadAdminImgs', {
-                //     imageData: data
-                //   })
-                this.uploadToOSS(this.$refs.upload4.files[i])
-                  .then(data => {
-                    if (data) {
-                      this.updateObj.ed_ve_Content.ed_vo_TomImageURL = data.data;
-                    } else {
-                      this.$notify({
-                        message: '图片地址不存在!',
-                        type: 'error'
-                      });
-                    }
-                  })
-
               }
             })
           }
@@ -518,7 +393,7 @@
       },
       //添加上传视频
       uploadFile() {
-      this.addVideoSrc='';
+        this.addVideoSrc='';
         var fd = new FormData();
         if(this.$refs.upload.files[0]){
           //获取文件
@@ -530,7 +405,6 @@
           var str =this.$refs.upload.files[0].name;
           //获取文件名
           this.addOptions.data.ed_ve_Content.ed_vo_Extend=str.split(".")[1];
-
           fd.append("fileToUpload",this.$refs.upload.files[0]);
           var xhr = new XMLHttpRequest();
           xhr.onreadystatechange = ()=>{
@@ -538,9 +412,7 @@
             //给视频赋值
               if(xhr.responseText){
                 this.addVideoSrc=JSON.parse(xhr.responseText).data;
-
                 this.addOptions.data.ed_ve_Content.ed_vo_FileURL=this.addVideoSrc;
-
               };
             //获取时长
             var e =document.getElementById("addVideo");
@@ -558,69 +430,6 @@
           alert("请选择上传视频")
         };
       },
-
-      //修改视频上传
-      uploadFileUpdate() {
-        var fd = new FormData();
-        //获取要上传的视频
-        var file =this.$refs.updateFilm.files[0];
-        if(file){
-          //获取最新文件大小
-          var fileSize = file.size;
-          fileSize=parseInt(fileSize/1024*100/100); //单位为KB
-          this.updateObj.ed_ve_Content.ed_vo_Size=fileSize;
-          var str =file.name;
-          //获取最新文件扩展名
-          this.updateObj.ed_ve_Content.ed_vo_Extend=str.split(".")[1];
-          fd.append("fileToUpload",file);
-          file.xhr =new XMLHttpRequest();
-          file.xhr.onreadystatechange = ()=>{
-            if (file.xhr.readyState == 4 && file.xhr.status == 200)
-              if(file.xhr.responseText){
-                //上传成功后返回的视频地址
-                let filmData= JSON.parse(file.xhr.responseText).data;
-                //给视频赋值
-                this.updateFilm=filmData;
-                this.updateObj.ed_ve_Content.ed_vo_FileURL=this.updateFilm;
-                //获取时长
-                var e =document.getElementById("addVideo1");
-
-                setTimeout(()=>{
-                  if(isNaN(e.duration)){
-                    this.updateObj.ed_ve_Content.ed_vo_Time = '';
-                  }else{
-                    this.updateObj.ed_ve_Content.ed_vo_Time = parseInt(e.duration).toString();
-                  }
-                },1000);
-              }
-          };
-          file.xhr.open("POST", getNewStr+"/OSSFile/PostToOSS",true);
-          file.xhr.send(fd);
-          //上传成功后获取最新创建时间
-          Date.prototype.Format = function (fmt) {
-            var o = {
-              "M+": this.getMonth() + 1, //月份
-              "d+": this.getDate(), //日
-              "h+": this.getHours(), //小时
-              "m+": this.getMinutes(), //分
-              "s+": this.getSeconds(), //秒
-              "q+": Math.floor((this.getMonth() + 3) / 3), //季度
-              "S": this.getMilliseconds() //毫秒
-            };
-            if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
-            for (var k in o)
-              if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
-            return fmt;
-          };
-          this.updateObj.ed_ve_Content.ed_vo_CreateTime = new Date().Format("yyyy/MM/dd hh:mm:ss");
-        }else {
-          alert("请选择上传视频")
-        };
-      },
-
-
-
-
       //分页
       handleCurrentChange(num) {
         this.initData(this.input,num)
@@ -633,14 +442,15 @@
           "operateUserID": "",//操作员编码
           "operateUserName": "",//操作员名称
           "pcName": "",  //机器码
-          "ed_ve_ID": id,//审核表编号
-          "ed_ve_Type": "",//视频类型
-          "ed_vo_AuthorID": this.admin.sm_ui_ID,//作者ID
+           "ed_vo_ID":id,//视频编号
+          "ed_vo_AuthorID":this.admin.sm_ui_ID,//作者ID
+          "ed_vo_Type": "",//视频类型
+          "ed_vo_PasserID": "",//审核人编码
           "page":page?page: 1,//页码
           "rows": 5//条数
         };
         this.isLoading = true;
-        this.$store.dispatch("initAdminEducationAuditVideo", options)
+        this.$store.dispatch("initAdminEducationVideo", options)
           .then((total) => {
             this.total = total;
             this.isLoading = false;
@@ -658,8 +468,8 @@
       //添加审核视频
       Add(){
         this.addDialog=true,
-        this.uploaNode()
-       // this.intTypeData()
+          this.uploaNode()
+        // this.intTypeData()
       },
       // 添加提交
       addSubmit() {
@@ -678,38 +488,6 @@
           })
         this.addDialog = false;
       },
-      //修改
-      update(obj){
-        this.updateObj=obj,
-        this.updateDialog = true,
-        this.uploaNode()
-      },
-
-      //修改提交
-      updateSubmit() {
-        let updateOptions = {
-          "loginUserID": "huileyou",
-          "loginUserPass": "123",
-          "operateUserID": "",
-          "operateUserName": "",
-          "pcName": "",
-          "data": this.updateObj,
-        };
-        this.$store.dispatch('updateAdminEducationAuditVideo',updateOptions )
-          .then((suc) => {
-            this.$notify({
-              message: suc,
-              type: 'success'
-            });
-            this.initData( this.siteNum)
-          }, err => {
-            this.$notify({
-              message: err,
-              type: 'error'
-            });
-          });
-        this.updateDialog = false;
-      },
       //删除
       Delete(id){
         let deleteOptions = {
@@ -719,7 +497,7 @@
           "operateUserName": "",
           "pcName": "",
           "data": {
-            "ed_ve_ID": id,//审核表编号
+            "ed_vo_ID": id,//审核表编号
           }
         }
         this.$store.dispatch('DeleteAdminEducationAuditVideo',deleteOptions)
@@ -740,5 +518,4 @@
   }
 </script>
 <style scoped>
-
 </style>

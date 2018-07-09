@@ -5,22 +5,23 @@
 import {getNewStr} from '@/assets/js/public'
 
 export default {
-
   /**
-   * 审核视频初始化
+   * 视频初始化
    */
-  initAdminEducationAuditVideo({commit}, data) {
+  initAdminEducationVideo({commit}, data) {
     return new Promise(function (relove, reject) {
-      axios.post(getNewStr + '/EdValidate/Select', JSON.stringify(data), {
+      axios.post(getNewStr + '/EdVedio/Select', JSON.stringify(data), {
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded'
         }
       })
         .then(data => {
           var data = data.data;
+          console.log(data)
+
           if (Number(data.resultcode) == 200) {
-            relove(Number(data.totalRows));
-            commit('initAdminEducationAuditVideo', data.data.reverse())
+            relove(Number(data.totalrows));
+            commit('initAdminEducationVideo', data.data.reverse())
           } else {
             reject(data.resultcontent)
           }
@@ -84,6 +85,7 @@ export default {
           'Content-Type': 'application/x-www-form-urlencoded'
         }
       }).then(data => {
+
         var data = data.data;
         if (Number(data.resultcode) == 200) {
           relove(data.resultcontent)
@@ -193,7 +195,7 @@ export default {
       })
         .then(data => {
           var data = data.data;
-          console.log('000',data)
+          console.log(data)
           if (Number(data.resultcode) == 200) {
             commit('initAdminEducationCourse',data.data.reverse());
             relove(Number(data.totalrows))
@@ -436,11 +438,11 @@ export default {
   },
 
   /**
-   * 删除审核视频
+   * 删除视频
    */
   DeleteAdminEducationAuditVideo(store,data){
     return new Promise((relove, reject) => {
-      axios.post(getNewStr + '/EdValidate/Delete',JSON.stringify(data),{
+      axios.post(getNewStr + '/EdVedio/Delete',JSON.stringify(data),{
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded'
         }
@@ -455,6 +457,28 @@ export default {
     })
   },
 
+  /**
+   * 教育个人信息收益查询
+   */
+  initEducationPersonalInfo({commit}, data) {
+    return new Promise(function (relove, reject) {
+      axios.post(getNewStr + '/EdOrderInfo/SelectIncome', JSON.stringify(data), {
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }
+      })
+        .then(data => {
+          var data = data.data;
+          console.log(data)
+          if (Number(data.resultcode) == 200) {
+            commit('initEducationPersonalInfo',data.data.reverse());
+            relove(Number(data.totalrows))
+          } else {
+            reject(data.resultcontent)
+          }
+        })
+    })
+  },
 
 
 }
