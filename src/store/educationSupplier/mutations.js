@@ -2,6 +2,12 @@
  * Created by LiuXiang on 18/04/09.
  */
 export default  {
+  setTranstionFalse(state) {
+    state.transtionActive = {
+      isActive: false,
+      isRotateInDownRight: false
+    }
+  },
 
   initAdminEducationVideo(state, data) {
     state.adminEducationAuditList = data;
@@ -12,6 +18,9 @@ export default  {
   },
   initSelectVideoInfo(state,data){
     state.selectVideoInfo = data;
+  },
+  initEducationCourseAction(state,data){
+    state.educationCourseList = data;
   },
 
   initEducationCourseList(state,data){

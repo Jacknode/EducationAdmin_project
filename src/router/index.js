@@ -69,6 +69,12 @@ export const constantRouterMap = [
         component: () => import('@/views/educationSupplier/educationHomePageBigImage'),
         meta: {title: 'educationHomePageBigImage'}
       },
+      {
+        path: 'educationCourse',
+        name: 'EducationCourse',
+        component: () => import('@/views/educationSupplier/educationCourse'),
+        meta: {title: 'educationCourse'}
+      },
     ]
   },
   {path: '*', redirect: '/404', hidden: true}

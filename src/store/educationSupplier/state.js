@@ -11,6 +11,7 @@ export default {
   adminEducationOrder:[],//教育订单
   adminEducationRecommend:[],//教育推荐
   adminEducationAuditRecommend:[],//教育审核推荐
-  educationPersonalInfoList:[]//
+  educationPersonalInfoList:[],//
+  educationCourseList:[],//教育课程
 
 }

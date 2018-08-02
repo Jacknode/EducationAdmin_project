@@ -6,6 +6,68 @@ import {getNewStr} from '@/assets/js/public'
 
 export default {
   /**
+   * 修改教育课程
+   */
+  updateEducationCouseAction(store, data) {
+    return new Promise((relove, reject) => {
+      axios.post(getNewStr + '/EdSeries/Update', JSON.stringify(data), {
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }
+      }).then(data => {
+        var data = data.data;
+        if (Number(data.resultcode) == 200) {
+          relove(data.resultcontent)
+        } else {
+          reject(data.resultcontent)
+        }
+      })
+    })
+  },
+  /**
+   * 添加教育课程
+   */
+  addEducationCourseAction(store, data) {
+    return new Promise((relove, reject) => {
+      axios.post(getNewStr + '/EdSeries/UpdateApply', JSON.stringify(data), {
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }
+      }).then(data => {
+
+        var data = data.data;
+        if (Number(data.resultcode) == 200) {
+          relove(data.resultcontent)
+        } else {
+          reject(data.resultcontent)
+        }
+      })
+    })
+  },
+  /**
+   * 初始化教育课程信息
+   */
+  initEducationCourseAction({commit}, data) {
+    return new Promise(function (relove, reject) {
+      axios.post(getNewStr + '/EdSeries/SelectApplyPC', JSON.stringify(data), {
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }
+      })
+        .then(data => {
+          var data = data.data;
+          console.log(data)
+
+          if (Number(data.resultcode) == 200) {
+            relove(Number(data.totalrows));
+            commit('initEducationCourseAction', data.data.reverse())
+          } else {
+            reject(data.resultcontent)
+          }
+        })
+    })
+  },
+  /**
    * 视频初始化
    */
   initAdminEducationVideo({commit}, data) {
@@ -52,7 +114,7 @@ export default {
     })
   },
   /**
-   *
+   *初始化教育视频信息
    */
   initSelectVideoInfo({commit},data){
     return new Promise(function (relove, reject) {
@@ -76,8 +138,6 @@ export default {
   /**
    * 添加视频审核
    */
-
-
   addAdminEducationAuditVideo(store, data) {
     return new Promise((relove, reject) => {
       axios.post(getNewStr + '/EdValidate/Insert', JSON.stringify(data), {
@@ -95,8 +155,6 @@ export default {
       })
     })
   },
-
-
   /**
    * 教育课程目录初始化
    */
