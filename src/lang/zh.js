@@ -6,6 +6,7 @@ export default {
     educationSupplier:'供应商教育管理',
     educationVideo:'教育视频管理',
     educationPersonalInfo:'教育个人信息管理',
+    educationHomePageBigImage:'教育首页大图管理',
 
 
 

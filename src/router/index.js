@@ -56,11 +56,18 @@ export const constantRouterMap = [
         name: 'EducationVideo',
         component: () => import('@/views/educationSupplier/educationVideo'),
         meta: {title: 'educationVideo'}
-      },  {
+      },
+      {
         path: 'educationPersonalInfo',
         name: 'EducationPersonalInfo',
         component: () => import('@/views/educationSupplier/educationPersonalInfo'),
         meta: {title: 'educationPersonalInfo'}
+      },
+      {
+        path: 'educationHomePageBigImage',
+        name: 'EducationHomePageBigImage',
+        component: () => import('@/views/educationSupplier/educationHomePageBigImage'),
+        meta: {title: 'educationHomePageBigImage'}
       },
     ]
   },
