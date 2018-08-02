@@ -113,10 +113,28 @@
       </el-table>
 
       <!--添加-->
-      <el-dialog title="添加审核视频" :visible.sync="addDialog">
+      <el-dialog title="添加课程" :visible.sync="addDialog">
         <el-form :model="addOptions">
            <el-form-item label="课程名称:" :label-width="formLabelWidth">
-            <el-input v-model="addOptions.ed_ss_ID" placeholder="课程名称" ></el-input>
+            <el-input v-model="addOptions.data.ed_ss_Name" placeholder="请输入课程名称" ></el-input>
+          </el-form-item>
+          <el-form-item label="连载状态:" :label-width="formLabelWidth">
+            <el-input v-model="addOptions.data.ed_ss_WriteState" placeholder="请输入连载状态" ></el-input>
+          </el-form-item>
+          <el-form-item label="课程图片:" :label-width="formLabelWidth">
+            <el-input v-model="addOptions.data.ed_ss_SeriesImageURL" placeholder="请输入课程图片" ></el-input>
+          </el-form-item>
+          <el-form-item label="作者编码:" :label-width="formLabelWidth">
+            <el-input v-model="addOptions.data.ed_ss_AuthorID" placeholder="请输入作者编码" ></el-input>
+          </el-form-item>
+          <el-form-item label="课程价格:" :label-width="formLabelWidth">
+            <el-input v-model="addOptions.data.ed_ss_Price" placeholder="请输入课程价格" ></el-input>
+          </el-form-item>
+          <el-form-item label="是否收费:" :label-width="formLabelWidth">
+          <el-input v-model="addOptions.data.ed_ss_GetFee" placeholder="请输入是否收费" ></el-input>
+        </el-form-item>
+          <el-form-item label="课程分类编号:" :label-width="formLabelWidth">
+            <el-input v-model="addOptions.data.ed_SS_Type" placeholder="请输入课程分类编号" ></el-input>
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
@@ -128,6 +146,30 @@
       <!--修改-->
       <el-dialog title="修改课程" :visible.sync="updateDialog">
         <el-form :model="updateObj">
+          <el-form-item label="课程编号:" :label-width="formLabelWidth">
+            <el-input v-model="updateObj.data.ed_ss_ID" placeholder="请输入课程编号"></el-input>
+          </el-form-item>
+          <el-form-item label="课程名称:" :label-width="formLabelWidth">
+            <el-input v-model="updateObj.data.ed_ss_Name" placeholder="请输入课程名称"></el-input>
+          </el-form-item>
+          <el-form-item label="连载状态:" :label-width="formLabelWidth">
+            <el-input v-model="updateObj.data.ed_ss_WriteState" placeholder="请输入连载状态"></el-input>
+          </el-form-item>
+          <el-form-item label="课程图片:" :label-width="formLabelWidth">
+            <el-input v-model="updateObj.data.ed_ss_SeriesImageURL" placeholder="请输入课程图片"></el-input>
+          </el-form-item>
+          <el-form-item label="作者编码:" :label-width="formLabelWidth">
+            <el-input v-model="updateObj.data.ed_ss_AuthorID" placeholder="请输入作者编码"></el-input>
+          </el-form-item>
+          <el-form-item label="课程价格:" :label-width="formLabelWidth">
+            <el-input v-model="updateObj.data.ed_ss_Price" placeholder="请输入作者编码"></el-input>
+          </el-form-item>
+          <el-form-item label="是否收费:" :label-width="formLabelWidth">
+            <el-input v-model="updateObj.data.ed_ss_GetFee" placeholder="请输入是否收费"></el-input>
+          </el-form-item>
+          <el-form-item label="课程分类编号:" :label-width="formLabelWidth">
+            <el-input v-model="updateObj.data.ed_SS_Type" placeholder="请输入课程分类编号"></el-input>
+          </el-form-item>
 <!--          <el-form-item label="设施类型选择:" :label-width="formLabelWidth">
             <el-select v-model="updateHotelFacilitiesObj.ht_hd_HardTypeID" placeholder="请选择" size="small">
               <el-option
@@ -191,14 +233,23 @@
         updateFilm: '',
         addDialog:false,
         updateObj:{
-          "ed_ss_ID": "",//课程编号
-          "ed_ss_Name": "",//课程名称
-          "ed_ss_WriteState": "",//连载状态（0连载中1完结)
-          "ed_ss_SeriesImageURL": "",//课程图片
-          "ed_ss_AuthorID": "",//作者编码
-          "ed_ss_Price": "",//课程价格
-          "ed_ss_GetFee": "",//是否收费（0不收费，1要收费）
-          "ed_SS_Type": "",//课程分类编号
+          "loginUserID": "huileyou",
+          "loginUserPass": "123",
+          "operateUserID": "",
+          "operateUserName": "",
+          "pcName": "",
+          "token":"",
+          "data": {
+            "ed_ss_ID": "27",//课程编号
+            "ed_ss_Name": "环宇大信息，C#",//课程名称
+            "ed_ss_WriteState": "0",//连载状态（0连载中1完结)
+            "ed_ss_SeriesImageURL": "http://pic1.win4000.com/wallpaper/d/591972f25e781.jpg",//课程图片
+            "ed_ss_AuthorID": "22",//作者编码
+            "ed_ss_Price": "9527",//课程价格
+            "ed_ss_GetFee": "1",//是否收费（0不收费，1要收费）
+            "ed_SS_Type": "32",//课程分类编号
+          }
+
         },
         addVideoSrc:'',
         formLabelWidth:'120px',
@@ -212,7 +263,16 @@
           "operateUserName": "",
           "pcName": "",
           "token":"",
-          "ed_ss_ID": "",//课程编号
+          "data": {
+            "ed_ss_Name": "环宇大信息，C#",//课程名称
+            "ed_ss_WriteState": "0",//连载状态（0连载中1完结)
+            "ed_ss_SeriesImageURL": "http://pic1.win4000.com/wallpaper/d/591972f25e781.jpg",//课程图片
+            "ed_ss_AuthorID": "22",//作者编码
+            "ed_ss_Price": "8848",//课程价格
+            "ed_ss_GetFee": "1",//是否收费（0不收费，1要收费）
+            "ed_SS_Type": "32",//课程分类编号
+          }
+
         },
       }
     },
@@ -370,10 +430,15 @@
           "operateUserName": "",
           "pcName": "",
           "token":"",
-          "page": "1",          //页码
-          "rows": "1",         //展示行数
-          "ed_ss_AuthorID": "4",            //作者编码
-          "es_ss_Recommend": "1",   //推荐首页大图（0未推荐，1申请推荐中，2以通过推荐申请）
+          "page": "1",
+          "rows": "10",
+          "ed_ss_ID": "32",//课程编号
+          "ed_ss_Name": "",//课程名称
+          "ed_ss_WriteState": "0",//连载状态（0连载中1完结)
+          "ed_ss_AuthorID": "",//作者
+          // "ed_ss_Price": "1",//课程价格
+          "ed_ss_GetFee": "",//是否收费（0不收费，1要收费）
+          "ed_SS_Type": "",//分类编号
         };
         this.isLoading = true;
         this.$store.dispatch("initEducationCourseAction", options)

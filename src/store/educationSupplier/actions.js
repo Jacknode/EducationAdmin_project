@@ -29,7 +29,7 @@ export default {
    */
   addEducationCourseAction(store, data) {
     return new Promise((relove, reject) => {
-      axios.post(getNewStr + '/EdSeries/UpdateApply', JSON.stringify(data), {
+      axios.post(getNewStr + '/EdSeries/Insert', JSON.stringify(data), {
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded'
         }
