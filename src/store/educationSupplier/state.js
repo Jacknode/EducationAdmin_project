@@ -13,5 +13,6 @@ export default {
   adminEducationAuditRecommend:[],//教育审核推荐
   educationPersonalInfoList:[],//
   educationCourseList:[],//教育课程
+  educationHomePageList:[],//教育课程
 
 }

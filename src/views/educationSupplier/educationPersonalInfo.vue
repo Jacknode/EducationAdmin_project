@@ -29,7 +29,7 @@
         v-loading="isLoading"
         style="width: 100%">
         <el-table-column
-          label=个人收益编号
+          label="个人收益编号"
           align="center"
           prop="ed_oi_ID">
         </el-table-column>

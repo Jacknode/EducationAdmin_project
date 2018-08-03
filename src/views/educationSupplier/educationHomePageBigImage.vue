@@ -2,6 +2,7 @@
   <div>
     <section id="wrap">
       <h1 class="userClass">教育首页大图管理</h1>
+      <!--数据搜索-->
       <el-col :span="24" class="formSearch">
         <el-form :inline="true">
           <el-form-item>
@@ -22,44 +23,123 @@
       </el-col>
 
       <!--数据展示-->
-
       <el-table
-        :data="educationPersonalInfoList"
+        :data="educationHomePageList"
         highlight-current-row
         v-loading="isLoading"
         style="width: 100%">
-        <el-table-column
-          label="个人收益编号"
-          align="center"
-          prop="ed_oi_ID">
+        <el-table-column type="expand">
+          <template slot-scope="props">
+            <el-form label-position="left" inline class="demo-table-expand">
+              <el-form-item label="课程编码:">
+                <span>{{ props.row.ed_ss_ID }}</span>
+              </el-form-item>
+              <el-form-item label="课程名称:">
+                <span>{{ props.row.ed_ss_Name }}</span>
+              </el-form-item>
+              <el-form-item label="连载状态:">
+                <span>{{ props.row.ed_ss_WriteState}}</span>
+              </el-form-item>
+              <el-form-item label="系列图片:">
+                <span>{{ props.row.ed_ss_SeriesImageURL}}</span>
+              </el-form-item>
+              <el-form-item label="作者:">
+                <span>{{ props.row.ed_ss_AuthorID}}</span>
+              </el-form-item>
+              <el-form-item label="课程价格:">
+                <span>{{ props.row.ed_ss_Price}}</span>
+              </el-form-item>
+              <el-form-item label="是否收费:">
+                <span>{{ props.row.ed_ss_GetFee}}</span>
+              </el-form-item>
+              <el-form-item label="创建时间:">
+                <span>{{ props.row.ed_ss_CreateTime}}</span>
+              </el-form-item>
+              <el-form-item label="完载时间:">
+                <span>{{ props.row.ed_ss_OverTime}}</span>
+              </el-form-item>
+              <el-form-item label="更新时间:">
+                <span>{{ props.row.ed_ss_UpdateTime}}</span>
+              </el-form-item>
+              <el-form-item label="分类编号:">
+                <span>{{ props.row.ed_ss_Type}}</span>
+              </el-form-item>
+              <el-form-item label="推荐首页大图:">
+                <span>{{ props.row.es_ss_Recommend}}</span>
+              </el-form-item>
+
+
+
+
+            </el-form>
+          </template>
         </el-table-column>
         <el-table-column
-          label="个人收益者"
+          label="课程编码"
           align="center"
-          prop="ed_ss_IDName">
+          prop="ed_ss_ID">
         </el-table-column>
         <el-table-column
-          label="收益金额(元)"
+          label="课程名称"
           align="center"
-          prop="ed_oi_Price">
+          prop="ed_ss_Name">
         </el-table-column>
         <el-table-column
-          label="个人收益时间"
+          label="连载状态"
           align="center"
-          prop="ed_oi_PayTime">
+          prop="ed_ss_WriteState">
         </el-table-column>
+        <el-table-column
+          label="系列图片"
+          align="center"
+          prop="ed_ss_SeriesImageURL">
+        </el-table-column>
+
         <el-table-column label="操作"   align="center">
             <template slot-scope="scope">
             <el-button
               size="mini"
+              type="primary"
+              @click="Apply(scope.row)">申请
+            </el-button>
+            <el-button
+              size="mini"
               type="danger"
-              @click="Delete(scope.row.ed_vo_ID)">删除
+              @click="Delete(scope.row)">删除
             </el-button>
           </template>
         </el-table-column>
       </el-table>
 
-
+      <!--申请-->
+      <el-dialog title="申请" :visible.sync="applyDialog">
+<!--        <el-form :model="approvalObj">
+          <el-form-item label="选择课程名称:" :label-width="formLabelWidth">
+            <el-select v-model="courseName" placeholder="请选择">
+              <el-option
+                v-for="item in educationcourseList"
+                :key="item.ed_ss_ID"
+                :label="item.ed_ss_IDName"
+                :value="item.ed_ss_ID">
+              </el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="审核状态:" :label-width="formLabelWidth">
+            <el-select v-model="approvalStatu" placeholder="请选择">
+              <el-option
+                v-for="item in approvalStatusList"
+                :key="item.approvalStatuId"
+                :label="item.approvalStatuName"
+                :value="item.approvalStatuId">
+              </el-option>
+            </el-select>
+          </el-form-item>
+        </el-form>-->
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="applyDialog = false">取 消</el-button>
+          <el-button type="primary" @click="applySubmit">确 定</el-button>
+        </div>
+      </el-dialog>
 
       <!--分页-->
       <div class="block" style="float: right;">
@@ -85,7 +165,16 @@
         input:'',
         total:0,
         isLoading:false,
-
+        applyDialog:false,
+        applyOptions:{
+          "loginUserID": "huileyou",
+          "loginUserPass": "123",
+          "operateUserID": "",
+          "operateUserName": "",
+          "pcName": "",
+          "token":"",
+          "ed_ss_ID": "33",//课程编号
+        },
 
 
       }
@@ -93,6 +182,7 @@
     computed: mapGetters([
 
       'educationPersonalInfoList',
+      'educationHomePageList',//教育首页大图
 
 
     ]),
@@ -109,19 +199,22 @@
       search(){
 
       },
+      //供应商首页大图推荐申请初始化
       initData(id,page) {
         let options = {
-          "loginUserID": "huileyou",  //惠乐游用户ID
-          "loginUserPass": "123",  //惠乐游用户密码
-          "operateUserID": "",//操作员编码
-          "operateUserName": "",//操作员名称
-          "pcName": "",  //机器码
-          "ed_oi_AgentID": "1",//用户编码
-          "page":page?page: 1,//页码
-          "rows": 5//条数
+          "loginUserID": "huileyou",
+          "loginUserPass": "123",
+          "operateUserID": "",
+          "operateUserName": "",
+          "pcName": "",
+          "token":"",
+          "page": "1",          //页码
+          "rows": "1",         //展示行数
+          "ed_ss_AuthorID": "4",            //作者编码
+          "es_ss_Recommend": "1",   //推荐首页大图（0未推荐，1申请推荐中，2以通过推荐申请）
         };
         this.isLoading = true;
-        this.$store.dispatch("initEducationPersonalInfo", options)
+        this.$store.dispatch("initEducationHomePageAction", options)
           .then((total) => {
             this.total = total;
             this.isLoading = false;
@@ -135,6 +228,16 @@
       //添加审核视频
       Add(){
 
+      },
+      //申请
+      Apply(obj){
+        console.log(obj);
+        this.applyDialog=true;
+      },
+      //申请提交
+      applySubmit(){
+        console.log(this.applyOptions);
+        this.applyDialog=false;
       },
       // 添加提交
       addSubmit() {

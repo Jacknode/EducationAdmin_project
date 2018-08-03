@@ -13,4 +13,5 @@ export default {
   adminEducationAuditRecommend:state=>state.adminEducationAuditRecommend,
   educationPersonalInfoList:state=>state.educationPersonalInfoList,
   educationCourseList:state=>state.educationCourseList,
+  educationHomePageList:state=>state.educationHomePageList,
 }

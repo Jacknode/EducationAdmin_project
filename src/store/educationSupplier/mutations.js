@@ -12,6 +12,9 @@ export default  {
   initAdminEducationVideo(state, data) {
     state.adminEducationAuditList = data;
   },
+  initEducationHomePageAction(state, data) {
+    state.educationHomePageList = data;
+  },
 
   initSelectTypeInfo(state,data){
     state.selectTypeInfo = data;

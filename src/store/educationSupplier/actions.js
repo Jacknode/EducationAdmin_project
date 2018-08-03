@@ -6,6 +6,29 @@ import {getNewStr} from '@/assets/js/public'
 
 export default {
   /**
+   * 供应商首页大图查询
+   */
+  initEducationHomePageAction({commit}, data) {
+    return new Promise(function (relove, reject) {
+      axios.post(getNewStr + '/EdSeries/SelectApplyPC', JSON.stringify(data), {
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }
+      })
+        .then(data => {
+          var data = data.data;
+          console.log(data)
+
+          if (Number(data.resultcode) == 200) {
+            relove(Number(data.totalrows));
+            commit('initEducationHomePageAction', data.data.reverse())
+          } else {
+            reject(data.resultcontent)
+          }
+        })
+    })
+  },
+  /**
    * 修改教育课程
    */
   updateEducationCouseAction(store, data) {
