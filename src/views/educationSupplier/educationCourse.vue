@@ -5,6 +5,7 @@
       <!--数据搜索-->
       <el-col :span="24" class="formSearch">
         <el-form :inline="true">
+
           <el-form-item>
             <span>课程筛选:</span>
           </el-form-item>
@@ -15,6 +16,21 @@
             >
             </el-input>
           </el-form-item>
+
+          <el-form-item>
+            <span>首页大图筛选:</span>
+          </el-form-item>
+          <el-form-item>
+            <el-select v-model="homePageBigImage" placeholder="请选择首页大图推荐课程名称">
+              <el-option
+                v-for="item in statesList"
+                :key="item.stateId"
+                :label="item.stateName"
+                :value="item.stateId">
+              </el-option>
+            </el-select>
+          </el-form-item>
+
           <el-form-item>
             <el-button type="primary" @click="search" size="mini">查询</el-button>
             <el-button type="primary" @click="Add" size="mini">新增</el-button>
@@ -97,6 +113,11 @@
 
         <el-table-column label="操作"   align="center">
           <template slot-scope="scope">
+            <el-button
+              size="mini"
+              type="primary"
+              @click="apply(scope.row)">申请为首页大图
+            </el-button>
             <el-button
               size="mini"
               type="primary"
@@ -224,6 +245,7 @@
     data(){
       return {
         input:'',
+        homePageBigImage:'',//首页大图
         value: '',
         total:0,
         isLoading:'',
@@ -232,6 +254,20 @@
         updateVideo:'',//修改视频播放
         updateFilm: '',
         addDialog:false,
+        statesList:[
+          {
+            stateId:0,
+            stateName:"未推荐",
+          },
+          {
+            stateId:1,
+            stateName:"申请推荐中",
+          },
+          {
+            stateId:2,
+            stateName:"已推荐",
+          },
+        ],
         updateObj:{
           "loginUserID": "huileyou",
           "loginUserPass": "123",
@@ -299,6 +335,9 @@
       }
     },
     methods: {
+      apply(){
+        alert("good");
+      },
       initSelectTypeInfo(){
         let options1 = {
           "loginUserID": "huileyou",  //惠乐游用户ID
@@ -423,6 +462,8 @@
       },
       //初始化课程
       initData(id,page) {
+        let authorId = JSON.parse(sessionStorage.getItem("admin")).sm_ui_ID;
+        console.log(authorId)
         let options = {
           "loginUserID": "huileyou",
           "loginUserPass": "123",
@@ -432,13 +473,14 @@
           "token":"",
           "page": "1",
           "rows": "10",
-          "ed_ss_ID": "32",//课程编号
+          "ed_ss_ID": "",//课程编号
           "ed_ss_Name": "",//课程名称
-          "ed_ss_WriteState": "0",//连载状态（0连载中1完结)
-          "ed_ss_AuthorID": "",//作者
+          "ed_ss_WriteState": "",//连载状态（0连载中1完结)
+          "ed_ss_AuthorID": authorId?authorId:"",//作者
           // "ed_ss_Price": "1",//课程价格
           "ed_ss_GetFee": "",//是否收费（0不收费，1要收费）
           "ed_SS_Type": "",//分类编号
+          "es_ss_Recommend":-1,  //推荐首页大图（0未推荐，1申请推荐中，2以通过推荐申请）
         };
         this.isLoading = true;
         this.$store.dispatch("initEducationCourseAction", options)

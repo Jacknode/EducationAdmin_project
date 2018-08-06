@@ -17,7 +17,7 @@
           </el-form-item>
           <el-form-item>
             <el-button type="primary" @click="search" size="mini">查询</el-button>
-
+            <el-button type="primary" @click="Add" size="mini">新增</el-button>
           </el-form-item>
         </el-form>
       </el-col>
@@ -95,21 +95,51 @@
           prop="ed_ss_SeriesImageURL">
         </el-table-column>
 
-        <el-table-column label="操作"   align="center">
+<!--        <el-table-column label="操作"   align="center">
             <template slot-scope="scope">
-            <el-button
+&lt;!&ndash;            <el-button
               size="mini"
               type="primary"
               @click="Apply(scope.row)">申请
-            </el-button>
+            </el-button>&ndash;&gt;
             <el-button
               size="mini"
               type="danger"
               @click="Delete(scope.row)">删除
             </el-button>
           </template>
-        </el-table-column>
+        </el-table-column>-->
       </el-table>
+
+      <!--添加-->
+      <el-dialog title="添加首页大图" :visible.sync="addDialog">
+        <el-form :model="addOptions">
+            <el-form-item label="课程名称:" :label-width="formLabelWidth">
+              <el-select v-model="courseName" placeholder="请选择首页大图推荐课程名称">
+                <el-option
+                  v-for="item in educationCourseList"
+                  :key="item.ed_ss_ID"
+                  :label="item.ed_ss_Name"
+                  :value="item.ed_ss_ID">
+                </el-option>
+              </el-select>
+            </el-form-item>
+<!--            <el-form-item label="审核状态:" :label-width="formLabelWidth">
+              <el-select v-model="approvalStatu" placeholder="请选择">
+                <el-option
+                  v-for="item in approvalStatusList"
+                  :key="item.approvalStatuId"
+                  :label="item.approvalStatuName"
+                  :value="item.approvalStatuId">
+                </el-option>
+              </el-select>
+            </el-form-item>-->
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="addDialog = false">取 消</el-button>
+          <el-button type="primary" @click="AddCommit">确定推荐</el-button>
+        </div>
+      </el-dialog>
 
       <!--申请-->
       <el-dialog title="申请" :visible.sync="applyDialog">
@@ -163,9 +193,21 @@
     data(){
       return {
         input:'',
+        courseName:'',//课程名称
+        formLabelWidth:'250px',
         total:0,
         isLoading:false,
         applyDialog:false,
+        addDialog:false,
+        addOptions:{
+          "loginUserID": "huileyou",
+          "loginUserPass": "123",
+          "operateUserID": "",
+          "operateUserName": "",
+          "pcName": "",
+          "token":"",
+          "ed_ss_ID": "",//课程编号
+        },
         applyOptions:{
           "loginUserID": "huileyou",
           "loginUserPass": "123",
@@ -183,6 +225,7 @@
 
       'educationPersonalInfoList',
       'educationHomePageList',//教育首页大图
+      'educationCourseList',//教育课程
 
 
     ]),
@@ -194,7 +237,39 @@
       handleCurrentChange(num) {
         this.initData(this.input,num)
       },
-
+      //课程查询
+      searchCourse(){
+        console.log(JSON.parse(sessionStorage.getItem("admin")).sm_ui_ID)
+        let authorID = JSON.parse(sessionStorage.getItem("admin")).sm_ui_ID;
+        let options = {
+          "loginUserID": "huileyou",
+          "loginUserPass": "123",
+          "operateUserID": "",
+          "operateUserName": "",
+          "pcName": "",
+          "token":"",
+          "page": "1",
+          "rows": "10",
+          "ed_ss_ID": "32",//课程编号
+          "ed_ss_Name": "",//课程名称
+          "ed_ss_WriteState": "0",//连载状态（0连载中1完结)
+          "ed_ss_AuthorID": authorID?authorID:"",//作者
+          // "ed_ss_Price": "1",//课程价格
+          "ed_ss_GetFee": "",//是否收费（0不收费，1要收费）
+          "ed_SS_Type": "",//分类编号
+        };
+        this.isLoading = true;
+        this.$store.dispatch("initEducationCourseAction", options)
+          .then((total) => {
+            this.total = total;
+            this.isLoading = false;
+          }, (err) => {
+            this.$notify({
+              message: err,
+              type: "error"
+            });
+          });
+      },
       //教育视频审核查询
       search(){
 
@@ -225,9 +300,30 @@
             });
           });
       },
-      //添加审核视频
+      //添加
       Add(){
-
+        this.searchCourse();
+        this.addDialog=true;
+        this.$store.commit("setTranstionFalse");
+      },
+      //添加提交
+      AddCommit(){
+        this.addOptions.ed_ss_ID=this.courseName;
+        console.log(this.addOptions)
+        this.addDialog=false;
+        this.$store.dispatch('addEducationHomePageBigImage', this.addOptions)
+          .then(suc => {
+            this.$notify({
+              message: suc,
+              type: 'success'
+            })
+            this.initData(this.input)
+          }, err => {
+            this.$notify({
+              message: err,
+              type: 'error'
+            })
+          });
       },
       //申请
       Apply(obj){

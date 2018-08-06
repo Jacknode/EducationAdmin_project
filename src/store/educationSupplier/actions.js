@@ -68,6 +68,26 @@ export default {
     })
   },
   /**
+   * 添加教育首页大图推荐
+   */
+  addEducationHomePageBigImage(store, data) {
+    return new Promise((relove, reject) => {
+      axios.post(getNewStr + '/EdSeries/UpdateApply', JSON.stringify(data), {
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }
+      }).then(data => {
+
+        var data = data.data;
+        if (Number(data.resultcode) == 200) {
+          relove(data.resultcontent)
+        } else {
+          reject(data.resultcontent)
+        }
+      })
+    })
+  },
+  /**
    * 初始化教育课程信息
    */
   initEducationCourseAction({commit}, data) {
