@@ -6,6 +6,26 @@ import {getNewStr} from '@/assets/js/public'
 
 export default {
   /**
+   * 申请首页大图
+   */
+  applyEducationHomePageBigImage(store, data) {
+    return new Promise((relove, reject) => {
+      axios.post(getNewStr + '/EdSeries/UpdateApply', JSON.stringify(data), {
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }
+      }).then(data => {
+
+        var data = data.data;
+        if (Number(data.resultcode) == 200) {
+          relove(data.resultcontent)
+        } else {
+          reject(data.resultcontent)
+        }
+      })
+    })
+  },
+  /**
    * 供应商首页大图查询
    */
   initEducationHomePageAction({commit}, data) {

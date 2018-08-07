@@ -2,6 +2,8 @@
   <div>
     <section id="wrap">
       <h1 class="userClass">教育视频</h1>
+
+      <!--数据搜索-->
       <el-col :span="24" class="formSearch">
         <el-form :inline="true">
           <el-form-item>
@@ -22,7 +24,6 @@
       </el-col>
 
       <!--数据展示-->
-
       <el-table
         :data="adminEducationAuditList"
         highlight-current-row
@@ -130,80 +131,6 @@
         </el-table-column>
       </el-table>
 
-      <!--添加-->
-
-      <el-dialog title="添加审核视频" :visible.sync="addDialog">
-        <el-form :model="addOptions">
-          <el-form-item label="视频类型: " :label-width="formLabelWidth">
-            <el-cascader
-              :options="selectTypeInfo"
-              v-model="selectedOptions"
-              :show-all-levels="false"
-              @change="handleChange1"
-            >
-            </el-cascader>
-          </el-form-item>
-
-
-          <!--<el-form-item label="视频类型:" :label-width="formLabelWidth">-->
-          <!--<el-select v-model="value" placeholder="请选择">-->
-          <!--<el-option-->
-          <!--v-for="item in selectTypeInfo"-->
-          <!--:key="item.ed_te_ID"-->
-          <!--:label="item.ed_te_Name"-->
-          <!--:value="item.ed_te_ID">-->
-          <!--</el-option>-->
-          <!--</el-select>-->
-          <!--</el-form-item>-->
-
-          <el-form-item label="请选择视频:" :label-width="formLabelWidth">
-            <a href="javascript:;" class="file">选择视频
-              <input type="file" name="" ref="upload" multiple>
-            </a>
-            <el-form-item size="large">
-              <el-button type="primary" size="mini" @click="uploadFile">立即上传</el-button>
-            </el-form-item>
-            <el-form-item size="large">
-              <video id="addVideo" :src="addVideoSrc"  width="320" height="240" controls="controls"></video>
-            </el-form-item>
-          </el-form-item>
-          <el-form-item label="标题:" :label-width="formLabelWidth">
-            <el-input v-model="addOptions.data.ed_ve_Content.ed_vo_Title" placeholder="标题" ></el-input>
-          </el-form-item>
-          <el-form-item label="视频图片:" :label-width="formLabelWidth">
-            <a href="javascript:;" class="file">视频图片
-              <input type="file" name="" ref="upload1" accept="image/*" multiple>
-            </a>
-            <img v-lazy="addOptions.data.ed_ve_Content.ed_vo_ImageURL" v-show="addOptions.data.ed_ve_Content.ed_vo_ImageURL" width="128" height="80">
-          </el-form-item>
-          <el-form-item label="首页大图:" :label-width="formLabelWidth">
-            <a href="javascript:;" class="file">首页大图
-              <input type="file" name="" ref="upload2" accept="image/*" multiple>
-            </a>
-            <img v-lazy="addOptions.data.ed_ve_Content.ed_vo_TomImageURL" v-show="addOptions.data.ed_ve_Content.ed_vo_TomImageURL" width="128" height="80">
-          </el-form-item>
-
-          <el-form-item label="适合人群:" :label-width="formLabelWidth">
-            <el-input v-model="addOptions.data.ed_ve_Content.ed_vo_Crowd" placeholder="适合人群" ></el-input>
-          </el-form-item>
-
-          <el-form-item label="学习目标:" :label-width="formLabelWidth">
-            <el-input v-model="addOptions.data.ed_ve_Content.ed_vo_Target" placeholder="学习目标" ></el-input>
-          </el-form-item>
-
-          <el-form-item label="视频简介:" :label-width="formLabelWidth">
-            <el-input v-model="addOptions.data.ed_ve_Content.ed_vo_Introduce" placeholder="视频简介" ></el-input>
-          </el-form-item>
-          <el-form-item label="视频详情:" :label-width="formLabelWidth">
-            <el-input v-model="addOptions.data.ed_ve_Content.ed_vo_Remark" placeholder="视频详情" ></el-input>
-          </el-form-item>
-        </el-form>
-        <div slot="footer" class="dialog-footer">
-          <el-button @click="addDialog = false">取 消</el-button>
-          <el-button type="primary" @click="addSubmit">确 定</el-button>
-        </div>
-      </el-dialog>
-
       <!--分页-->
       <div class="block" style="float: right;">
         <el-pagination
@@ -215,17 +142,100 @@
         >
         </el-pagination>
       </div>
+
+      <!--添加-->
+      <el-dialog title="添加审核视频" :visible.sync="addDialog">
+        <el-form :model="addOptions">
+<!--          <el-form-item label="视频类型: " :label-width="formLabelWidth">
+            <el-cascader
+              :options="selectTypeInfo"
+              v-model="selectedOptions"
+              :show-all-levels="false"
+              @change="handleChange1"
+            >
+            </el-cascader>
+          </el-form-item>-->
+          <el-form-item label="请选择视频:" :label-width="formLabelWidth">
+            <span>视频不超过600M</span>
+            <Upload @getData="passVideo" :attrs="videoObj" @getFile="getFile"></Upload>
+          </el-form-item>
+          <el-form-item  :label-width="formLabelWidth">
+            <video :src="addOptions.data.ed_ve_Content.ed_vo_FileURL" controls="controls"></video>
+          </el-form-item>
+          <el-form-item label="标题:" :label-width="formLabelWidth">
+            <el-input v-model="addOptions.data.ed_ve_Content.ed_vo_Title" placeholder="请输入标题" ></el-input>
+          </el-form-item>
+          <el-form-item label="视频图片:" :label-width="formLabelWidth">
+            <Upload @getData="getDataImgOne" :attrs="imageOne"></Upload>
+            <div class="imgWap">
+              <p v-for="item,index in ImageURL1"
+                 style="display: inline-block;position: relative;margin-right: 70px">
+                <span style="color: #f60" @click="deleteImageURLOne(item)">X</span>
+                <em>
+                  <el-radio v-model="radioIndexOne" :label="index+1">替换</el-radio>
+                </em>
+                <img
+                  :src="item"
+                  width="280"
+                  height="125"
+                  v-show="ImageURL1.length"
+                >
+              </p>
+            </div>
+<!--            <a href="javascript:;" class="file">视频图片
+              <input type="file" name="" ref="upload1" accept="image/*" multiple>
+            </a>
+            <img v-lazy="addOptions.data.ed_ve_Content.ed_vo_ImageURL" v-show="addOptions.data.ed_ve_Content.ed_vo_ImageURL" width="128" height="80">
+          -->
+          </el-form-item>
+          <el-form-item label="适合人群:" :label-width="formLabelWidth">
+            <el-input v-model="addOptions.data.ed_ve_Content.ed_vo_Crowd" placeholder="请输入适合人群" ></el-input>
+          </el-form-item>
+          <el-form-item label="学习目标:" :label-width="formLabelWidth">
+            <el-input v-model="addOptions.data.ed_ve_Content.ed_vo_Target" placeholder="请输入学习目标" ></el-input>
+          </el-form-item>
+          <el-form-item label="视频简介:" :label-width="formLabelWidth">
+            <el-input v-model="addOptions.data.ed_ve_Content.ed_vo_Introduce" placeholder="请输入视频简介" ></el-input>
+          </el-form-item>
+          <el-form-item label="视频详情:" :label-width="formLabelWidth">
+            <el-input v-model="addOptions.data.ed_ve_Content.ed_vo_Remark" placeholder="请输入视频详情" ></el-input>
+          </el-form-item>
+          <el-form-item label="选择所属课程:" :label-width="formLabelWidth">
+            <el-select v-model="addCourse" placeholder="选择所属课程">
+              <el-option
+                v-for="item,index in educationCourseList"
+                :key="item.ed_ss_ID"
+                :label="item.ed_ss_Name"
+                :value="item.ed_ss_ID"
+              ></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="所在系列的第几集（整数）:" :label-width="formLabelWidth">
+            <el-input v-model="addOptions.data.ed_ve_Content.ed_vo_collection" placeholder="请输入所在系列的第几集（整数）" ></el-input>
+          </el-form-item>
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="addDialog = false">取 消</el-button>
+          <el-button type="primary" @click="addSubmit">确 定</el-button>
+        </div>
+      </el-dialog>
+
     </section>
   </div>
 </template>
 <script>
   import {mapGetters} from 'vuex'
   import {getNewStr} from '@/assets/js/public'
+  import Upload from '@/components/Upload'
   export default{
     name: '',
+    components: {
+      Upload
+    },
     data(){
       return {
         input:'',
+        addCourse:'',//所属课程
         value: '',
         total:0,
         isLoading:'',
@@ -233,6 +243,7 @@
         selectedOptions:[],
         updateVideo:'',//修改视频播放
         updateFilm: '',
+
         addDialog:false,
         updateObj:{
           "ed_vo_ID":'',
@@ -257,17 +268,26 @@
         },
         addVideoSrc:'',
         formLabelWidth:'120px',
-        ImageURL:[],
         ImageURL1:[],
         ImageURL2:[],
+        isNewUploaNodeOne: true,
+        isNewUploaNodeTwo: true,
+        radioIndexOne:'0',
+        radioIndexTwo:'0',
+        videoObj: {
+          accept: 'video/*'
+        },
+        imageOne: {accept: 'image/*'},
+        imageTwo: {accept: 'image/*'},
+
         addOptions:{
           "loginUserID": "huileyou",  //惠乐游用户ID
           "loginUserPass": "123",  //惠乐游用户密码
           "operateUserID": "",//操作员编码
           "operateUserName": "",//操作员名称
           "pcName": "",  //机器码
+          "token":"",
           "data": {
-            "ed_ve_Type": "",//视频类型
             "ed_vo_AuthorID": "",  //作者
             "ed_ve_Content": {  //审核表内容
               // "ed_vo_ID": "",//视频编号（添加视频时传空，修改视频时传入视频编号）
@@ -277,11 +297,12 @@
               "ed_vo_FileURL": "",  //文件地址
               "ed_vo_Title": "",  //标题
               "ed_vo_ImageURL": "",  //视频图片
-              "ed_vo_TomImageURL": "",  //首页大图
               "ed_vo_Introduce": "",                           //简介
               "ed_vo_Remark": "",                        //详情
               "ed_vo_Crowd": "",                 //适合人群
               "ed_vo_Target": "",                      //学习目标
+              "ed_vo_SeriesID": "",                                              //所属课程编码
+              "ed_vo_collection": "",                                            //所在系列的第几集（整数）
             }
           }
 
@@ -290,15 +311,14 @@
     },
     computed: mapGetters([
       'adminEducationAuditList',
-      'selectTypeInfo'
+      'selectTypeInfo',
+      'educationCourseList',//课程
     ]),
     created(){
+
       this.initSelectTypeInfo()
       let admin = JSON.parse(sessionStorage.getItem('admin'));
-      console.log(admin)
       this.addOptions.data.ed_vo_AuthorID = admin.sm_ui_ID;
-      this.addOptions.data.ed_vo_AuthorName = admin.sm_ui_Name;
-
       if(admin){
         this.admin = admin;
         this.initData(this.input)
@@ -312,129 +332,49 @@
       }
     },
     methods: {
-      initSelectTypeInfo(){
-        let options1 = {
-          "loginUserID": "huileyou",  //惠乐游用户ID
-          "loginUserPass": "123",  //惠乐游用户密码
-          "operateUserID": "",//操作员编码
-          "operateUserName": "",//操作员名称
-          "pcName": "",        //机器码
-          "ed_vt_ID":0
-          , //视频类型
+      //查询课程
+      searchCourse(){
+        let authorId = JSON.parse(sessionStorage.getItem("admin")).sm_ui_ID;
+        let options = {
+          "loginUserID": "huileyou",
+          "loginUserPass": "123",
+          "operateUserID": "",
+          "operateUserName": "",
+          "pcName": "",
+          "token":"",
+          "page": "1",
+          "rows": "10",
+          "ed_ss_ID": "",//课程编号
+          "ed_ss_Name": "",//课程名称
+          "ed_ss_WriteState": "",//连载状态（0连载中1完结)
+          "ed_ss_AuthorID": authorId?authorId:"",//作者
+          // "ed_ss_Price": "1",//课程价格
+          "ed_ss_GetFee": "",//是否收费（0不收费，1要收费）
+          "ed_SS_Type": "",//分类编号
+          "es_ss_Recommend":"",  //推荐首页大图（3未推荐，1申请推荐中，2以通过推荐申请）
         };
-        return this.$store.dispatch('initSelectTypeInfo',options1)
-        this.initData(this. siteNum)
+        this.isLoading = true;
+        this.$store.dispatch("initEducationCourseAction", options)
+          .then((total) => {
+            this.total = total;
+            this.isLoading = false;
+          }, (err) => {
+            this.$notify({
+              message: err,
+              type: "error"
+            });
+          });
       },
-      handleChange1(value){
-        this.selectedOptions =value;
-        this.addOptions.data.ed_ve_Type =this.selectedOptions[value.length-1]
+      //获取添加视频文件
+      getFile(file){
+        console.log(111,file)
+        //获取文件扩展名称
+        this.addOptions.data.ed_ve_Content.ed_vo_Extend=file.fileType.split("/")[1];
+        //获取文件大小
+        console.log(222,(file.size/1024/1024).toFixed(2))
+        this.addOptions.data.ed_ve_Content.ed_vo_Size=(file.size/1024/1024).toFixed(2);
       },
-      uploadToOSS(file) {
-        return new Promise((relove,reject)=>{
-          var fd = new FormData();
-          fd.append("fileToUpload", file);
-          var xhr = new XMLHttpRequest();
-          xhr.open("POST", getNewStr+"/OSSFile/PostToOSS");
-          xhr.send(fd);
-          xhr.onreadystatechange = function () {
-            if (xhr.readyState == 4 && xhr.status == 200) {
-              if (xhr.responseText) {
-                var data = xhr.responseText
-                relove(JSON.parse(data))
-              }
-            }else{
-            }
-          }
-        })
-      },
-      //图片上传
-      uploaNode() {
-        this.addOptions.data.ed_ve_Content.ed_vo_FileURL= '';
-        setTimeout(() => {
-          //添加图片
-          if (this.$refs.upload1) {
-            this.addOptions.data.ed_ve_Content.ed_vo_ImageURL= '';
-            this.$refs.upload1.addEventListener('change', data => {
-              for (var i = 0; i < this.$refs.upload1.files.length; i++) {
-                this.uploadToOSS(this.$refs.upload1.files[i])
-                  .then(data => {
-                    if (data) {
-                      this.addOptions.data.ed_ve_Content.ed_vo_ImageURL = data.data;
-                    } else {
-                      this.$notify({
-                        message: '视频图片地址不存在!',
-                        type: 'error'
-                      });
-                    }
-                  })
-              }
-            })
-          }
-          //添加图片
-          if (this.$refs.upload2) {
-            this.addOptions.data.ed_ve_Content.ed_vo_TomImageURL= '';
-            this.$refs.upload2.addEventListener('change', data => {
-              for (var i = 0; i < this.$refs.upload1.files.length; i++) {
-                this.uploadToOSS(this.$refs.upload2.files[i])
-                  .then(data => {
-                    if (data) {
-                      this.addOptions.data.ed_ve_Content.ed_vo_TomImageURL = data.data;
-                    } else {
-                      this.$notify({
-                        message: '图片地址不存在!',
-                        type: 'error'
-                      });
-                    }
-                  })
-              }
-            })
-          }
-        }, 30)
-      },
-      //添加上传视频
-      uploadFile() {
-        this.addVideoSrc='';
-        var fd = new FormData();
-        if(this.$refs.upload.files[0]){
-          //获取文件
-          var file =this.$refs.upload.files[0];
-          //获取文件大小
-          var fileSize = this.$refs.upload.files[0].size;
-          fileSize=parseInt(fileSize/1024*100/100); //单位为KB
-          this.addOptions.data.ed_ve_Content.ed_vo_Size=fileSize;
-          var str =this.$refs.upload.files[0].name;
-          //获取文件名
-          this.addOptions.data.ed_ve_Content.ed_vo_Extend=str.split(".")[1];
-          fd.append("fileToUpload",this.$refs.upload.files[0]);
-          var xhr = new XMLHttpRequest();
-          xhr.onreadystatechange = ()=>{
-            if (xhr.readyState == 4 && xhr.status == 200)
-            //给视频赋值
-              if(xhr.responseText){
-                this.addVideoSrc=JSON.parse(xhr.responseText).data;
-                this.addOptions.data.ed_ve_Content.ed_vo_FileURL=this.addVideoSrc;
-              };
-            //获取时长
-            var e =document.getElementById("addVideo");
-            setTimeout(()=>{
-              if(isNaN(e.duration)){
-                this.addOptions.data.ed_ve_Content.ed_vo_Time = '';
-              }else{
-                this.addOptions.data.ed_ve_Content.ed_vo_Time=parseInt(e.duration).toString();
-              }
-            },1000);
-          };
-          xhr.open("POST", getNewStr+"/OSSFile/PostToOSS",true);
-          xhr.send(fd);
-        }else {
-          alert("请选择上传视频")
-        };
-      },
-      //分页
-      handleCurrentChange(num) {
-        this.initData(this.input,num)
-      },
-      //审核视频chushih
+      //初始化视频数据
       initData(id,page) {
         let options = {
           "loginUserID": "huileyou",  //惠乐游用户ID
@@ -442,7 +382,7 @@
           "operateUserID": "",//操作员编码
           "operateUserName": "",//操作员名称
           "pcName": "",  //机器码
-           "ed_vo_ID":id,//视频编号
+          "ed_vo_ID":id,//视频编号
           "ed_vo_AuthorID":this.admin.sm_ui_ID,//作者ID
           "ed_vo_Type": "",//视频类型
           "ed_vo_PasserID": "",//审核人编码
@@ -461,18 +401,86 @@
             });
           });
       },
+      //添加视频图片
+      getDataImgOne(data) {
+        if (!this.radioIndexOne) {
+          this.ImageURL1.push(data.data);
+        } else {
+          this.ImageURL1.splice(this.radioIndexOne - 1, 1, data.data);
+          this.radioIndexOne = '';
+        }
+        this.addOptions.data.ed_ve_Content.ed_vo_ImageURL = this.ImageURL1[0];
+      },
+      //删除视频图片
+      deleteImageURLOne(val){
+        this.isNewUploaNodeOne = false
+        this.ImageURL1 = this.ImageURL1.filter(v => {
+          if (v == val) {
+            return false
+          }
+          return true
+        })
+      },
+      //添加首页图片
+      getDataImgTwo(data) {
+        if (!this.radioIndexTwo) {
+          this.ImageURL2.push(data.data);
+        } else {
+          this.ImageURL2.splice(this.radioIndexTwo - 1, 1, data.data);
+          this.radioIndexTwo = '';
+        }
+      },
+      //删除首页图片
+      deleteImageURLTwo(val){
+        this.isNewUploaNodeTwo= false
+        this.ImageURL2 = this.ImageURL2.filter(v => {
+          if (v == val) {
+            return false
+          }
+          return true
+        })
+      },
+      //视频上传
+      passVideo(data) {
+        //上传成功后获取视频地址
+        this.addOptions.data.ed_ve_Content.ed_vo_FileURL = data.data;
+      },
+      initSelectTypeInfo(){
+        let options1 = {
+          "loginUserID": "huileyou",  //惠乐游用户ID
+          "loginUserPass": "123",  //惠乐游用户密码
+          "operateUserID": "",//操作员编码
+          "operateUserName": "",//操作员名称
+          "pcName": "",        //机器码
+          "ed_vt_ID":0
+          , //视频类型
+        };
+        return this.$store.dispatch('initSelectTypeInfo',options1)
+        this.initData(this. siteNum)
+      },
+      handleChange1(value){
+        this.selectedOptions =value;
+        this.addOptions.data.ed_ve_Type =this.selectedOptions[value.length-1]
+      },
+      //分页
+      handleCurrentChange(num) {
+        this.initData(this.input,num)
+      },
       //教育视频审核查询
       search(){
         this.initData(this.input)
       },
       //添加审核视频
       Add(){
-        this.addDialog=true,
-          this.uploaNode()
-        // this.intTypeData()
+        this.searchCourse()
+        this.addDialog=true;
+        this.$store.commit("setTranstionFalse");
       },
       // 添加提交
       addSubmit() {
+        this.addOptions.data.ed_ve_Content.ed_vo_SeriesID = this.addCourse;
+        console.log( this.addOptions)
+/*
         this.$store.dispatch('addAdminEducationAuditVideo', this.addOptions)
           .then(suc => {
             this.$notify({
@@ -486,6 +494,7 @@
               type: 'error'
             })
           })
+*/
         this.addDialog = false;
       },
       //删除
@@ -518,4 +527,16 @@
   }
 </script>
 <style scoped>
+  .imgWap span {
+    position: absolute;
+    right: -15px;
+    top: -6px;
+  }
+  .imgWap em {
+    position: absolute;
+    right: -55px;
+    top: 30px;
+    font-style: normal;
+    color: #42b983;
+  }
 </style>

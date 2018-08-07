@@ -52,6 +52,12 @@ export const constantRouterMap = [
     meta: {title: 'educationSupplier', icon: 'profit'},
     children: [
       {
+        path: 'educationCourse',
+        name: 'EducationCourse',
+        component: () => import('@/views/educationSupplier/educationCourse'),
+        meta: {title: 'educationCourse'}
+      },
+      {
         path: 'educationVideo',
         name: 'EducationVideo',
         component: () => import('@/views/educationSupplier/educationVideo'),
@@ -63,18 +69,13 @@ export const constantRouterMap = [
         component: () => import('@/views/educationSupplier/educationPersonalInfo'),
         meta: {title: 'educationPersonalInfo'}
       },
-      {
+ /*     {
         path: 'educationHomePageBigImage',
         name: 'EducationHomePageBigImage',
         component: () => import('@/views/educationSupplier/educationHomePageBigImage'),
         meta: {title: 'educationHomePageBigImage'}
-      },
-      {
-        path: 'educationCourse',
-        name: 'EducationCourse',
-        component: () => import('@/views/educationSupplier/educationCourse'),
-        meta: {title: 'educationCourse'}
-      },
+      },*/
+
     ]
   },
   {path: '*', redirect: '/404', hidden: true}

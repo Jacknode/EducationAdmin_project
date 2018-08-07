@@ -2,7 +2,8 @@
   <div>
     <section id="wrap">
       <h1 class="userClass">个人收益</h1>
-      <el-col :span="24" class="formSearch">
+      <!--数据搜索-->
+<!--      <el-col :span="24" class="formSearch">
         <el-form :inline="true">
           <el-form-item>
             <span>个人收益筛选:</span>
@@ -19,34 +20,61 @@
 
           </el-form-item>
         </el-form>
-      </el-col>
+      </el-col>-->
 
       <!--数据展示-->
-
       <el-table
         :data="educationPersonalInfoList"
         highlight-current-row
         v-loading="isLoading"
         style="width: 100%">
-        <el-table-column
-          label="个人收益编号"
-          align="center"
-          prop="ed_oi_ID">
+        <el-table-column type="expand">
+          <template slot-scope="props">
+            <el-form label-position="left" inline class="demo-table-expand">
+              <el-form-item label="账单编码:">
+                <span>{{ props.row.ed_eb_ID }}</span>
+              </el-form-item>
+              <el-form-item label="产品名称:">
+                <span>{{ props.row.ed_ss_IDName }}</span>
+              </el-form-item>
+              <el-form-item label="产品供应商编码:">
+                <span>{{ props.row.ed_oi_AgentID }}</span>
+              </el-form-item>
+              <el-form-item label="购买人编码:">
+                <span>{{ props.row.ed_oi_UserIF }}</span>
+              </el-form-item>
+              <el-form-item label="产品价格:">
+                <span>{{ props.row.ed_oi_Price }}</span>
+              </el-form-item>
+              <el-form-item label="平台提成:">
+                <span>{{ props.row.ed_eb_Platform }}</span>
+              </el-form-item>
+              <el-form-item label="供应商获得:">
+                <span>{{ props.row.ed_eb_Supply }}</span>
+              </el-form-item>
+              <el-form-item label="分销分成:">
+                <span>{{ props.row.ed_eb_Distribution }}</span>
+              </el-form-item>
+              <el-form-item label="支付时间:">
+                <span>{{ props.row.ed_oi_PayTime }}</span>
+              </el-form-item>
+            </el-form>
+          </template>
         </el-table-column>
         <el-table-column
-          label="个人收益者"
+          label="产品名称"
           align="center"
           prop="ed_ss_IDName">
         </el-table-column>
         <el-table-column
-          label="收益金额(元)"
+          label="产品价格"
           align="center"
           prop="ed_oi_Price">
         </el-table-column>
         <el-table-column
-          label="个人收益时间"
+          label="平台提成"
           align="center"
-          prop="ed_oi_PayTime">
+          prop="ed_eb_Platform">
         </el-table-column>
         <el-table-column label="操作"   align="center">
             <template slot-scope="scope">
@@ -58,8 +86,6 @@
           </template>
         </el-table-column>
       </el-table>
-
-
 
       <!--分页-->
       <div class="block" style="float: right;">
@@ -85,16 +111,10 @@
         input:'',
         total:0,
         isLoading:false,
-
-
-
       }
     },
     computed: mapGetters([
-
       'educationPersonalInfoList',
-
-
     ]),
     created(){
       this.initData(this.input)
@@ -116,6 +136,7 @@
           "operateUserID": "",//操作员编码
           "operateUserName": "",//操作员名称
           "pcName": "",  //机器码
+          "token":"",
           "ed_oi_AgentID": "1",//用户编码
           "page":page?page: 1,//页码
           "rows": 5//条数

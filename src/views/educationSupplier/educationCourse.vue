@@ -104,7 +104,6 @@
           align="center"
           prop="ed_ss_WriteState">
         </el-table-column>
-
         <el-table-column
           align="center"
           label="课程价格"
@@ -163,6 +162,36 @@
           <el-button type="primary" @click="addSubmit">确 定</el-button>
         </div>
       </el-dialog>
+
+      <!--申请首页大图-->
+<!--      <el-dialog title="申请" :visible.sync="applyDialog">
+        &lt;!&ndash;        <el-form :model="approvalObj">
+                  <el-form-item label="选择课程名称:" :label-width="formLabelWidth">
+                    <el-select v-model="courseName" placeholder="请选择">
+                      <el-option
+                        v-for="item in educationcourseList"
+                        :key="item.ed_ss_ID"
+                        :label="item.ed_ss_IDName"
+                        :value="item.ed_ss_ID">
+                      </el-option>
+                    </el-select>
+                  </el-form-item>
+                  <el-form-item label="审核状态:" :label-width="formLabelWidth">
+                    <el-select v-model="approvalStatu" placeholder="请选择">
+                      <el-option
+                        v-for="item in approvalStatusList"
+                        :key="item.approvalStatuId"
+                        :label="item.approvalStatuName"
+                        :value="item.approvalStatuId">
+                      </el-option>
+                    </el-select>
+                  </el-form-item>
+                </el-form>&ndash;&gt;
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="applyDialog = false">取 消</el-button>
+          <el-button type="primary" @click="applySubmit">确 定</el-button>
+        </div>
+      </el-dialog>-->
 
       <!--修改-->
       <el-dialog title="修改课程" :visible.sync="updateDialog">
@@ -244,6 +273,7 @@
     name: '',
     data(){
       return {
+        applyDialog:false,//申请首页大图
         input:'',
         homePageBigImage:'',//首页大图
         value: '',
@@ -254,9 +284,18 @@
         updateVideo:'',//修改视频播放
         updateFilm: '',
         addDialog:false,
+        applyOptions:{
+          "loginUserID": "huileyou",
+          "loginUserPass": "123",
+          "operateUserID": "",
+          "operateUserName": "",
+          "pcName": "",
+          "token":"",
+          "ed_ss_ID": "",//课程编号
+        },//申请提交对象
         statesList:[
           {
-            stateId:0,
+            stateId:3,
             stateName:"未推荐",
           },
           {
@@ -320,8 +359,6 @@
     created(){
       this.initSelectTypeInfo()
       let admin = JSON.parse(sessionStorage.getItem('admin'));
-      console.log(admin)
-
       if(admin){
         this.admin = admin;
         this.initData(this.input)
@@ -335,21 +372,37 @@
       }
     },
     methods: {
-      apply(){
-        alert("good");
+      //申请成为首页大图
+      apply(obj){
+        console.log(obj);
+        this.applyOptions.ed_ss_ID=obj.ed_ss_ID;
+        this.$store.dispatch("applyEducationHomePageBigImage", this.applyOptions)
+          .then((suc) => {
+            this.$notify({
+              message: suc,
+              type: "success"
+            });
+            this.initData();
+          }, (err) => {
+            this.$notify({
+              message: err,
+              type: "error"
+            });
+          });
       },
+
       initSelectTypeInfo(){
         let options1 = {
           "loginUserID": "huileyou",  //惠乐游用户ID
           "loginUserPass": "123",  //惠乐游用户密码
           "operateUserID": "",//操作员编码
           "operateUserName": "",//操作员名称
-          "pcName": "",        //机器码
+          "pcName": "",//机器码
           "ed_vt_ID":0
           , //视频类型
         };
         return this.$store.dispatch('initSelectTypeInfo',options1)
-        this.initData(this. siteNum)
+        this.initData(this.siteNum)
       },
       handleChange1(value){
         this.selectedOptions =value;
@@ -461,9 +514,8 @@
         this.initData(this.input,num)
       },
       //初始化课程
-      initData(id,page) {
+      initData() {
         let authorId = JSON.parse(sessionStorage.getItem("admin")).sm_ui_ID;
-        console.log(authorId)
         let options = {
           "loginUserID": "huileyou",
           "loginUserPass": "123",
@@ -480,7 +532,7 @@
           // "ed_ss_Price": "1",//课程价格
           "ed_ss_GetFee": "",//是否收费（0不收费，1要收费）
           "ed_SS_Type": "",//分类编号
-          "es_ss_Recommend":-1,  //推荐首页大图（0未推荐，1申请推荐中，2以通过推荐申请）
+          "es_ss_Recommend":"",  //推荐首页大图（0未推荐，1申请推荐中，2以通过推荐申请）
         };
         this.isLoading = true;
         this.$store.dispatch("initEducationCourseAction", options)
@@ -508,7 +560,6 @@
       },
       // 添加提交
       addSubmit() {
-        console.log(this.addOptions)
         this.$store.dispatch('addEducationCourseAction', this.addOptions)
           .then(suc => {
             this.$notify({
@@ -526,13 +577,11 @@
       },
       //修改
       Update(obj){
-        console.log(obj);
         this.updateDialog=true;
         this.$store.commit("setTranstionFalse");
       },
       //修改提交
       updateSubmit(){
-        console.log(this.updateObj);
         this.$store.dispatch('updateEducationCouseAction',this.updateObj)
           .then((suc)=>{
             this.$notify({

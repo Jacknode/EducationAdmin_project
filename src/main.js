@@ -9,16 +9,19 @@ import 'normalize.css/normalize.css'// A modern alternative to CSS resets
 // import zhLocale from 'element-ui/lib/locale/lang/zh-CN'
 
 import '@/styles/index.scss' // global css
+import uploader from 'vue-simple-uploader'
 
 import App from './App'
 import router from './router'
 import store from './store'
 import VueLazyLoad from 'vue-lazyload'
 // import axios from 'axios'
+import { getToken } from '@/utils/auth'
 import * as filters from './filters'
 import i18n from './lang'
 Vue.use(VueLazyLoad,{
   error:'../static/img/error.jpg',
+  dispatchEvent:true,
   loading:'../static/img/loading.gif'
 });
 // 遍历所有导出的过滤器并添加到全局过滤器
@@ -32,12 +35,13 @@ import '@/permission' // permission control
 Vue.use(ELEMENT, ELEMENT.lang.zhCN)
 Vue.prototype.$http = axios;
 
-Vue.config.productionTip = false
+Vue.config.productionTip = false;
 
 new Vue({
   el: '#app',
   router,
   store,
+  uploader,
   filters,
   i18n,
   template: '<App/>',

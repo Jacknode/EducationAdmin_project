@@ -19,6 +19,7 @@
     "screenfull": "^3.3.2",
     "vue-lazyload": "^1.2.4",
     "vue-router": "3.0.1",
+    "vue-simple-uploader": "^0.4.6",
     "vuex": "3.0.1"
   },
   "devDependencies": {

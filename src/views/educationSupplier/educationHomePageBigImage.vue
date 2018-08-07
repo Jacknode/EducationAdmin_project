@@ -68,9 +68,6 @@
                 <span>{{ props.row.es_ss_Recommend}}</span>
               </el-form-item>
 
-
-
-
             </el-form>
           </template>
         </el-table-column>
@@ -142,34 +139,17 @@
       </el-dialog>
 
       <!--申请-->
-      <el-dialog title="申请" :visible.sync="applyDialog">
-<!--        <el-form :model="approvalObj">
-          <el-form-item label="选择课程名称:" :label-width="formLabelWidth">
-            <el-select v-model="courseName" placeholder="请选择">
-              <el-option
-                v-for="item in educationcourseList"
-                :key="item.ed_ss_ID"
-                :label="item.ed_ss_IDName"
-                :value="item.ed_ss_ID">
-              </el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="审核状态:" :label-width="formLabelWidth">
-            <el-select v-model="approvalStatu" placeholder="请选择">
-              <el-option
-                v-for="item in approvalStatusList"
-                :key="item.approvalStatuId"
-                :label="item.approvalStatuName"
-                :value="item.approvalStatuId">
-              </el-option>
-            </el-select>
-          </el-form-item>
-        </el-form>-->
+<!--      <el-dialog title="申请为首页大图" :visible.sync="applyDialog">
+
+        <el-form-item label=":" :label-width="formLabelWidth">
+          <el-input v-model="addOptions.data.vf_ve_Content.vf_vo_Title" placeholder="标题"></el-input>
+        </el-form-item>
+
         <div slot="footer" class="dialog-footer">
           <el-button @click="applyDialog = false">取 消</el-button>
           <el-button type="primary" @click="applySubmit">确 定</el-button>
         </div>
-      </el-dialog>
+      </el-dialog>-->
 
       <!--分页-->
       <div class="block" style="float: right;">
