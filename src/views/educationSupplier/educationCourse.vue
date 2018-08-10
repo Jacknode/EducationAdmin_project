@@ -390,7 +390,6 @@
             });
           });
       },
-
       initSelectTypeInfo(){
         let options1 = {
           "loginUserID": "huileyou",  //惠乐游用户ID
@@ -514,7 +513,7 @@
         this.initData(this.input,num)
       },
       //初始化课程
-      initData() {
+      initData(course,bigImage) {
         let authorId = JSON.parse(sessionStorage.getItem("admin")).sm_ui_ID;
         let options = {
           "loginUserID": "huileyou",
@@ -526,13 +525,13 @@
           "page": "1",
           "rows": "10",
           "ed_ss_ID": "",//课程编号
-          "ed_ss_Name": "",//课程名称
+          "ed_ss_Name": course?course:"",//课程名称
           "ed_ss_WriteState": "",//连载状态（0连载中1完结)
-          "ed_ss_AuthorID": authorId?authorId:"",//作者
+          "ed_ss_AuthorID": "",//作者
           // "ed_ss_Price": "1",//课程价格
           "ed_ss_GetFee": "",//是否收费（0不收费，1要收费）
           "ed_SS_Type": "",//分类编号
-          "es_ss_Recommend":"",  //推荐首页大图（0未推荐，1申请推荐中，2以通过推荐申请）
+          "es_ss_Recommend":bigImage?bigImage:"",  //推荐首页大图（0未推荐，1申请推荐中，2以通过推荐申请）
         };
         this.isLoading = true;
         this.$store.dispatch("initEducationCourseAction", options)
@@ -548,7 +547,7 @@
       },
       //教育视频审核查询
       search(){
-        this.initData(this.input)
+        this.initData(this.input,this.homePageBigImage)
       },
       //添加审核视频
       Add(){

@@ -2,19 +2,11 @@ export default {
   route: {
     dashboard: '首页',
     introduction: '简述',
-
     educationSupplier:'供应商教育管理',
     educationVideo:'教育视频管理',
-    educationPersonalInfo:'教育个人信息管理',
+    educationPersonalInfo:'教育个人收益管理',
     educationHomePageBigImage:'教育首页大图管理',
     educationCourse:'教育课程管理',
-
-
-
-
-
-
-
     adverts:'广告后台管理',
     documentation: '文档',
     guide: '引导页',

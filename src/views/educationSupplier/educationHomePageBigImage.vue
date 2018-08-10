@@ -11,8 +11,7 @@
           <el-form-item>
             <el-input
               placeholder="请输入内容"
-              v-model="input"
-            >
+              v-model="input">
             </el-input>
           </el-form-item>
           <el-form-item>
