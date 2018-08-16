@@ -6,7 +6,7 @@ export default {
     educationVideo:'教育视频管理',
     educationPersonalInfo:'教育个人收益管理',
     educationHomePageBigImage:'教育首页大图管理',
-    educationCourse:'教育课程管理',
+    educationCourse:'教育课程及首页大图',
     adverts:'广告后台管理',
     documentation: '文档',
     guide: '引导页',

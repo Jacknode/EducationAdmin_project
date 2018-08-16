@@ -6,6 +6,49 @@ import {getNewStr} from '@/assets/js/public'
 
 export default {
   /**
+   *查询类型信息
+   */
+  initSelectTypeAllInfo({commit}, data) {
+    return new Promise(function (relove, reject) {
+      request.post(getNewStr + '/EducationType/IndexClassification', JSON.stringify(data), {
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }
+      })
+        .then(data => {
+          var data = data.data;
+
+          if (Number(data.resultcode) == 200) {
+            relove(Number(data.totalRows));
+            commit('initSelectTypeAllInfo', data.data.reverse())
+          } else {
+            reject(data.resultcontent)
+          }
+        })
+    })
+  },
+  /**
+   * 教育视频类型初始化
+   */
+  initEducationTypeManagement({commit}, data) {
+    return new Promise(function (relove, reject) {
+      request.post(getNewStr + '/EducationType/IndexClassification', JSON.stringify(data), {
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }
+      })
+        .then(data => {
+          var data = data.data;
+          if (Number(data.resultcode) == 200) {
+            relove(Number(data.totalRows));
+            commit('initEducationTypeManagement', data.data.reverse())
+          } else {
+            reject(data.resultcontent)
+          }
+        })
+    })
+  },
+  /**
    * 申请首页大图
    */
   applyEducationHomePageBigImage(store, data) {
@@ -155,7 +198,7 @@ export default {
   },
   /**
    *
-   * 获取用户初始数据
+   * 初始化所有课程类型信息
    */
   initSelectTypeInfo({commit},data){
     return new Promise(function (relove, reject) {

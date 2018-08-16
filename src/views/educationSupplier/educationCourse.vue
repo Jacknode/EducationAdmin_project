@@ -81,15 +81,11 @@
                 <span>{{ props.row.ed_SS_Type }}</span>
               </el-form-item>
               <el-form-item label="作者名称:">
-                <span>{{ props.row.ed_vo_AuthorName }}</span>
+                <span>{{ props.row.ed_ss_AuthorID }}</span>
               </el-form-item>
               <el-form-item label="推荐首页大图:">
-                <span>{{ props.row.ed_ss_Recommend }}</span>
+                <span>{{ props.row.es_ss_Recommend }}</span>
               </el-form-item>
-
-
-
-
             </el-form>
           </template>
         </el-table-column>
@@ -99,20 +95,26 @@
           align="center"
           prop="ed_ss_Name">
         </el-table-column>
-        <el-table-column
+<!--        <el-table-column
           label="连载状态"
           align="center"
           prop="ed_ss_WriteState">
-        </el-table-column>
+        </el-table-column>-->
         <el-table-column
           align="center"
           label="课程价格"
           prop="ed_ss_Price">
         </el-table-column>
+        <el-table-column
+          align="center"
+          label="审核状态"
+          prop="es_ss_Recommend">
+        </el-table-column>
 
         <el-table-column label="操作"   align="center">
           <template slot-scope="scope">
             <el-button
+              v-show="vShow0==scope.row.es_ss_Recommend"
               size="mini"
               type="primary"
               @click="apply(scope.row)">申请为首页大图
@@ -141,20 +143,48 @@
           <el-form-item label="连载状态:" :label-width="formLabelWidth">
             <el-input v-model="addOptions.data.ed_ss_WriteState" placeholder="请输入连载状态" ></el-input>
           </el-form-item>
-          <el-form-item label="课程图片:" :label-width="formLabelWidth">
+
+
+
+
+
+<!--          <el-form-item label="课程图片:" :label-width="formLabelWidth">
             <el-input v-model="addOptions.data.ed_ss_SeriesImageURL" placeholder="请输入课程图片" ></el-input>
+          </el-form-item>-->
+          <el-form-item label="课程图片:" :label-width="formLabelWidth">
+            <span>图片不超过600KB,且只上传一张图片</span>
+            <Upload @getData="getData" :attrs="imageObj"></Upload>
+            <div class="imgWap">
+              <p v-for="item,index in ImageURL"
+                 style="display: inline-block;position: relative;margin-right: 70px">
+                <span style="color: #f60" @click="deleteImageURLOne(item)">X</span>
+                <em>
+                  <el-radio v-model="radioIndex" :label="index+1">替换</el-radio>
+                </em>
+                <img
+                  :src="item"
+                  width="280"
+                  height="125"
+                  v-show="ImageURL.length">
+              </p>
+            </div>
           </el-form-item>
-          <el-form-item label="作者编码:" :label-width="formLabelWidth">
-            <el-input v-model="addOptions.data.ed_ss_AuthorID" placeholder="请输入作者编码" ></el-input>
-          </el-form-item>
+
+
           <el-form-item label="课程价格:" :label-width="formLabelWidth">
             <el-input v-model="addOptions.data.ed_ss_Price" placeholder="请输入课程价格" ></el-input>
           </el-form-item>
           <el-form-item label="是否收费:" :label-width="formLabelWidth">
           <el-input v-model="addOptions.data.ed_ss_GetFee" placeholder="请输入是否收费" ></el-input>
         </el-form-item>
-          <el-form-item label="课程分类编号:" :label-width="formLabelWidth">
-            <el-input v-model="addOptions.data.ed_SS_Type" placeholder="请输入课程分类编号" ></el-input>
+          <el-form-item label="课程分类名称: " :label-width="formLabelWidth">
+            <el-cascader
+              :options="selectTypeInfo"
+              v-model="selectedOptions"
+              :show-all-levels="false"
+              @change="handleChange1"
+            >
+            </el-cascader>
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
@@ -269,12 +299,24 @@
 <script>
   import {mapGetters} from 'vuex'
   import {getNewStr} from '@/assets/js/public'
+  import Upload from '@/components/Upload'
   export default{
     name: '',
+    components: {
+      Upload
+    },
     data(){
       return {
+        //图片格式
+        imageObj: {
+          accept: 'image/*'
+        },
         applyDialog:false,//申请首页大图
+        radioIndex:'',
         input:'',
+        arr1:[],
+        vShow0:'3',
+        vShow: false,
         homePageBigImage:'',//首页大图
         value: '',
         total:0,
@@ -307,6 +349,7 @@
             stateName:"已推荐",
           },
         ],
+        isNewUploaNodeOne: true,
         updateObj:{
           "loginUserID": "huileyou",
           "loginUserPass": "123",
@@ -339,13 +382,13 @@
           "pcName": "",
           "token":"",
           "data": {
-            "ed_ss_Name": "环宇大信息，C#",//课程名称
-            "ed_ss_WriteState": "0",//连载状态（0连载中1完结)
-            "ed_ss_SeriesImageURL": "http://pic1.win4000.com/wallpaper/d/591972f25e781.jpg",//课程图片
-            "ed_ss_AuthorID": "22",//作者编码
-            "ed_ss_Price": "8848",//课程价格
-            "ed_ss_GetFee": "1",//是否收费（0不收费，1要收费）
-            "ed_SS_Type": "32",//课程分类编号
+            "ed_ss_Name": "",//课程名称
+            "ed_ss_WriteState": "",//连载状态（0连载中1完结)
+            "ed_ss_SeriesImageURL": "",//课程图片
+            "ed_ss_AuthorID": "",//作者编码
+            "ed_ss_Price": "",//课程价格
+            "ed_ss_GetFee": "",//是否收费（0不收费，1要收费）
+            "ed_SS_Type": "",//课程分类编号
           }
 
         },
@@ -353,8 +396,10 @@
     },
     computed: mapGetters([
       'adminEducationAuditList',
-      'selectTypeInfo',
+      'selectTypeInfo',//查询所有课程类型
       'educationCourseList',
+      'educationTypeManagement',//教育课程类型
+      'selectTypeAllInfo',//教育所有课程类型
     ]),
     created(){
       this.initSelectTypeInfo()
@@ -372,9 +417,39 @@
       }
     },
     methods: {
+      //查询课程分类
+      searchCourseType(){
+        let options1 = {
+          "loginUserID": "huileyou",  //惠乐游用户ID
+          "loginUserPass": "123",  //惠乐游用户密码
+          "operateUserID": "",//操作员编码
+          "operateUserName": "",//操作员名称
+          "pcName": "",        //机器码
+          "token":"",
+        };
+        return this.$store.dispatch('initSelectTypeAllInfo', options1)
+      },
+      //图片上传
+      getData(data) {
+        if (!this.radioIndex) {
+          this.ImageURL.push(data.data);
+        } else {
+          this.ImageURL.splice(this.radioIndex - 1, 1, data.data);
+          this.radioIndex = '';
+        }
+      },
+      //删除视频图片
+      deleteImageURLOne(val){
+        this.isNewUploaNodeOne = false;
+        this.ImageURL1 = this.ImageURL1.filter(v => {
+          if (v == val) {
+            return false
+          }
+          return true
+        })
+      },
       //申请成为首页大图
       apply(obj){
-        console.log(obj);
         this.applyOptions.ed_ss_ID=obj.ed_ss_ID;
         this.$store.dispatch("applyEducationHomePageBigImage", this.applyOptions)
           .then((suc) => {
@@ -390,6 +465,7 @@
             });
           });
       },
+      //初始化课程所有类型信息
       initSelectTypeInfo(){
         let options1 = {
           "loginUserID": "huileyou",  //惠乐游用户ID
@@ -400,113 +476,12 @@
           "ed_vt_ID":0
           , //视频类型
         };
-        return this.$store.dispatch('initSelectTypeInfo',options1)
-        this.initData(this.siteNum)
+        return this.$store.dispatch('initSelectTypeInfo',options1);
+        this.initData()
       },
       handleChange1(value){
         this.selectedOptions =value;
-        this.addOptions.data.ed_ve_Type =this.selectedOptions[value.length-1]
-      },
-      uploadToOSS(file) {
-        return new Promise((relove,reject)=>{
-          var fd = new FormData();
-          fd.append("fileToUpload", file);
-          var xhr = new XMLHttpRequest();
-          xhr.open("POST", getNewStr+"/OSSFile/PostToOSS");
-          xhr.send(fd);
-          xhr.onreadystatechange = function () {
-            if (xhr.readyState == 4 && xhr.status == 200) {
-              if (xhr.responseText) {
-                var data = xhr.responseText
-                relove(JSON.parse(data))
-              }
-            }else{
-            }
-          }
-        })
-      },
-      //图片上传
-      uploaNode() {
-        this.addOptions.data.ed_ve_Content.ed_vo_FileURL= '';
-        setTimeout(() => {
-          //添加图片
-          if (this.$refs.upload1) {
-            this.addOptions.data.ed_ve_Content.ed_vo_ImageURL= '';
-            this.$refs.upload1.addEventListener('change', data => {
-              for (var i = 0; i < this.$refs.upload1.files.length; i++) {
-                this.uploadToOSS(this.$refs.upload1.files[i])
-                  .then(data => {
-                    if (data) {
-                      this.addOptions.data.ed_ve_Content.ed_vo_ImageURL = data.data;
-                    } else {
-                      this.$notify({
-                        message: '视频图片地址不存在!',
-                        type: 'error'
-                      });
-                    }
-                  })
-              }
-            })
-          }
-          //添加图片
-          if (this.$refs.upload2) {
-            this.addOptions.data.ed_ve_Content.ed_vo_TomImageURL= '';
-            this.$refs.upload2.addEventListener('change', data => {
-              for (var i = 0; i < this.$refs.upload1.files.length; i++) {
-                this.uploadToOSS(this.$refs.upload2.files[i])
-                  .then(data => {
-                    if (data) {
-                      this.addOptions.data.ed_ve_Content.ed_vo_TomImageURL = data.data;
-                    } else {
-                      this.$notify({
-                        message: '图片地址不存在!',
-                        type: 'error'
-                      });
-                    }
-                  })
-              }
-            })
-          }
-        }, 30)
-      },
-      //添加上传视频
-      uploadFile() {
-        this.addVideoSrc='';
-        var fd = new FormData();
-        if(this.$refs.upload.files[0]){
-          //获取文件
-          var file =this.$refs.upload.files[0];
-          //获取文件大小
-          var fileSize = this.$refs.upload.files[0].size;
-          fileSize=parseInt(fileSize/1024*100/100); //单位为KB
-          this.addOptions.data.ed_ve_Content.ed_vo_Size=fileSize;
-          var str =this.$refs.upload.files[0].name;
-          //获取文件名
-          this.addOptions.data.ed_ve_Content.ed_vo_Extend=str.split(".")[1];
-          fd.append("fileToUpload",this.$refs.upload.files[0]);
-          var xhr = new XMLHttpRequest();
-          xhr.onreadystatechange = ()=>{
-            if (xhr.readyState == 4 && xhr.status == 200)
-            //给视频赋值
-              if(xhr.responseText){
-                this.addVideoSrc=JSON.parse(xhr.responseText).data;
-                this.addOptions.data.ed_ve_Content.ed_vo_FileURL=this.addVideoSrc;
-              };
-            //获取时长
-            var e =document.getElementById("addVideo");
-            setTimeout(()=>{
-              if(isNaN(e.duration)){
-                this.addOptions.data.ed_ve_Content.ed_vo_Time = '';
-              }else{
-                this.addOptions.data.ed_ve_Content.ed_vo_Time=parseInt(e.duration).toString();
-              }
-            },1000);
-          };
-          xhr.open("POST", getNewStr+"/OSSFile/PostToOSS",true);
-          xhr.send(fd);
-        }else {
-          alert("请选择上传视频")
-        };
+        this.addOptions.data.ed_SS_Type =this.selectedOptions[value.length-1];
       },
       //分页
       handleCurrentChange(num) {
@@ -527,7 +502,7 @@
           "ed_ss_ID": "",//课程编号
           "ed_ss_Name": course?course:"",//课程名称
           "ed_ss_WriteState": "",//连载状态（0连载中1完结)
-          "ed_ss_AuthorID": "",//作者
+          "ed_ss_AuthorID": authorId?authorId:"",//作者
           // "ed_ss_Price": "1",//课程价格
           "ed_ss_GetFee": "",//是否收费（0不收费，1要收费）
           "ed_SS_Type": "",//分类编号
@@ -551,14 +526,16 @@
       },
       //添加审核视频
       Add(){
+        this.searchCourseType();
         this.addDialog=true;
         this.$store.commit("setTranstionFalse");
-
-//          this.uploaNode();
-        // this.intTypeData();
       },
       // 添加提交
       addSubmit() {
+        let admin = JSON.parse(sessionStorage.getItem('admin'));
+        this.addOptions.data.ed_ss_AuthorID = admin.sm_ui_ID;
+        this.addOptions.data.ed_ss_SeriesImageURL=this.ImageURL.join(',');
+        console.log('addOptions:',this.addOptions);
         this.$store.dispatch('addEducationCourseAction', this.addOptions)
           .then(suc => {
             this.$notify({
@@ -571,7 +548,7 @@
               message: err,
               type: 'error'
             })
-          })
+          });
         this.addDialog = false;
       },
       //修改

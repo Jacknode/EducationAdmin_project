@@ -14,4 +14,6 @@ export default {
   educationPersonalInfoList:state=>state.educationPersonalInfoList,
   educationCourseList:state=>state.educationCourseList,
   educationHomePageList:state=>state.educationHomePageList,
+  educationTypeManagement:state=>state.educationTypeManagement,
+  selectTypeAllInfo:state=>state.selectTypeAllInfo,
 }

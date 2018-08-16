@@ -14,5 +14,7 @@ export default {
   educationPersonalInfoList:[],//
   educationCourseList:[],//教育课程
   educationHomePageList:[],//教育课程
+  educationTypeManagement:[],//教育课程类型管理
+  selectTypeAllInfo:[],//教育课程类型管理
 
 }

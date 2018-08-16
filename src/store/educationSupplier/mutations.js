@@ -41,10 +41,15 @@ export default  {
   adminEducationAuditRecommend(state,data){
     state.adminEducationAuditRecommend = data;
   },
+  initSelectTypeAllInfo(state, data) {
+    state.selectTypeAllInfo = data;
+  },
   initEducationPersonalInfo(state,data){
     state.educationPersonalInfoList = data;
-  }
-
+  },
+  initEducationTypeManagement(state, data) {
+    state.educationTypeManagement = data;
+  },
 }
 
 
