@@ -51,22 +51,19 @@
                 <span>{{ props.row.ed_ss_ID }}</span>
               </el-form-item>
               <el-form-item label="课程名称:">
-                <span>{{ props.row.ed_ss_Name }}秒</span>
+                <span>{{ props.row.ed_ss_IDName }}秒</span>
               </el-form-item>
               <el-form-item label="连载状态:">
-                <span>{{ props.row.ed_ss_WriteState}}KB</span>
+                <span>{{ props.row.ed_ss_WriteState | getEducationCourseWriteState}}</span>
               </el-form-item>
               <el-form-item label="课程首页大图:">
-                <span>{{ props.row.ed_ss_SeriesImageURL}}</span>
-              </el-form-item>
-              <el-form-item label="作者编码:">
-                <span>{{ props.row.ed_ss_AuthorID}}</span>
+                <img :src="props.row.ed_ss_SeriesImageURL" alt="" style="height: 50px;width: 100px">
               </el-form-item>
               <el-form-item label="课程价格:">
                 <span>{{ props.row.ed_ss_Price}}</span>
               </el-form-item>
               <el-form-item label="是否收费:">
-                <span>{{ props.row.ed_ss_GetFee }}</span>
+                <span>{{ props.row.ed_ss_GetFee | getEducationCourseCharge}}</span>
               </el-form-item>
               <el-form-item label="创建时间:">
                 <span>{{ props.row.ed_ss_CreateTime }}</span>
@@ -77,11 +74,11 @@
               <el-form-item label="更新时间:">
                 <span>{{ props.row.ed_ss_UpdateTime }}</span>
               </el-form-item>
-              <el-form-item label="分类编码:">
-                <span>{{ props.row.ed_SS_Type }}</span>
+              <el-form-item label="课程分类名称:">
+                <span>{{ props.row.ed_ss_Typename }}</span>
               </el-form-item>
               <el-form-item label="作者名称:">
-                <span>{{ props.row.ed_ss_AuthorID }}</span>
+                <span>{{ props.row.ed_vo_AuthorName }}</span>
               </el-form-item>
               <el-form-item label="推荐首页大图:">
                 <span>{{ props.row.es_ss_Recommend }}</span>
@@ -93,13 +90,8 @@
         <el-table-column
           label="课程名称"
           align="center"
-          prop="ed_ss_Name">
+          prop="ed_ss_IDName">
         </el-table-column>
-<!--        <el-table-column
-          label="连载状态"
-          align="center"
-          prop="ed_ss_WriteState">
-        </el-table-column>-->
         <el-table-column
           align="center"
           label="课程价格"
@@ -141,16 +133,14 @@
             <el-input v-model="addOptions.data.ed_ss_Name" placeholder="请输入课程名称" ></el-input>
           </el-form-item>
           <el-form-item label="连载状态:" :label-width="formLabelWidth">
-            <el-input v-model="addOptions.data.ed_ss_WriteState" placeholder="请输入连载状态" ></el-input>
+            <el-switch
+              v-model="writeState"
+              active-text="连载中"
+              inactive-text="完结"
+              active-value="0"
+              inactive-value="1">
+            </el-switch>
           </el-form-item>
-
-
-
-
-
-<!--          <el-form-item label="课程图片:" :label-width="formLabelWidth">
-            <el-input v-model="addOptions.data.ed_ss_SeriesImageURL" placeholder="请输入课程图片" ></el-input>
-          </el-form-item>-->
           <el-form-item label="课程图片:" :label-width="formLabelWidth">
             <span>图片不超过600KB,且只上传一张图片</span>
             <Upload @getData="getData" :attrs="imageObj"></Upload>
@@ -169,14 +159,18 @@
               </p>
             </div>
           </el-form-item>
-
-
           <el-form-item label="课程价格:" :label-width="formLabelWidth">
             <el-input v-model="addOptions.data.ed_ss_Price" placeholder="请输入课程价格" ></el-input>
           </el-form-item>
           <el-form-item label="是否收费:" :label-width="formLabelWidth">
-          <el-input v-model="addOptions.data.ed_ss_GetFee" placeholder="请输入是否收费" ></el-input>
-        </el-form-item>
+            <el-switch
+              v-model="isCharge"
+              active-text="收费"
+              inactive-text="免费"
+              active-value="0"
+              inactive-value="1">
+            </el-switch>
+          </el-form-item>
           <el-form-item label="课程分类名称: " :label-width="formLabelWidth">
             <el-cascader
               :options="selectTypeInfo"
@@ -313,6 +307,7 @@
         },
         applyDialog:false,//申请首页大图
         radioIndex:'',
+        isCharge:'',//是否收费
         input:'',
         arr1:[],
         vShow0:'3',
@@ -326,6 +321,7 @@
         updateVideo:'',//修改视频播放
         updateFilm: '',
         addDialog:false,
+        writeState:'',
         applyOptions:{
           "loginUserID": "huileyou",
           "loginUserPass": "123",
@@ -402,6 +398,7 @@
       'selectTypeAllInfo',//教育所有课程类型
     ]),
     created(){
+      console.log(this.writeState)
       this.initSelectTypeInfo()
       let admin = JSON.parse(sessionStorage.getItem('admin'));
       if(admin){
@@ -529,12 +526,15 @@
         this.searchCourseType();
         this.addDialog=true;
         this.$store.commit("setTranstionFalse");
+
       },
       // 添加提交
       addSubmit() {
         let admin = JSON.parse(sessionStorage.getItem('admin'));
         this.addOptions.data.ed_ss_AuthorID = admin.sm_ui_ID;
         this.addOptions.data.ed_ss_SeriesImageURL=this.ImageURL.join(',');
+        this.addOptions.data.ed_ss_WriteState=this.writeState;
+        this.addOptions.data.ed_ss_GetFee=this.isCharge;
         console.log('addOptions:',this.addOptions);
         this.$store.dispatch('addEducationCourseAction', this.addOptions)
           .then(suc => {

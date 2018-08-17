@@ -39,7 +39,7 @@
                 <span>{{ props.row.ed_vo_Time }}秒</span>
               </el-form-item>
               <el-form-item label="视频大小:">
-                <span>{{ props.row.ed_vo_Size}}KB</span>
+                <span>{{ props.row.ed_vo_Size}}MB</span>
               </el-form-item>
               <el-form-item label="文件扩展名:">
                 <span>{{ props.row.ed_vo_Extend}}</span>
@@ -101,12 +101,6 @@
           prop="ed_vo_ID">
         </el-table-column>
         <el-table-column
-          label="作者"
-          align="center"
-          prop="ed_vo_AuthorName">
-        </el-table-column>
-
-        <el-table-column
           align="center"
           label="视频名称"
           prop="ed_vo_Title">
@@ -123,10 +117,14 @@
           <template slot-scope="scope">
             <el-button
               size="mini"
+              type="primary"
+              @click="Check(scope.row.ed_vo_ID)">推荐申请
+            </el-button>
+            <el-button
+              size="mini"
               type="danger"
               @click="Delete(scope.row.ed_vo_ID)">删除
             </el-button>
-
           </template>
         </el-table-column>
       </el-table>
@@ -205,7 +203,7 @@
               <el-option
                 v-for="item,index in educationCourseList"
                 :key="item.ed_ss_ID"
-                :label="item.ed_ss_Name"
+                :label="item.ed_ss_IDName"
                 :value="item.ed_ss_ID"
               ></el-option>
             </el-select>
@@ -332,6 +330,36 @@
       }
     },
     methods: {
+      //视频推荐申请
+      Check(){
+        let option = {
+          "loginUserID": "huileyou",
+          "loginUserPass": "123",
+          "operateUserID": "",
+          "operateUserName": "",
+          "pcName": "",
+          "token":"",
+          "ed_vo_ID": "5",                                 //申请推荐的视频编码
+          "ed_vo_Recommend": "1",                      //是否推荐(0未推荐，1申请推荐，2通过推荐)
+        };
+        this.$store.dispatch("vedioRecomentApply",option)
+          .then(
+            (suc)=>{
+              this.$notify({
+                type:suc,
+                message:"success"
+              });
+              this.initData();
+            },
+            (err)=>{
+              this.$notify({
+                type:err,
+                message:"error"
+              });
+            }
+          );
+
+      },
       //查询课程
       searchCourse(){
         let authorId = JSON.parse(sessionStorage.getItem("admin")).sm_ui_ID;
@@ -372,7 +400,7 @@
         this.addOptions.data.ed_ve_Content.ed_vo_Extend=file.fileType.split("/")[1];
         //获取文件大小
         console.log(222,(file.size/1024/1024).toFixed(2))
-        this.addOptions.data.ed_ve_Content.ed_vo_Size=(file.size/1024/1024).toFixed(2);
+        this.addOptions.data.ed_ve_Content.ed_vo_Size=(file.size/1024/1024).toFixed(0);
       },
       //初始化视频数据
       initData(id,page) {
@@ -479,8 +507,7 @@
       // 添加提交
       addSubmit() {
         this.addOptions.data.ed_ve_Content.ed_vo_SeriesID = this.addCourse;
-        console.log( this.addOptions)
-/*
+        console.log( this.addOptions);
         this.$store.dispatch('addAdminEducationAuditVideo', this.addOptions)
           .then(suc => {
             this.$notify({
@@ -494,7 +521,6 @@
               type: 'error'
             })
           })
-*/
         this.addDialog = false;
       },
       //删除

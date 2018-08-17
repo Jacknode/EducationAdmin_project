@@ -6,11 +6,31 @@ import {getNewStr} from '@/assets/js/public'
 
 export default {
   /**
+   *教育视频推荐申请
+   */
+  vedioRecomentApply(store, data) {
+    return new Promise((relove, reject) => {
+      axios.post(getNewStr + '/EdVedio/Recommend', JSON.stringify(data), {
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }
+      }).then(data => {
+
+        var data = data.data;
+        if (Number(data.resultcode) == 200) {
+          relove(data.resultcontent)
+        } else {
+          reject(data.resultcontent)
+        }
+      })
+    })
+  },
+  /**
    *查询类型信息
    */
   initSelectTypeAllInfo({commit}, data) {
     return new Promise(function (relove, reject) {
-      request.post(getNewStr + '/EducationType/IndexClassification', JSON.stringify(data), {
+      axios.post(getNewStr + '/EducationType/IndexClassification', JSON.stringify(data), {
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded'
         }
@@ -20,7 +40,7 @@ export default {
 
           if (Number(data.resultcode) == 200) {
             relove(Number(data.totalRows));
-            commit('initSelectTypeAllInfo', data.data.reverse())
+            commit('initSelectTypeAllInfo', data.data)
           } else {
             reject(data.resultcontent)
           }
@@ -32,7 +52,7 @@ export default {
    */
   initEducationTypeManagement({commit}, data) {
     return new Promise(function (relove, reject) {
-      request.post(getNewStr + '/EducationType/IndexClassification', JSON.stringify(data), {
+      axios.post(getNewStr + '/EducationType/IndexClassification', JSON.stringify(data), {
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded'
         }
@@ -155,7 +175,7 @@ export default {
    */
   initEducationCourseAction({commit}, data) {
     return new Promise(function (relove, reject) {
-      axios.post(getNewStr + '/EdSeries/SelectApplyPC', JSON.stringify(data), {
+      axios.post(getNewStr + '/EdSeries/Select', JSON.stringify(data), {
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded'
         }
@@ -178,7 +198,7 @@ export default {
    */
   initAdminEducationVideo({commit}, data) {
     return new Promise(function (relove, reject) {
-      axios.post(getNewStr + '/EdVedio/Select', JSON.stringify(data), {
+      axios.post(getNewStr + '/EdVedio/Selects', JSON.stringify(data), {
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded'
         }

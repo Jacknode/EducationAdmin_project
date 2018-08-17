@@ -377,3 +377,23 @@ export const getPayState = val=>{
       return '未知';
   }
 };
+
+//教育课程连载状态
+export const getEducationCourseWriteState = val=>{
+  switch (Number(val)) {
+    case 0:
+      return '连载中';
+    case 1:
+      return '完结';
+  }
+};
+
+//教育课程是否收费
+export const getEducationCourseCharge = val=>{
+  switch (Number(val)) {
+    case 0:
+      return '收费';
+    case 1:
+      return '免费';
+  }
+};
