@@ -18,7 +18,7 @@
           </el-form-item>
           <el-form-item>
             <el-button type="primary" @click="search" size="mini">查询</el-button>
-            <el-button type="primary" @click="Add" size="mini">新增</el-button>
+            <el-button type="primary" @click="Add" size="mini">新增审核视频</el-button>
           </el-form-item>
         </el-form>
       </el-col>
@@ -115,11 +115,12 @@
         </el-table-column>
         <el-table-column label="操作"   align="center">
           <template slot-scope="scope">
-            <el-button
+<!--            <el-button
               size="mini"
               type="primary"
-              @click="Check(scope.row.ed_vo_ID)">推荐申请
-            </el-button>
+              v-show="scope.row.ed_vo_Recommend==3"
+              @click="Check(scope.row.ed_vo_ID)">申请推荐
+            </el-button>-->
             <el-button
               size="mini"
               type="danger"
@@ -144,6 +145,16 @@
       <!--添加-->
       <el-dialog title="添加审核视频" :visible.sync="addDialog">
         <el-form :model="addOptions">
+          <el-form-item label="选择所属课程:" :label-width="formLabelWidth">
+            <el-select v-model="addCourse" placeholder="选择所属课程">
+              <el-option
+                v-for="item,index in educationCourseList"
+                :key="item.ed_ss_ID"
+                :label="item.ed_ss_IDName"
+                :value="item.ed_ss_ID"
+              ></el-option>
+            </el-select>
+          </el-form-item>
 <!--          <el-form-item label="视频类型: " :label-width="formLabelWidth">
             <el-cascader
               :options="selectTypeInfo"
@@ -158,7 +169,7 @@
             <Upload @getData="passVideo" :attrs="videoObj" @getFile="getFile"></Upload>
           </el-form-item>
           <el-form-item  :label-width="formLabelWidth">
-            <video :src="addOptions.data.ed_ve_Content.ed_vo_FileURL" controls="controls"></video>
+            <video :src="addOptions.data.ed_ve_Content.ed_vo_FileURL" controls="controls" width="200px" height="100px"></video>
           </el-form-item>
           <el-form-item label="标题:" :label-width="formLabelWidth">
             <el-input v-model="addOptions.data.ed_ve_Content.ed_vo_Title" placeholder="请输入标题" ></el-input>
@@ -198,16 +209,7 @@
           <el-form-item label="视频详情:" :label-width="formLabelWidth">
             <el-input v-model="addOptions.data.ed_ve_Content.ed_vo_Remark" placeholder="请输入视频详情" ></el-input>
           </el-form-item>
-          <el-form-item label="选择所属课程:" :label-width="formLabelWidth">
-            <el-select v-model="addCourse" placeholder="选择所属课程">
-              <el-option
-                v-for="item,index in educationCourseList"
-                :key="item.ed_ss_ID"
-                :label="item.ed_ss_IDName"
-                :value="item.ed_ss_ID"
-              ></el-option>
-            </el-select>
-          </el-form-item>
+
           <el-form-item label="所在系列的第几集（整数）:" :label-width="formLabelWidth">
             <el-input v-model="addOptions.data.ed_ve_Content.ed_vo_collection" placeholder="请输入所在系列的第几集（整数）" ></el-input>
           </el-form-item>
@@ -233,6 +235,7 @@
     data(){
       return {
         input:'',
+        isShow:false,
         addCourse:'',//所属课程
         value: '',
         total:0,
@@ -331,7 +334,7 @@
     },
     methods: {
       //视频推荐申请
-      Check(){
+      Check(id){
         let option = {
           "loginUserID": "huileyou",
           "loginUserPass": "123",
@@ -339,7 +342,7 @@
           "operateUserName": "",
           "pcName": "",
           "token":"",
-          "ed_vo_ID": "5",                                 //申请推荐的视频编码
+          "ed_vo_ID": id,                                 //申请推荐的视频编码
           "ed_vo_Recommend": "1",                      //是否推荐(0未推荐，1申请推荐，2通过推荐)
         };
         this.$store.dispatch("vedioRecomentApply",option)
@@ -347,7 +350,7 @@
             (suc)=>{
               this.$notify({
                 type:suc,
-                message:"success"
+                message:'推荐申请成功'
               });
               this.initData();
             },
@@ -403,14 +406,14 @@
         this.addOptions.data.ed_ve_Content.ed_vo_Size=(file.size/1024/1024).toFixed(0);
       },
       //初始化视频数据
-      initData(id,page) {
+      initData(page) {
         let options = {
           "loginUserID": "huileyou",  //惠乐游用户ID
           "loginUserPass": "123",  //惠乐游用户密码
           "operateUserID": "",//操作员编码
           "operateUserName": "",//操作员名称
           "pcName": "",  //机器码
-          "ed_vo_ID":id,//视频编号
+          "ed_vo_ID":'',//视频编号
           "ed_vo_AuthorID":this.admin.sm_ui_ID,//作者ID
           "ed_vo_Type": "",//视频类型
           "ed_vo_PasserID": "",//审核人编码
@@ -484,7 +487,7 @@
           , //视频类型
         };
         return this.$store.dispatch('initSelectTypeInfo',options1)
-        this.initData(this. siteNum)
+        this.initData();
       },
       handleChange1(value){
         this.selectedOptions =value;
@@ -492,11 +495,11 @@
       },
       //分页
       handleCurrentChange(num) {
-        this.initData(this.input,num)
+        this.initData(num)
       },
       //教育视频审核查询
       search(){
-        this.initData(this.input)
+        this.initData()
       },
       //添加审核视频
       Add(){
@@ -514,7 +517,7 @@
               message: suc,
               type: 'success'
             })
-            this.initData(this.input)
+            this.initData()
           }, err => {
             this.$notify({
               message: err,
@@ -525,23 +528,26 @@
       },
       //删除
       Delete(id){
+        console.log('id:',id);
         let deleteOptions = {
           "loginUserID": "huileyou",
           "loginUserPass": "123",
           "operateUserID": "",
           "operateUserName": "",
           "pcName": "",
+          "token":"",
           "data": {
-            "ed_vo_ID": id,//审核表编号
+            "ed_vo_ID": id,//视频编号
           }
-        }
+        };
+        console.log('deleteOptions:',deleteOptions);
         this.$store.dispatch('DeleteAdminEducationAuditVideo',deleteOptions)
           .then(suc => {
             this.$notify({
               message: suc,
               type: 'success'
             });
-            this.initData( this. siteNum)
+            this.initData()
           }, err => {
             this.$notify({
               message: err,

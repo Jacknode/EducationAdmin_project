@@ -62,6 +62,9 @@
               <el-form-item label="课程价格:">
                 <span>{{ props.row.ed_ss_Price}}</span>
               </el-form-item>
+<!--              <el-form-item label="是否收费:">
+                <span>{{ props.row.ed_ss_GetFee | getEducationCourseCharge}}</span>
+              </el-form-item>-->
               <el-form-item label="创建时间:">
                 <span>{{ props.row.ed_ss_CreateTime }}</span>
               </el-form-item>
@@ -77,11 +80,11 @@
               <el-form-item label="作者名称:">
                 <span>{{ props.row.ed_vo_AuthorName }}</span>
               </el-form-item>
-              <el-form-item label="首页大图推荐状态:">
+              <el-form-item label="推荐首页大图:">
                 <span>{{ props.row.es_ss_Recommend | getEducationCourseHomepageBigImageRecomentStates}}</span>
               </el-form-item>
               <el-form-item label="课程推荐状态:">
-                <span>{{ props.row.ed_ss_Course | getEducationCourseHomepageBigImageRecomentStates}}</span>
+                <span>{{ props.row.ed_ss_Course | getEducationCourseRecomentStates}}</span>
               </el-form-item>
             </el-form>
           </template>
@@ -94,27 +97,21 @@
         </el-table-column>
         <el-table-column
           align="center"
-          label="首页大图状态"
-          prop="es_ss_Recommend">
-          <template slot-scope="scope">
-            {{scope.row.es_ss_Recommend | getEducationCourseHomepageBigImageRecomentStates}}
-          </template>
-        </el-table-column>
-        <el-table-column
-          align="center"
-          label="课程推荐状态">
+          label="课程推荐审核状态"
+          prop="ed_ss_Course">
           <template slot-scope="scope">
             {{scope.row.ed_ss_Course | getEducationCourseRecomentStates}}
           </template>
         </el-table-column>
+
         <el-table-column label="操作"   align="center">
           <template slot-scope="scope">
-<!--            <el-button
-              v-show="vShow0==scope.row.es_ss_Recommend"
+            <el-button
+              v-show="scope.row.ed_ss_Course==3"
               size="mini"
               type="primary"
-              @click="apply(scope.row)">申请为首页大图
-            </el-button>-->
+              @click="apply(scope.row)">课程推荐申请
+            </el-button>
             <el-button
               size="mini"
               type="primary"
@@ -335,6 +332,7 @@
     },
     data(){
       return {
+        num:'1',//当前页
         //作者
         author:'',
         //图片格式
@@ -370,7 +368,8 @@
           "operateUserName": "",
           "pcName": "",
           "token":"",
-          "ed_ss_ID": "",//课程编号
+          "ed_ss_ID": "",                                 //申请推荐的课程编码
+          "ed_ss_Course": "1",                          //是否推荐(3未推荐，1申请推荐，2通过推荐)
         },//申请提交对象
         statesList:[
           {
@@ -443,7 +442,7 @@
       this.author=admin.sm_ui_ID;
       if(admin){
         this.admin = admin;
-        this.initData(this.input)
+        this.initData(this.input,this.homePageBigImage,this.num)
       }else{
         this.$notify({
           message: '请先登录@！',
@@ -513,7 +512,7 @@
               message: suc,
               type: "success"
             });
-            this.initData();
+            this.initData(this.input,this.homePageBigImage,this.num)
           }, (err) => {
             this.$notify({
               message: err,
@@ -533,7 +532,7 @@
           , //视频类型
         };
         return this.$store.dispatch('initSelectTypeInfo',options1);
-        this.initData()
+        this.initData(this.input,this.homePageBigImage,this.num)
       },
       handleChange1(value){
         this.selectedOptions =value;
@@ -547,6 +546,7 @@
       },
       //分页
       handleCurrentChange(num) {
+        this.num=num;
         this.initData(this.input,this.homePageBigImage,num)
       },
       //初始化课程
@@ -691,7 +691,7 @@
               message: suc,
               type: 'success'
             });
-            this.initData( this. siteNum)
+            this.initData(this.input,this.homePageBigImage,this.num)
           }, err => {
             this.$notify({
               message: err,

@@ -257,5 +257,5 @@ export const wxPath = val=>{
   return /^[a-zA-Z]([-_a-zA-Z0-9]{5,19})+$/.test(val);
 };
 //http://192.168.3.4
-export const getNewStr ='/api';//'http://192.168.3.65';//'http://192.168.3.50' //'http://hly.1000da.com.cn' //'http://192.168.3.50'http://hly.1000da.com.cn
+export const getNewStr ='api';//'http://192.168.3.82';///api';//'http://192.168.3.65';//'http://192.168.3.50' //'http://hly.1000da.com.cn' //'http://192.168.3.50'http://hly.1000da.com.cn
 

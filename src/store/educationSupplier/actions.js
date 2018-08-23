@@ -15,7 +15,6 @@ export default {
           'Content-Type': 'application/x-www-form-urlencoded'
         }
       }).then(data => {
-
         var data = data.data;
         if (Number(data.resultcode) == 200) {
           relove(data.resultcontent)
@@ -208,7 +207,7 @@ export default {
           console.log(data)
 
           if (Number(data.resultcode) == 200) {
-            relove(Number(data.totalrows));
+            relove(Number(data.totalRows));
             commit('initAdminEducationVideo', data.data.reverse())
           } else {
             reject(data.resultcontent)

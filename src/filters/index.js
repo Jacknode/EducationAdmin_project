@@ -397,3 +397,54 @@ export const getEducationCourseCharge = val=>{
       return '免费';
   }
 };
+
+/*
+//教育课程首页大图推荐状态
+export const getEducationCourseHomepageBigImageRecomentStates= val=>{
+  switch (Number(val)) {
+    case 3:
+      return '未推荐为首页大图';
+    case 1:
+      return '首页大图推荐中';
+    case 2:
+      return '已推荐为首页大图';
+  }
+};
+
+//教育课程推荐状态
+export const getEducationCourseRecomentStates= val=>{
+  switch (Number(val)) {
+    case 3:
+      return '课程未推荐';
+    case 1:
+      return '课程推荐中';
+    case 2:
+      return '课程已推荐';
+  }
+};
+*/
+
+//教育课程首页大图推荐状态
+export const getEducationCourseHomepageBigImageRecomentStates= val=>{
+  switch (Number(val)) {
+    case 3:
+      return '未推荐';
+    case 1:
+      return '推荐中';
+    case 2:
+      return '已推荐';
+  }
+};
+
+//教育课程推荐状态
+export const getEducationCourseRecomentStates= val=>{
+  switch (Number(val)) {
+    case 1:
+      return '推荐中';
+    case 2:
+      return '已推荐';
+    case 3:
+      return '未推荐';
+  }
+};
+
